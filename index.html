@@ -109,18 +109,6 @@
     margin-top:18px;padding:14px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;
     font-size:13px;color:#166534;line-height:1.5;
   }
-  .modal{
-    position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;
-    padding:20px;z-index:10;
-  }
-  .modal.show{display:flex}
-  .modalbox{
-    width:min(520px,100%);background:#fff;border-radius:18px;padding:24px;box-shadow:var(--shadow)
-  }
-  .modalbox h3{margin-top:0}
-  .source{
-    margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fafafa
-  }
   .toast{
     position:fixed;bottom:24px;right:24px;background:#111827;color:white;padding:12px 16px;border-radius:10px;
     display:none;z-index:20;font-size:13px;box-shadow:var(--shadow)
@@ -136,25 +124,48 @@
     .tablewrap{overflow:auto}
   }
 </style>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
+
 <div id="loginScreen" style="min-height:100vh;display:grid;place-items:center;background:#f6f7fb;padding:24px">
   <div style="width:min(560px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:34px;box-shadow:0 12px 34px rgba(15,23,42,.08);text-align:center">
     <div style="width:58px;height:58px;border-radius:16px;background:#4f46e5;color:#fff;display:grid;place-items:center;margin:0 auto 18px;font-weight:900;font-size:20px">FL</div>
-    <h1 style="margin-bottom:10px">Welcome to FollowLoop</h1>
-    <p style="color:#6b7280;line-height:1.6;margin-bottom:24px">Turn your existing Google Sheets rota into reminders, calendar actions and follow-ups — without storing your team data in FollowLoop.</p>
-    <button class="primary" style="padding:13px 18px;font-size:15px" onclick="mockGoogleLogin()">Continue with Google</button>
-    <div style="margin-top:14px;font-size:12px;color:#6b7280">Prototype login only — no real Google account is accessed yet.</div>
+
+    <h1>Welcome to FollowLoop</h1>
+
+    <p style="color:#6b7280;line-height:1.6;margin-bottom:24px">
+      Turn your existing Google Sheets rota into reminders, calendar actions and follow-ups — without storing your team data in FollowLoop.
+    </p>
+
+    <button class="primary" style="padding:13px 18px;font-size:15px" onclick="googleLogin()">
+      Continue with Google
+    </button>
+
+    <div style="margin-top:14px;font-size:12px;color:#6b7280">
+      Sign in with Google to access your own Google Drive and Sheets.
+    </div>
   </div>
 </div>
 
 <div class="app" id="appShell" style="display:none">
+
   <div class="topbar">
-    <div class="brand"><div class="brandmark">FL</div> FollowLoop</div>
-    <div style="display:flex;gap:10px;align-items:center"><div class="secure">● Stateless MVP</div><button class="secondary" onclick="signOut()">Sign out</button></div>
+    <div class="brand">
+      <div class="brandmark">FL</div>
+      FollowLoop
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center">
+      <div class="secure">● Stateless MVP</div>
+      <button class="secondary" onclick="signOut()">Sign out</button>
+    </div>
   </div>
 
   <div class="layout">
+
     <aside class="sidebar">
       <div class="navitem active">Dashboard</div>
       <div class="navitem">Assignments</div>
@@ -164,56 +175,82 @@
     </aside>
 
     <main class="main">
-      <h1>Welcome back, Udo 👋🏾</h1>
-      <div class="sub">Choose a recent Sheet or browse Drive. Your Sheet remains the source of truth.</div>
+
+      <h1>Welcome back 👋🏾</h1>
+      <div class="sub">Choose a recent Sheet. Your Google Sheet remains the source of truth.</div>
 
       <div class="card" style="margin-bottom:22px">
-        <h3>Your recent Sheets</h3>
-        <div class="small" style="margin-bottom:12px">Mock workspace — this becomes your real Google Drive list after OAuth is connected.</div>
-        <div style="display:grid;gap:10px">
-          <button class="secondary" style="text-align:left;padding:14px" onclick="toast('Opened AVGM / Team Rota — October 2026')">📄 AVGM / Team Rota — October 2026</button>
-          <button class="secondary" style="text-align:left;padding:14px" onclick="toast('Opened KC Training Speakers')">📄 KC Training Speakers</button>
-          <button class="secondary" style="text-align:left;padding:14px" onclick="toast('Opened Prayer Watch Schedule')">📄 Prayer Watch Schedule</button>
+
+        <h3>Your Google Sheets</h3>
+
+        <div class="small" style="margin-bottom:12px">
+          Your recent Google Sheets will appear here after login.
         </div>
+
+        <div id="sheetList" style="display:grid;gap:10px">
+          <div class="small">Loading Sheets...</div>
+        </div>
+
       </div>
 
       <div class="grid">
+
         <section>
           <div class="card">
-            <h3>1. Connect your rota</h3>
-            <p class="small">Your Google Sheet remains the source of truth. FollowLoop processes the data for this session only.</p>
-            <div class="drive">
-              <div class="driveleft">
-                <div class="gicon">📄</div>
-                <div>
-                  <strong>Google Sheets / Drive</strong>
-                  <div class="small">Use your existing rota or task sheet</div>
-                </div>
-              </div>
-              <button class="primary" onclick="openConnect()">Connect Google Drive</button>
-            </div>
+
+            <h3>Assignments</h3>
+
+            <p class="small">
+              Select a Google Sheet to load its rota into FollowLoop.
+            </p>
 
             <div class="stats">
-              <div class="stat"><div class="small">Assignments</div><div class="n" id="statAll">6</div></div>
-              <div class="stat"><div class="small">Confirmed</div><div class="n" id="statConfirmed">2</div></div>
-              <div class="stat"><div class="small">Awaiting reply</div><div class="n" id="statPending">3</div></div>
-              <div class="stat"><div class="small">Unable</div><div class="n" id="statDeclined">1</div></div>
+
+              <div class="stat">
+                <div class="small">Assignments</div>
+                <div class="n" id="statAll">6</div>
+              </div>
+
+              <div class="stat">
+                <div class="small">Confirmed</div>
+                <div class="n" id="statConfirmed">2</div>
+              </div>
+
+              <div class="stat">
+                <div class="small">Awaiting reply</div>
+                <div class="n" id="statPending">3</div>
+              </div>
+
+              <div class="stat">
+                <div class="small">Unable</div>
+                <div class="n" id="statDeclined">1</div>
+              </div>
+
             </div>
 
             <div class="toolbar">
+
               <div>
-                <h3 style="margin-bottom:3px">Assignments</h3>
-                <div class="small">Mock data for testing the interface</div>
+                <h3 style="margin-bottom:3px">Current rota</h3>
+                <div class="small">Mock assignments for now — real Sheet rows are next.</div>
               </div>
+
               <div class="filters">
+
                 <button class="chip active" onclick="filterRows('all',this)">All</button>
+
                 <button class="chip" onclick="filterRows('pending',this)">Pending</button>
+
                 <button class="chip" onclick="filterRows('confirmed',this)">Confirmed</button>
+
               </div>
+
             </div>
 
             <div class="tablewrap">
-              <table id="assignmentTable">
+
+              <table>
+
                 <thead>
                   <tr>
                     <th>Person</th>
@@ -223,53 +260,87 @@
                     <th>Next action</th>
                   </tr>
                 </thead>
+
                 <tbody id="rows"></tbody>
+
               </table>
+
             </div>
+
           </div>
         </section>
 
         <aside>
+
           <div class="card">
-            <h3>How the loop works</h3>
-            <div class="small">The app only acts on current-session data. Updates can later be written back to the team lead’s Sheet.</div>
+
+            <h3>How FollowLoop works</h3>
+
             <div class="flow">
-              <div class="flowstep"><div class="dot">1</div><div><strong>Read</strong><div class="small">Pull selected rota rows from Google Sheets.</div></div></div>
-              <div class="flowstep"><div class="dot">2</div><div><strong>Create</strong><div class="small">Generate assignment + calendar event.</div></div></div>
-              <div class="flowstep"><div class="dot">3</div><div><strong>Send</strong><div class="small">Email/calendar now; WhatsApp later.</div></div></div>
-              <div class="flowstep"><div class="dot">4</div><div><strong>Check</strong><div class="small">Confirmed? If not, queue follow-up.</div></div></div>
-              <div class="flowstep"><div class="dot">5</div><div><strong>Update</strong><div class="small">Write status back to the original Sheet.</div></div></div>
+
+              <div class="flowstep">
+                <div class="dot">1</div>
+                <div>
+                  <strong>Read</strong>
+                  <div class="small">Read selected rota rows from Google Sheets.</div>
+                </div>
+              </div>
+
+              <div class="flowstep">
+                <div class="dot">2</div>
+                <div>
+                  <strong>Create</strong>
+                  <div class="small">Create assignment and calendar action.</div>
+                </div>
+              </div>
+
+              <div class="flowstep">
+                <div class="dot">3</div>
+                <div>
+                  <strong>Send</strong>
+                  <div class="small">Send notification and calendar invite.</div>
+                </div>
+              </div>
+
+              <div class="flowstep">
+                <div class="dot">4</div>
+                <div>
+                  <strong>Check</strong>
+                  <div class="small">Check confirmation status.</div>
+                </div>
+              </div>
+
+              <div class="flowstep">
+                <div class="dot">5</div>
+                <div>
+                  <strong>Update</strong>
+                  <div class="small">Write status back to the original Google Sheet.</div>
+                </div>
+              </div>
+
             </div>
 
             <div class="privacy">
               <strong>Privacy design</strong><br>
-              No rota database. No contact list stored by FollowLoop. OAuth tokens should be short-lived where possible, and secrets belong in a secure server-side environment—not in the browser.
+              FollowLoop does not maintain a separate rota database. Your Google Sheet remains the source of truth.
             </div>
-          </div>
-        </aside>
-      </div>
-    </main>
-  </div>
-</div>
 
-<div class="modal" id="connectModal">
-  <div class="modalbox">
-    <h3>Connect Google Drive</h3>
-    <p class="small">MVP mock connection. In production this becomes Google OAuth with the minimum permissions required.</p>
-    <div class="source">
-      <strong>Suggested Sheet</strong><br>
-      <span class="small">AVGM / Team Rota — October 2026</span>
-    </div>
-    <div style="display:flex;gap:10px;justify-content:flex-end">
-      <button class="secondary" onclick="closeConnect()">Cancel</button>
-      <button class="primary" onclick="connectMock()">Use this Sheet</button>
-    </div>
+          </div>
+
+        </aside>
+
+      </div>
+
+    </main>
+
   </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
+
 const data = [
   {name:"Sarah Okafor", task:"Lead prayer watch", datetime:"5 Oct · 7:00 AM", status:"confirmed"},
   {name:"John Adeyemi", task:"Facilitate session", datetime:"5 Oct · 4:00 PM", status:"pending"},
@@ -280,65 +351,296 @@ const data = [
 ];
 
 let currentFilter = "all";
+let tokenClient;
+let accessToken = null;
 
 function label(status){
   if(status==="confirmed") return "Confirmed";
   if(status==="declined") return "Unable";
   return "Awaiting reply";
 }
+
 function render(){
+
   const tbody = document.getElementById("rows");
+
   tbody.innerHTML = "";
-  data.filter(x => currentFilter==="all" || x.status===currentFilter).forEach((x,i)=>{
+
+  data
+  .filter(x => currentFilter==="all" || x.status===currentFilter)
+  .forEach(x => {
+
     const tr = document.createElement("tr");
+
     tr.innerHTML = `
       <td><strong>${x.name}</strong></td>
       <td>${x.task}</td>
       <td>${x.datetime}</td>
-      <td><span class="status ${x.status}">${label(x.status)}</span></td>
+      <td>
+        <span class="status ${x.status}">
+          ${label(x.status)}
+        </span>
+      </td>
       <td>
         <div class="actions">
-          ${x.status==="pending" ? `<button class="mini ghost" onclick="mockSend('${x.name}')">Send reminder</button>` : ""}
-          <button class="mini secondary" onclick="mockCalendar('${x.name}')">Calendar</button>
+
+          ${x.status==="pending"
+            ? `<button class="mini ghost" onclick="mockSend('${x.name}')">Send reminder</button>`
+            : ""
+          }
+
+          <button class="mini secondary" onclick="mockCalendar('${x.name}')">
+            Calendar
+          </button>
+
         </div>
-      </td>`;
+      </td>
+    `;
+
     tbody.appendChild(tr);
+
   });
 
-  document.getElementById("statAll").textContent = data.length;
-  document.getElementById("statConfirmed").textContent = data.filter(x=>x.status==="confirmed").length;
-  document.getElementById("statPending").textContent = data.filter(x=>x.status==="pending").length;
-  document.getElementById("statDeclined").textContent = data.filter(x=>x.status==="declined").length;
+  document.getElementById("statAll").textContent =
+    data.length;
+
+  document.getElementById("statConfirmed").textContent =
+    data.filter(x=>x.status==="confirmed").length;
+
+  document.getElementById("statPending").textContent =
+    data.filter(x=>x.status==="pending").length;
+
+  document.getElementById("statDeclined").textContent =
+    data.filter(x=>x.status==="declined").length;
+
 }
+
 function filterRows(filter, el){
+
   currentFilter = filter;
-  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+
+  document
+  .querySelectorAll(".chip")
+  .forEach(c=>c.classList.remove("active"));
+
   el.classList.add("active");
+
   render();
+
 }
-function openConnect(){document.getElementById("connectModal").classList.add("show")}
-function closeConnect(){document.getElementById("connectModal").classList.remove("show")}
-function connectMock(){
-  closeConnect();
-  toast("Mock Google Sheet connected for this browser session.");
+
+function googleLogin(){
+
+  if (!window.google || !google.accounts || !google.accounts.oauth2) {
+
+    toast("Google sign-in is still loading. Try again in a moment.");
+
+    return;
+
+  }
+
+  if (!tokenClient) {
+
+    tokenClient = google.accounts.oauth2.initTokenClient({
+
+      client_id: "8491069642-pkgjuvmjuogs2vqus9nkoe4n868eb6dk.apps.googleusercontent.com",
+
+      scope:
+        "openid email profile https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/spreadsheets.readonly",
+
+      callback: async (response) => {
+
+        if (response.error) {
+
+          toast("Google sign-in failed.");
+
+          return;
+
+        }
+
+        accessToken = response.access_token;
+
+        document.getElementById("loginScreen").style.display="none";
+
+        document.getElementById("appShell").style.display="block";
+
+        toast("Google account connected.");
+
+        await loadGoogleProfile();
+
+        await loadGoogleSheets();
+
+      }
+
+    });
+
+  }
+
+  tokenClient.requestAccessToken({
+    prompt:"consent"
+  });
+
 }
-function mockSend(name){toast(`Reminder queued for ${name}. No message was actually sent.`)}
-function mockCalendar(name){toast(`Calendar event preview opened for ${name} (mock action).`)}
-function mockGoogleLogin(){
-  document.getElementById("loginScreen").style.display="none";
-  document.getElementById("appShell").style.display="block";
-  toast("Signed in to FollowLoop prototype.");
+
+async function loadGoogleProfile(){
+
+  try {
+
+    const response = await fetch(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers:{
+          Authorization:"Bearer " + accessToken
+        }
+      }
+    );
+
+    const profile = await response.json();
+
+    if(profile.given_name){
+
+      document.querySelector(".main h1").textContent =
+        "Welcome back, " + profile.given_name + " 👋🏾";
+
+    }
+
+  } catch(error){
+
+    console.log(error);
+
+  }
+
 }
+
+async function loadGoogleSheets(){
+
+  const sheetList =
+    document.getElementById("sheetList");
+
+  sheetList.innerHTML =
+    '<div class="small">Loading your Google Sheets...</div>';
+
+  try {
+
+    const query = encodeURIComponent(
+      "mimeType='application/vnd.google-apps.spreadsheet' and trashed=false"
+    );
+
+    const response = await fetch(
+
+      "https://www.googleapis.com/drive/v3/files?q="
+      + query
+      + "&pageSize=20"
+      + "&orderBy=modifiedTime desc"
+      + "&fields=files(id,name,modifiedTime)",
+
+      {
+        headers:{
+          Authorization:"Bearer " + accessToken
+        }
+      }
+
+    );
+
+    const result = await response.json();
+
+    sheetList.innerHTML = "";
+
+    if(!result.files || result.files.length===0){
+
+      sheetList.innerHTML =
+        '<div class="small">No Google Sheets found in this Drive.</div>';
+
+      return;
+
+    }
+
+    result.files.forEach(file => {
+
+      const button = document.createElement("button");
+
+      button.className="secondary";
+
+      button.style =
+        "text-align:left;padding:14px";
+
+      button.textContent =
+        "📄 " + file.name;
+
+      button.onclick = () =>
+        selectSheet(file.id,file.name);
+
+      sheetList.appendChild(button);
+
+    });
+
+  } catch(error){
+
+    console.error(error);
+
+    sheetList.innerHTML =
+      '<div class="small">Could not load Google Sheets.</div>';
+
+  }
+
+}
+
+function selectSheet(fileId,fileName){
+
+  toast("Selected: " + fileName);
+
+}
+
 function signOut(){
+
+  if(accessToken){
+
+    google.accounts.oauth2.revoke(
+      accessToken,
+      () => {}
+    );
+
+  }
+
+  accessToken = null;
+
   document.getElementById("appShell").style.display="none";
+
   document.getElementById("loginScreen").style.display="grid";
+
 }
-function toast(msg){
-  const t=document.getElementById("toast");
-  t.textContent=msg;t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2600);
+
+function mockSend(name){
+
+  toast("Reminder queued for " + name);
+
 }
+
+function mockCalendar(name){
+
+  toast("Calendar preview for " + name);
+
+}
+
+function toast(message){
+
+  const t =
+    document.getElementById("toast");
+
+  t.textContent = message;
+
+  t.classList.add("show");
+
+  setTimeout(
+    ()=>t.classList.remove("show"),
+    2600
+  );
+
+}
+
 render();
+
 </script>
+
 </body>
 </html>
