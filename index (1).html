@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FollowLoop — Reminder & Follow-up MVP</title>
+<style>
+  :root{
+    --bg:#f6f7fb;
+    --panel:#ffffff;
+    --text:#172033;
+    --muted:#6b7280;
+    --line:#e5e7eb;
+    --accent:#4f46e5;
+    --accent-soft:#eef2ff;
+    --green:#15803d;
+    --green-soft:#ecfdf3;
+    --amber:#b45309;
+    --amber-soft:#fff7ed;
+    --red:#b91c1c;
+    --red-soft:#fef2f2;
+    --shadow:0 12px 34px rgba(15,23,42,.08);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  .app{min-height:100vh}
+  .topbar{
+    height:72px;background:#fff;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 34px;position:sticky;top:0;z-index:5;
+  }
+  .brand{display:flex;gap:12px;align-items:center;font-weight:800;font-size:20px}
+  .brandmark{
+    width:38px;height:38px;border-radius:12px;background:var(--accent);
+    display:grid;place-items:center;color:white;font-weight:900;
+  }
+  .secure{
+    font-size:13px;color:var(--green);background:var(--green-soft);
+    padding:8px 12px;border-radius:999px;font-weight:700;
+  }
+  .layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 72px)}
+  .sidebar{
+    background:#fff;border-right:1px solid var(--line);padding:24px 18px;
+  }
+  .navitem{
+    padding:12px 14px;border-radius:10px;margin-bottom:7px;color:#475569;
+    font-weight:650;font-size:14px;cursor:pointer;
+  }
+  .navitem.active{background:var(--accent-soft);color:var(--accent)}
+  .main{padding:32px;max-width:1380px;width:100%;margin:0 auto}
+  h1{font-size:30px;margin:0 0 8px}
+  .sub{color:var(--muted);margin-bottom:26px}
+  .grid{display:grid;grid-template-columns:1.45fr .8fr;gap:22px}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:18px;
+    box-shadow:var(--shadow);padding:22px;
+  }
+  .card h3{margin:0 0 8px;font-size:17px}
+  .small{font-size:13px;color:var(--muted)}
+  .drive{
+    border:1.5px dashed #c7d2fe;border-radius:16px;padding:22px;
+    background:#fafbff;display:flex;align-items:center;justify-content:space-between;gap:18px;
+  }
+  .driveleft{display:flex;gap:14px;align-items:center}
+  .gicon{
+    width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--line);
+    display:grid;place-items:center;font-size:21px;
+  }
+  button{
+    border:0;border-radius:10px;padding:10px 14px;font-weight:750;cursor:pointer;
+    font-size:14px;
+  }
+  .primary{background:var(--accent);color:#fff}
+  .secondary{background:#fff;border:1px solid var(--line);color:#334155}
+  .ghost{background:#f8fafc;color:#334155}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+  .stat .n{font-size:25px;font-weight:850;margin-top:7px}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin:6px 0 14px;gap:10px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{
+    padding:8px 11px;border-radius:999px;border:1px solid var(--line);background:#fff;
+    font-size:12px;font-weight:700;cursor:pointer;
+  }
+  .chip.active{background:#111827;color:white;border-color:#111827}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:13px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:middle}
+  th{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+  .status{display:inline-flex;padding:6px 9px;border-radius:999px;font-weight:800;font-size:11px}
+  .confirmed{background:var(--green-soft);color:var(--green)}
+  .pending{background:var(--amber-soft);color:var(--amber)}
+  .declined{background:var(--red-soft);color:var(--red)}
+  .actions{display:flex;gap:6px;flex-wrap:wrap}
+  .mini{padding:7px 9px;border-radius:8px;font-size:11px}
+  .flow{display:grid;gap:10px;margin-top:15px}
+  .flowstep{
+    display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:12px;background:#f8fafc;
+  }
+  .dot{
+    width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    display:grid;place-items:center;font-size:12px;font-weight:900;flex:none;
+  }
+  .privacy{
+    margin-top:18px;padding:14px;border-radius:12px;background:#f0fdf4;border:1px solid #bbf7d0;
+    font-size:13px;color:#166534;line-height:1.5;
+  }
+  .modal{
+    position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;
+    padding:20px;z-index:10;
+  }
+  .modal.show{display:flex}
+  .modalbox{
+    width:min(520px,100%);background:#fff;border-radius:18px;padding:24px;box-shadow:var(--shadow)
+  }
+  .modalbox h3{margin-top:0}
+  .source{
+    margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fafafa
+  }
+  .toast{
+    position:fixed;bottom:24px;right:24px;background:#111827;color:white;padding:12px 16px;border-radius:10px;
+    display:none;z-index:20;font-size:13px;box-shadow:var(--shadow)
+  }
+  .toast.show{display:block}
+  @media (max-width: 950px){
+    .layout{grid-template-columns:1fr}
+    .sidebar{display:none}
+    .grid{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .main{padding:20px}
+    .topbar{padding:0 18px}
+    .tablewrap{overflow:auto}
+  }
+</style>
+</head>
+<body>
+<div id="loginScreen" style="min-height:100vh;display:grid;place-items:center;background:#f6f7fb;padding:24px">
+  <div style="width:min(560px,100%);background:#fff;border:1px solid #e5e7eb;border-radius:22px;padding:34px;box-shadow:0 12px 34px rgba(15,23,42,.08);text-align:center">
+    <div style="width:58px;height:58px;border-radius:16px;background:#4f46e5;color:#fff;display:grid;place-items:center;margin:0 auto 18px;font-weight:900;font-size:20px">FL</div>
+    <h1 style="margin-bottom:10px">Welcome to FollowLoop</h1>
+    <p style="color:#6b7280;line-height:1.6;margin-bottom:24px">Turn your existing Google Sheets rota into reminders, calendar actions and follow-ups — without storing your team data in FollowLoop.</p>
+    <button class="primary" style="padding:13px 18px;font-size:15px" onclick="mockGoogleLogin()">Continue with Google</button>
+    <div style="margin-top:14px;font-size:12px;color:#6b7280">Prototype login only — no real Google account is accessed yet.</div>
+  </div>
+</div>
+
+<div class="app" id="appShell" style="display:none">
+  <div class="topbar">
+    <div class="brand"><div class="brandmark">FL</div> FollowLoop</div>
+    <div style="display:flex;gap:10px;align-items:center"><div class="secure">● Stateless MVP</div><button class="secondary" onclick="signOut()">Sign out</button></div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="navitem active">Dashboard</div>
+      <div class="navitem">Assignments</div>
+      <div class="navitem">Follow-ups</div>
+      <div class="navitem">Integrations</div>
+      <div class="navitem">Settings</div>
+    </aside>
+
+    <main class="main">
+      <h1>Welcome back, Udo 👋🏾</h1>
+      <div class="sub">Choose a recent Sheet or browse Drive. Your Sheet remains the source of truth.</div>
+
+      <div class="card" style="margin-bottom:22px">
+        <h3>Your recent Sheets</h3>
+        <div class="small" style="margin-bottom:12px">Mock workspace — this becomes your real Google Drive list after OAuth is connected.</div>
+        <div style="display:grid;gap:10px">
+          <button class="secondary" style="text-align:left;padding:14px" onclick="toast('Opened AVGM / Team Rota — October 2026')">📄 AVGM / Team Rota — October 2026</button>
+          <button class="secondary" style="text-align:left;padding:14px" onclick="toast('Opened KC Training Speakers')">📄 KC Training Speakers</button>
+          <button class="secondary" style="text-align:left;padding:14px" onclick="toast('Opened Prayer Watch Schedule')">📄 Prayer Watch Schedule</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section>
+          <div class="card">
+            <h3>1. Connect your rota</h3>
+            <p class="small">Your Google Sheet remains the source of truth. FollowLoop processes the data for this session only.</p>
+            <div class="drive">
+              <div class="driveleft">
+                <div class="gicon">📄</div>
+                <div>
+                  <strong>Google Sheets / Drive</strong>
+                  <div class="small">Use your existing rota or task sheet</div>
+                </div>
+              </div>
+              <button class="primary" onclick="openConnect()">Connect Google Drive</button>
+            </div>
+
+            <div class="stats">
+              <div class="stat"><div class="small">Assignments</div><div class="n" id="statAll">6</div></div>
+              <div class="stat"><div class="small">Confirmed</div><div class="n" id="statConfirmed">2</div></div>
+              <div class="stat"><div class="small">Awaiting reply</div><div class="n" id="statPending">3</div></div>
+              <div class="stat"><div class="small">Unable</div><div class="n" id="statDeclined">1</div></div>
+            </div>
+
+            <div class="toolbar">
+              <div>
+                <h3 style="margin-bottom:3px">Assignments</h3>
+                <div class="small">Mock data for testing the interface</div>
+              </div>
+              <div class="filters">
+                <button class="chip active" onclick="filterRows('all',this)">All</button>
+                <button class="chip" onclick="filterRows('pending',this)">Pending</button>
+                <button class="chip" onclick="filterRows('confirmed',this)">Confirmed</button>
+              </div>
+            </div>
+
+            <div class="tablewrap">
+              <table id="assignmentTable">
+                <thead>
+                  <tr>
+                    <th>Person</th>
+                    <th>Assignment</th>
+                    <th>Date & time</th>
+                    <th>Status</th>
+                    <th>Next action</th>
+                  </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <aside>
+          <div class="card">
+            <h3>How the loop works</h3>
+            <div class="small">The app only acts on current-session data. Updates can later be written back to the team lead’s Sheet.</div>
+            <div class="flow">
+              <div class="flowstep"><div class="dot">1</div><div><strong>Read</strong><div class="small">Pull selected rota rows from Google Sheets.</div></div></div>
+              <div class="flowstep"><div class="dot">2</div><div><strong>Create</strong><div class="small">Generate assignment + calendar event.</div></div></div>
+              <div class="flowstep"><div class="dot">3</div><div><strong>Send</strong><div class="small">Email/calendar now; WhatsApp later.</div></div></div>
+              <div class="flowstep"><div class="dot">4</div><div><strong>Check</strong><div class="small">Confirmed? If not, queue follow-up.</div></div></div>
+              <div class="flowstep"><div class="dot">5</div><div><strong>Update</strong><div class="small">Write status back to the original Sheet.</div></div></div>
+            </div>
+
+            <div class="privacy">
+              <strong>Privacy design</strong><br>
+              No rota database. No contact list stored by FollowLoop. OAuth tokens should be short-lived where possible, and secrets belong in a secure server-side environment—not in the browser.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal" id="connectModal">
+  <div class="modalbox">
+    <h3>Connect Google Drive</h3>
+    <p class="small">MVP mock connection. In production this becomes Google OAuth with the minimum permissions required.</p>
+    <div class="source">
+      <strong>Suggested Sheet</strong><br>
+      <span class="small">AVGM / Team Rota — October 2026</span>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="secondary" onclick="closeConnect()">Cancel</button>
+      <button class="primary" onclick="connectMock()">Use this Sheet</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const data = [
+  {name:"Sarah Okafor", task:"Lead prayer watch", datetime:"5 Oct · 7:00 AM", status:"confirmed"},
+  {name:"John Adeyemi", task:"Facilitate session", datetime:"5 Oct · 4:00 PM", status:"pending"},
+  {name:"Grace Eze", task:"Attendance support", datetime:"6 Oct · 6:30 PM", status:"pending"},
+  {name:"Tobi Martins", task:"Media / Zoom support", datetime:"7 Oct · 8:00 PM", status:"confirmed"},
+  {name:"Amaka Bello", task:"Speaker check-in", datetime:"8 Oct · 5:00 PM", status:"declined"},
+  {name:"David Yusuf", task:"Follow-up calls", datetime:"9 Oct · 12:00 PM", status:"pending"}
+];
+
+let currentFilter = "all";
+
+function label(status){
+  if(status==="confirmed") return "Confirmed";
+  if(status==="declined") return "Unable";
+  return "Awaiting reply";
+}
+function render(){
+  const tbody = document.getElementById("rows");
+  tbody.innerHTML = "";
+  data.filter(x => currentFilter==="all" || x.status===currentFilter).forEach((x,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><strong>${x.name}</strong></td>
+      <td>${x.task}</td>
+      <td>${x.datetime}</td>
+      <td><span class="status ${x.status}">${label(x.status)}</span></td>
+      <td>
+        <div class="actions">
+          ${x.status==="pending" ? `<button class="mini ghost" onclick="mockSend('${x.name}')">Send reminder</button>` : ""}
+          <button class="mini secondary" onclick="mockCalendar('${x.name}')">Calendar</button>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById("statAll").textContent = data.length;
+  document.getElementById("statConfirmed").textContent = data.filter(x=>x.status==="confirmed").length;
+  document.getElementById("statPending").textContent = data.filter(x=>x.status==="pending").length;
+  document.getElementById("statDeclined").textContent = data.filter(x=>x.status==="declined").length;
+}
+function filterRows(filter, el){
+  currentFilter = filter;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active");
+  render();
+}
+function openConnect(){document.getElementById("connectModal").classList.add("show")}
+function closeConnect(){document.getElementById("connectModal").classList.remove("show")}
+function connectMock(){
+  closeConnect();
+  toast("Mock Google Sheet connected for this browser session.");
+}
+function mockSend(name){toast(`Reminder queued for ${name}. No message was actually sent.`)}
+function mockCalendar(name){toast(`Calendar event preview opened for ${name} (mock action).`)}
+function mockGoogleLogin(){
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("appShell").style.display="block";
+  toast("Signed in to FollowLoop prototype.");
+}
+function signOut(){
+  document.getElementById("appShell").style.display="none";
+  document.getElementById("loginScreen").style.display="grid";
+}
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2600);
+}
+render();
+</script>
+</body>
+</html>
