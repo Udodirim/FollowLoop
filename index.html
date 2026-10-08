@@ -5,763 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FollowLoop — Your reminder and follow-up assistant</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-
 <style>
 :root{
-  --bg:#f6f7fb;
-  --white:#fff;
-  --text:#172033;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --purple:#4f46e5;
-  --purple-light:#eef2ff;
-  --green:#15803d;
-  --green-light:#ecfdf3;
-  --orange:#b45309;
-  --orange-light:#fff7ed;
-  --red:#b91c1c;
-  --red-light:#fef2f2;
-  --blue:#1d4ed8;
-  --blue-light:#eff6ff;
-  --shadow:0 12px 34px rgba(15,23,42,.08);
+  --bg:#f6f7fb;--white:#fff;--text:#172033;--muted:#6b7280;--line:#e5e7eb;
+  --purple:#4f46e5;--purple-light:#eef2ff;--green:#15803d;--green-light:#ecfdf3;
+  --orange:#b45309;--orange-light:#fff7ed;--red:#b91c1c;--red-light:#fef2f2;
+  --blue:#1d4ed8;--blue-light:#eff6ff;--shadow:0 12px 34px rgba(15,23,42,.08)
 }
-
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
-
-button,input,select,textarea{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.login-screen{
-  min-height:100vh;
-  display:grid;
-  place-items:center;
-  padding:24px;
-}
-
-.login-card{
-  width:min(620px,100%);
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:36px;
-  box-shadow:var(--shadow);
-  text-align:center;
-}
-
-.logo{
-  width:60px;
-  height:60px;
-  border-radius:16px;
-  background:var(--purple);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  margin:0 auto 14px;
-  font-weight:900;
-}
-
-.tagline{
-  font-weight:800;
-  color:#334155;
-}
-
-.promise{
-  color:var(--purple);
-  font-weight:850;
-  margin-top:4px;
-}
-
-.primary{
-  background:var(--purple);
-  color:#fff;
-  border:0;
-  border-radius:10px;
-  padding:11px 15px;
-  font-weight:800;
-}
-
-.secondary{
-  background:#fff;
-  color:#334155;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:10px 14px;
-  font-weight:750;
-}
-
-.danger{
-  background:var(--red-light);
-  color:var(--red);
-  border:1px solid #fecaca;
-  border-radius:10px;
-  padding:9px 12px;
-  font-weight:750;
-}
-
-.topbar{
-  height:76px;
-  background:#fff;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 28px;
-  position:sticky;
-  top:0;
-  z-index:20;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.brand-logo{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  background:var(--purple);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-}
-
-.brand-copy strong{
-  display:block;
-  font-size:18px;
-}
-
-.brand-copy span{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.layout{
-  display:grid;
-  grid-template-columns:240px 1fr;
-  min-height:calc(100vh - 76px);
-}
-
-.sidebar{
-  background:#fff;
-  border-right:1px solid var(--line);
-  padding:20px 16px;
-}
-
-.nav-item{
-  padding:12px 14px;
-  margin-bottom:6px;
-  border-radius:10px;
-  color:#475569;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.nav-item.active{
-  background:var(--purple-light);
-  color:var(--purple);
-}
-
-.main{
-  padding:28px;
-  max-width:1500px;
-  width:100%;
-  margin:auto;
-}
-
-.section{
-  display:none;
-}
-
-.section.active{
-  display:block;
-}
-
-h1{
-  margin:0 0 7px;
-}
-
-.subtext,
-.small{
-  color:var(--muted);
-}
-
-.small{
-  font-size:13px;
-}
-
-.card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:20px;
-  box-shadow:var(--shadow);
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  gap:18px;
-  margin-top:18px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin:18px 0;
-}
-
-.stat{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:15px;
-}
-
-.stat-number{
-  font-size:25px;
-  font-weight:850;
-  margin-top:4px;
-}
-
-.field input,
-.field select,
-.field textarea,
-.sheet-search,
-.action-select,
-.filter-select,
-.chat-input{
-  width:100%;
-  padding:10px 11px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:#fff;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:13px;
-}
-
-.field label{
-  display:block;
-  margin-bottom:5px;
-  font-size:12px;
-  font-weight:800;
-}
-
-.error-message{
-  min-height:14px;
-  margin-top:3px;
-  color:var(--red);
-  font-size:11px;
-}
-
-.validation{
-  margin-top:12px;
-  padding:12px;
-  border-radius:10px;
-  font-size:13px;
-}
-
-.validation.ok{
-  background:var(--green-light);
-  color:var(--green);
-  border:1px solid #bbf7d0;
-}
-
-.validation.warning{
-  background:var(--orange-light);
-  color:var(--orange);
-  border:1px solid #fed7aa;
-}
-
-.validation.error{
-  background:var(--red-light);
-  color:var(--red);
-  border:1px solid #fecaca;
-}
-
-.sheet-results{
-  margin-top:7px;
-  border:1px solid var(--line);
-  border-radius:11px;
-  max-height:220px;
-  overflow:auto;
-  background:#fff;
-}
-
-.sheet-item{
-  padding:11px;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;
-}
-
-.sheet-item:hover{
-  background:#f8fafc;
-}
-
-.selected-sheet{
-  margin-top:10px;
-  background:var(--purple-light);
-  color:var(--purple);
-  padding:11px;
-  border-radius:9px;
-  font-weight:700;
-}
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:1100px;
-}
-
-th,
-td{
-  padding:11px 9px;
-  border-bottom:1px solid var(--line);
-  text-align:left;
-  font-size:13px;
-  vertical-align:top;
-}
-
-th{
-  font-size:11px;
-  color:#64748b;
-  text-transform:uppercase;
-}
-
-.status{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:800;
-}
-
-.ready{
-  background:var(--green-light);
-  color:var(--green);
-}
-
-.pending{
-  background:var(--orange-light);
-  color:var(--orange);
-}
-
-.bad{
-  background:var(--red-light);
-  color:var(--red);
-}
-
-.due{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.soon{
-  background:var(--orange-light);
-  color:#9a3412;
-}
-
-.upcoming{
-  background:var(--blue-light);
-  color:var(--blue);
-}
-
-.action-wrap{
-  display:flex;
-  gap:6px;
-  align-items:center;
-}
-
-.action-select{
-  min-width:135px;
-  padding:7px 8px;
-  font-size:12px;
-}
-
-.go-button{
-  padding:7px 10px;
-  border:0;
-  border-radius:8px;
-  background:var(--purple);
-  color:#fff;
-  font-size:12px;
-  font-weight:800;
-}
-
-.go-button:disabled,
-.action-select:disabled{
-  opacity:.4;
-  cursor:not-allowed;
-}
-
-.toolbar{
-  display:flex;
-  gap:8px;
-  align-items:center;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-.filter-select{
-  width:auto;
-  min-width:150px;
-}
-
-.empty{
-  padding:24px;
-  text-align:center;
-  color:var(--muted);
-  border:1px dashed var(--line);
-  border-radius:10px;
-}
-
-.chat-shell{
-  display:grid;
-  grid-template-columns:1fr 320px;
-  gap:18px;
-}
-
-.chat-window{
-  min-height:460px;
-  display:flex;
-  flex-direction:column;
-}
-
-.chat-log{
-  flex:1;
-  background:#fafafa;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:14px;
-  overflow:auto;
-  max-height:420px;
-}
-
-.msg{
-  max-width:82%;
-  padding:10px 12px;
-  border-radius:12px;
-  margin:8px 0;
-  line-height:1.45;
-  font-size:14px;
-}
-
-.msg.user{
-  margin-left:auto;
-  background:var(--purple);
-  color:#fff;
-}
-
-.msg.bot{
-  background:#fff;
-  border:1px solid var(--line);
-}
-
-.chat-compose{
-  display:flex;
-  gap:8px;
-  margin-top:10px;
-}
-
-.chat-input{
-  min-height:72px;
-  resize:vertical;
-}
-
-.chat-hint{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:8px;
-}
-
-.image-preview{
-  width:120px;
-  height:90px;
-  object-fit:cover;
-  border-radius:10px;
-  border:1px solid var(--line);
-  margin-top:8px;
-}
-
-.pack-card{
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:14px;
-  margin-bottom:10px;
-  background:#fff;
-}
-
-.pack-title{
-  font-weight:850;
-}
-
-.queue-card{
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:14px;
-  margin-bottom:10px;
-  background:#fff;
-}
-
-.queue-meta{
-  font-size:12px;
-  color:var(--muted);
-  margin:5px 0;
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.45);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  z-index:100;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-card{
-  width:min(650px,100%);
-  background:#fff;
-  border-radius:18px;
-  padding:20px;
-  box-shadow:var(--shadow);
-}
-
-.modal-actions{
-  display:flex;
-  gap:8px;
-  justify-content:flex-end;
-  margin-top:16px;
-}
-
-.toast{
-  display:none;
-  position:fixed;
-  right:22px;
-  bottom:22px;
-  background:#111827;
-  color:#fff;
-  padding:12px 15px;
-  border-radius:9px;
-  z-index:120;
-}
-
-.toast.show{
-  display:block;
-}
-
-@media(max-width:980px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .grid,.chat-shell{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .form-grid{grid-template-columns:1fr}
-  .main{padding:18px}
-}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit} button{cursor:pointer}
+.hidden{display:none!important}
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:24px}
+.login-card{width:min(620px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:36px;box-shadow:var(--shadow);text-align:center}
+.logo{width:60px;height:60px;border-radius:16px;background:var(--purple);color:#fff;display:grid;place-items:center;margin:0 auto 14px;font-weight:900}
+.tagline{font-weight:800;color:#334155}.promise{color:var(--purple);font-weight:850;margin-top:4px}
+.primary{background:var(--purple);color:#fff;border:0;border-radius:10px;padding:11px 15px;font-weight:800}
+.secondary{background:#fff;color:#334155;border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-weight:750}
+.danger{background:var(--red-light);color:var(--red);border:1px solid #fecaca;border-radius:10px;padding:9px 12px;font-weight:750}
+.topbar{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:11px}.brand-logo{width:40px;height:40px;border-radius:12px;background:var(--purple);color:#fff;display:grid;place-items:center;font-weight:900}
+.brand-copy strong{display:block;font-size:18px}.brand-copy span{display:block;color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 76px)}
+.sidebar{background:#fff;border-right:1px solid var(--line);padding:20px 16px}
+.nav-item{padding:12px 14px;margin-bottom:6px;border-radius:10px;color:#475569;font-weight:700;cursor:pointer}
+.nav-item.active{background:var(--purple-light);color:var(--purple)}
+.main{padding:28px;max-width:1500px;width:100%;margin:auto}.section{display:none}.section.active{display:block}
+h1{margin:0 0 7px}.subtext,.small{color:var(--muted)}.small{font-size:13px}
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:20px;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px}.stat-number{font-size:25px;font-weight:850;margin-top:4px}
+.field input,.field select,.field textarea,.sheet-search,.action-select,.filter-select,.chat-input{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.field label{display:block;margin-bottom:5px;font-size:12px;font-weight:800}
+.error-message{min-height:14px;margin-top:3px;color:var(--red);font-size:11px}
+.validation{margin-top:12px;padding:12px;border-radius:10px;font-size:13px}
+.validation.ok{background:var(--green-light);color:var(--green);border:1px solid #bbf7d0}
+.validation.warning{background:var(--orange-light);color:var(--orange);border:1px solid #fed7aa}
+.validation.error{background:var(--red-light);color:var(--red);border:1px solid #fecaca}
+.sheet-results{margin-top:7px;border:1px solid var(--line);border-radius:11px;max-height:220px;overflow:auto;background:#fff}.sheet-item{padding:11px;border-bottom:1px solid var(--line);cursor:pointer}.sheet-item:hover{background:#f8fafc}
+.selected-sheet{margin-top:10px;background:var(--purple-light);color:var(--purple);padding:11px;border-radius:9px;font-weight:700}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:1100px}th,td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:top}th{font-size:11px;color:#64748b;text-transform:uppercase}
+.status{display:inline-block;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}
+.ready{background:var(--green-light);color:var(--green)}.pending{background:var(--orange-light);color:var(--orange)}.bad{background:var(--red-light);color:var(--red)}.due{background:#fee2e2;color:#991b1b}.soon{background:var(--orange-light);color:#9a3412}.upcoming{background:var(--blue-light);color:var(--blue)}
+.action-wrap{display:flex;gap:6px;align-items:center}.action-select{min-width:135px;padding:7px 8px;font-size:12px}.go-button{padding:7px 10px;border:0;border-radius:8px;background:var(--purple);color:#fff;font-size:12px;font-weight:800}.go-button:disabled,.action-select:disabled{opacity:.4;cursor:not-allowed}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.filter-select{width:auto;min-width:150px}
+.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px}
+.chat-shell{display:grid;grid-template-columns:1fr 320px;gap:18px}.chat-window{min-height:460px;display:flex;flex-direction:column}.chat-log{flex:1;background:#fafafa;border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto;max-height:420px}
+.msg{max-width:82%;padding:10px 12px;border-radius:12px;margin:8px 0;line-height:1.45;font-size:14px}.msg.user{margin-left:auto;background:var(--purple);color:#fff}.msg.bot{background:#fff;border:1px solid var(--line)}
+.chat-compose{display:flex;gap:8px;margin-top:10px}.chat-input{min-height:72px;resize:vertical}.chat-hint{font-size:12px;color:var(--muted);margin-top:8px}
+.image-preview{width:120px;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--line);margin-top:8px}
+.pack-card{border:1px solid var(--line);border-radius:13px;padding:14px;margin-bottom:10px;background:#fff}.pack-title{font-weight:850}
+.queue-card{border:1px solid var(--line);border-radius:13px;padding:14px;margin-bottom:10px;background:#fff}.queue-meta{font-size:12px;color:var(--muted);margin:5px 0}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.show{display:flex}.modal-card{width:min(650px,100%);background:#fff;border-radius:18px;padding:20px;box-shadow:var(--shadow)}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.toast{display:none;position:fixed;right:22px;bottom:22px;background:#111827;color:#fff;padding:12px 15px;border-radius:9px;z-index:120}.toast.show{display:block}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{display:none}.grid,.chat-shell{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.main{padding:18px}}
 </style>
 </head>
-
 <body>
 
 <div id="loginScreen" class="login-screen">
   <div class="login-card">
     <div class="logo">FL</div>
-
     <h1>FollowLoop</h1>
-
-    <div class="tagline">
-      Your reminder and follow-up assistant.
-    </div>
-
-    <div class="promise">
-      Nothing falls through.
-    </div>
-
-    <p class="subtext">
-      Stay on top of reminders and follow-ups, without letting anything slip.
-    </p>
-
-    <button
-      class="primary"
-      onclick="googleLogin()">
-      Continue with Google
-    </button>
+    <div class="tagline">Your reminder and follow-up assistant.</div>
+    <div class="promise">Nothing falls through.</div>
+    <p class="subtext">Stay on top of reminders and follow-ups, without letting anything slip.</p>
+    <button class="primary" onclick="googleLogin()">Continue with Google</button>
   </div>
 </div>
 
-
 <div id="appShell" class="hidden">
-
 <header class="topbar">
-
   <div class="brand">
-
-    <div class="brand-logo">
-      FL
-    </div>
-
-    <div class="brand-copy">
-
-      <strong>
-        FollowLoop
-      </strong>
-
-      <span>
-        Your reminder and follow-up assistant · Nothing falls through.
-      </span>
-
-    </div>
-
+    <div class="brand-logo">FL</div>
+    <div class="brand-copy"><strong>FollowLoop</strong><span>Your reminder and follow-up assistant · Nothing falls through.</span></div>
   </div>
-
-  <button
-    class="secondary"
-    onclick="signOut()">
-    Sign out
-  </button>
-
+  <button class="secondary" onclick="signOut()">Sign out</button>
 </header>
 
-
 <div class="layout">
-
 <aside class="sidebar">
-
-  <div
-    class="nav-item active"
-    data-target="dashboard"
-    onclick="showSection('dashboard',this)">
-    Dashboard
-  </div>
-
-  <div
-    class="nav-item"
-    data-target="chat"
-    onclick="showSection('chat',this)">
-    Chat
-  </div>
-
-  <div
-    class="nav-item"
-    data-target="assignments"
-    onclick="showSection('assignments',this)">
-    Assignments
-  </div>
-
-  <div
-    class="nav-item"
-    data-target="contentqueue"
-    onclick="showSection('contentqueue',this)">
-    Content Queue
-  </div>
-
-  <div
-    class="nav-item"
-    data-target="packs"
-    onclick="showSection('packs',this)">
-    Content Packs
-  </div>
-
-  <div
-    class="nav-item"
-    data-target="followups"
-    onclick="showSection('followups',this)">
-    Follow-ups
-  </div>
-
-  <div
-    class="nav-item"
-    data-target="integrations"
-    onclick="showSection('integrations',this)">
-    Integrations
-  </div>
-
-  <div
-    class="nav-item"
-    data-target="settings"
-    onclick="showSection('settings',this)">
-    Settings
-  </div>
-
+  <div class="nav-item active" data-target="dashboard" onclick="showSection('dashboard',this)">Dashboard</div>
+  <div class="nav-item" data-target="chat" onclick="showSection('chat',this)">Chat</div>
+  <div class="nav-item" data-target="assignments" onclick="showSection('assignments',this)">Assignments</div>
+  <div class="nav-item" data-target="contentqueue" onclick="showSection('contentqueue',this)">Content Queue</div>
+  <div class="nav-item" data-target="packs" onclick="showSection('packs',this)">Content Packs</div>
+  <div class="nav-item" data-target="followups" onclick="showSection('followups',this)">Follow-ups</div>
+  <div class="nav-item" data-target="integrations" onclick="showSection('integrations',this)">Integrations</div>
+  <div class="nav-item" data-target="settings" onclick="showSection('settings',this)">Settings</div>
 </aside>
-
 
 <main class="main">
 
-
 <section id="dashboard" class="section active">
-
-  <h1 id="welcomeTitle">
-    Welcome back 👋🏾
-  </h1>
-
-  <div class="subtext">
-    See what is due, what needs attention, and what still needs follow-up.
-  </div>
-
-
+  <h1 id="welcomeTitle">Welcome back 👋🏾</h1>
+  <div class="subtext">See what is due, what needs attention, and what still needs follow-up.</div>
   <div class="stats">
-
-    <div class="stat">
-      <div class="small">Assignments</div>
-      <div id="statAll" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="small">Ready</div>
-      <div id="statReady" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="small">Needs attention</div>
-      <div id="statBad" class="stat-number">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="small">Due today</div>
-      <div id="statDue" class="stat-number">0</div>
-    </div>
-
+    <div class="stat"><div class="small">Assignments</div><div id="statAll" class="stat-number">0</div></div>
+    <div class="stat"><div class="small">Ready</div><div id="statReady" class="stat-number">0</div></div>
+    <div class="stat"><div class="small">Needs attention</div><div id="statBad" class="stat-number">0</div></div>
+    <div class="stat"><div class="small">Due today</div><div id="statDue" class="stat-number">0</div></div>
   </div>
-
 
   <div class="grid">
-
     <div class="card">
-
       <h3>Choose a Google Sheet</h3>
 
       <input
@@ -771,23 +119,12 @@ th{
         onfocus="showSheetResults()"
         oninput="filterSheets()">
 
-      <div
-        id="sheetResults"
-        class="sheet-results hidden">
-      </div>
+      <div id="sheetResults" class="sheet-results hidden"></div>
 
-      <div
-        id="selectedSheet"
-        class="selected-sheet hidden">
-      </div>
+      <div id="selectedSheet" class="selected-sheet hidden"></div>
 
       <div style="margin-top:12px;display:flex;gap:8px">
-
-        <button
-          class="secondary"
-          onclick="showSheetResults()">
-          Browse Sheets
-        </button>
+        <button class="secondary" onclick="showSheetResults()">Browse Sheets</button>
 
         <button
           id="loadSheetButton"
@@ -796,72 +133,38 @@ th{
           onclick="loadSelectedSheet()">
           Load selected Sheet
         </button>
-
       </div>
 
       <div id="sheetValidation"></div>
-
     </div>
-
 
     <div class="card">
-
-      <h3>
-        Due today
-      </h3>
-
-      <div
-        id="dueTodayList"
-        class="empty">
-        Nothing due yet.
-      </div>
-
+      <h3>Due today</h3>
+      <div id="dueTodayList" class="empty">Nothing due yet.</div>
     </div>
-
   </div>
-
 
   <div class="grid">
-
     <div class="card">
-
-      <h3>
-        Posts due today
-      </h3>
-
-      <div
-        id="postsDueToday"
-        class="empty">
+      <h3>Posts due today</h3>
+      <div id="postsDueToday" class="empty">
         No scheduled posts due today.
       </div>
-
     </div>
-
 
     <div class="card">
-
-      <h3>
-        Validation summary
-      </h3>
-
-      <div
-        id="globalValidation"
-        class="validation warning">
+      <h3>Validation summary</h3>
+      <div id="globalValidation" class="validation warning">
         No assignments loaded yet.
       </div>
-
     </div>
-
   </div>
-
 </section>
 
 
 <section id="chat" class="section">
 
-  <h1>
-    FollowLoop Chat
-  </h1>
+  <h1>FollowLoop Chat</h1>
 
   <div class="subtext">
     Tell FollowLoop what you need in simple language.
@@ -869,25 +172,16 @@ th{
     then asks you to confirm.
   </div>
 
-
-  <div
-    class="chat-shell"
-    style="margin-top:18px">
-
+  <div class="chat-shell" style="margin-top:18px">
 
     <div class="card chat-window">
 
-      <div
-        id="chatLog"
-        class="chat-log">
-
+      <div id="chatLog" class="chat-log">
         <div class="msg bot">
           Hi. Tell me what you need to remember,
           follow up, or prepare to post.
         </div>
-
       </div>
-
 
       <div class="chat-compose">
 
@@ -897,16 +191,15 @@ th{
           placeholder="Examples:
 Emmanuel Saturday meeting 4pm
 Prepare a WhatsApp post for Friday 8am with this YouTube link
-Remind Ada tomorrow about worship"></textarea>
+Remind Ada tomorrow about worship
+WhatsApp everyone due today
+Send this reminder to Group A"></textarea>
 
-        <button
-          class="primary"
-          onclick="handleChat()">
+        <button class="primary" onclick="handleChat()">
           Send
         </button>
 
       </div>
-
 
       <div class="chat-hint">
         MVP note: this is a lightweight interpreter,
@@ -916,12 +209,9 @@ Remind Ada tomorrow about worship"></textarea>
 
     </div>
 
-
     <div class="card">
 
-      <h3>
-        Add image for this conversation
-      </h3>
+      <h3>Add image for this conversation</h3>
 
       <input
         id="chatImage"
@@ -948,182 +238,183 @@ Remind Ada tomorrow about worship"></textarea>
 
 <section id="assignments" class="section">
 
-  <h1>
-    Assignments
-  </h1>
+  <h1>Assignments</h1>
 
   <div class="subtext">
     Each reminder must be complete before Calendar,
     Email or WhatsApp becomes available.
   </div>
 
+  <div id="manualForm" class="card" style="margin:18px 0">
 
-  <div
-    id="manualForm"
-    class="card"
-    style="margin:18px 0">
+    <h3>Add a reminder manually</h3>
 
-    <h3>
-      Add a reminder manually
-    </h3>
+    <div class="form-grid">
 
+      <div class="field">
+        <label>Name *</label>
+        <input id="manualName">
+        <div id="errorName" class="error-message"></div>
+      </div>
+
+      <div class="field">
+        <label>Email *</label>
+        <input id="manualEmail">
+        <div id="errorEmail" class="error-message"></div>
+      </div>
+
+      <div class="field">
+        <label>Group / Team</label>
+        <input id="manualGroup" placeholder="e.g. Group A">
+      </div>
+
+      <div class="field">
+        <label>WhatsApp number *</label>
+        <input id="manualPhone">
+        <div id="errorPhone" class="error-message"></div>
+      </div>
+
+      <div class="field">
+        <label>Assignment / Event *</label>
+        <input id="manualTask">
+        <div id="errorTask" class="error-message"></div>
+      </div>
+
+      <div class="field">
+        <label>Event date *</label>
+        <input id="manualDate" type="date">
+        <div id="errorDate" class="error-message"></div>
+      </div>
+
+      <div class="field">
+        <label>Event time *</label>
+        <input id="manualTime" type="time">
+        <div id="errorTime" class="error-message"></div>
+      </div>
+
+      <div class="field">
+        <label>Reminder date *</label>
+        <input id="manualReminderDate" type="date">
+        <div id="errorReminderDate" class="error-message"></div>
+      </div>
+
+      <div class="field">
+        <label>Reminder stage *</label>
+
+        <select id="manualStage">
+          <option value="">Choose stage</option>
+          <option>2 weeks before</option>
+          <option>1 week before</option>
+          <option>3 days before</option>
+          <option>1 day before</option>
+          <option>Today</option>
+          <option>Follow-up</option>
+        </select>
+
+        <div id="errorStage" class="error-message"></div>
+      </div>
+
+      <div class="field" style="grid-column:1/-1">
+
+        <label>Reminder message *</label>
+
+        <textarea
+          id="manualMessage"
+          rows="4">
+        </textarea>
+
+        <div id="errorMessage" class="error-message"></div>
+
+      </div>
+
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px">
+
+      <button class="primary" onclick="addManualPerson()">
+        Add reminder
+      </button>
+
+      <button class="secondary" onclick="clearManualForm()">
+        Clear
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-bottom:18px">
+
+    <h3>Bulk actions</h3>
+
+    <div class="subtext" style="margin-bottom:12px">
+      Choose an audience, personalise the message,
+      review the batch, then open each action safely.
+    </div>
 
     <div class="form-grid">
 
       <div class="field">
 
-        <label>Name *</label>
+        <label>Audience</label>
 
-        <input id="manualName">
+        <select
+          id="bulkAudience"
+          onchange="updateBulkSelectionSummary()">
 
-        <div
-          id="errorName"
-          class="error-message">
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Email *</label>
-
-        <input id="manualEmail">
-
-        <div
-          id="errorEmail"
-          class="error-message">
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>WhatsApp number *</label>
-
-        <input id="manualPhone">
-
-        <div
-          id="errorPhone"
-          class="error-message">
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Assignment / Event *
-        </label>
-
-        <input id="manualTask">
-
-        <div
-          id="errorTask"
-          class="error-message">
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Event date *
-        </label>
-
-        <input
-          id="manualDate"
-          type="date">
-
-        <div
-          id="errorDate"
-          class="error-message">
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Event time *
-        </label>
-
-        <input
-          id="manualTime"
-          type="time">
-
-        <div
-          id="errorTime"
-          class="error-message">
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Reminder date *
-        </label>
-
-        <input
-          id="manualReminderDate"
-          type="date">
-
-        <div
-          id="errorReminderDate"
-          class="error-message">
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Reminder stage *
-        </label>
-
-        <select id="manualStage">
-
-          <option value="">
-            Choose stage
+          <option value="selected">
+            Selected people
           </option>
 
-          <option>
-            2 weeks before
+          <option value="everyone">
+            Everyone
           </option>
 
-          <option>
-            1 week before
+          <option value="due">
+            Due today
           </option>
 
-          <option>
-            3 days before
+          <option value="overdue">
+            Overdue
           </option>
 
-          <option>
-            1 day before
+          <option value="ready">
+            Ready
           </option>
 
-          <option>
-            Today
-          </option>
-
-          <option>
-            Follow-up
+          <option value="bad">
+            Needs attention
           </option>
 
         </select>
 
-        <div
-          id="errorStage"
-          class="error-message">
-        </div>
+      </div>
+
+
+      <div class="field">
+
+        <label>Channel</label>
+
+        <select id="bulkChannel">
+
+          <option value="">
+            Choose channel
+          </option>
+
+          <option value="calendar">
+            Calendar
+          </option>
+
+          <option value="email">
+            Email
+          </option>
+
+          <option value="whatsapp">
+            WhatsApp
+          </option>
+
+        </select>
 
       </div>
 
@@ -1133,17 +424,27 @@ Remind Ada tomorrow about worship"></textarea>
         style="grid-column:1/-1">
 
         <label>
-          Reminder message *
+          Message template (optional)
         </label>
 
         <textarea
-          id="manualMessage"
-          rows="4">
+          id="bulkTemplate"
+          rows="3"
+          placeholder="Leave blank to use each person's saved reminder message. Or use: Hi {{name}}, this is a reminder about {{event}} on {{date}} at {{time}}.">
         </textarea>
 
         <div
-          id="errorMessage"
-          class="error-message">
+          class="small"
+          style="margin-top:5px">
+
+          Personalisation tags:
+          {{name}},
+          {{event}},
+          {{date}},
+          {{time}},
+          {{stage}},
+          {{group}}
+
         </div>
 
       </div>
@@ -1152,20 +453,34 @@ Remind Ada tomorrow about worship"></textarea>
 
 
     <div
-      style="margin-top:12px;display:flex;gap:8px">
+      class="toolbar"
+      style="margin-top:12px;margin-bottom:0">
+
+      <span
+        id="bulkSelectionSummary"
+        class="small">
+        0 selected
+      </span>
 
       <button
         class="primary"
-        onclick="addManualPerson()">
-        Add reminder
+        onclick="previewBulkAction()">
+        Preview bulk action
       </button>
 
       <button
         class="secondary"
-        onclick="clearManualForm()">
-        Clear
+        onclick="clearSelection()">
+        Clear selected
       </button>
 
+    </div>
+
+
+    <div
+      id="bulkQueuePanel"
+      class="hidden"
+      style="margin-top:16px">
     </div>
 
   </div>
@@ -1175,9 +490,7 @@ Remind Ada tomorrow about worship"></textarea>
 
     <div class="toolbar">
 
-      <strong>
-        Filter:
-      </strong>
+      <strong>Filter:</strong>
 
       <select
         id="assignmentFilter"
@@ -1217,24 +530,25 @@ Remind Ada tomorrow about worship"></textarea>
 
           <tr>
 
+            <th>
+              <input
+                id="selectAllVisible"
+                type="checkbox"
+                onchange="toggleSelectVisible(this.checked)"
+                title="Select all visible">
+            </th>
+
             <th>Person</th>
-
             <th>Event</th>
-
             <th>Date & Time</th>
-
             <th>Reminder</th>
-
             <th>Due</th>
-
             <th>Validation</th>
-
             <th>Action</th>
 
           </tr>
 
         </thead>
-
 
         <tbody id="assignmentRows"></tbody>
 
@@ -1246,7 +560,9 @@ Remind Ada tomorrow about worship"></textarea>
     <div
       id="assignmentEmpty"
       class="empty">
+
       No assignments yet.
+
     </div>
 
   </div>
@@ -1256,9 +572,7 @@ Remind Ada tomorrow about worship"></textarea>
 
 <section id="contentqueue" class="section">
 
-  <h1>
-    Content Queue
-  </h1>
+  <h1>Content Queue</h1>
 
   <div class="subtext">
     Prepare posts once.
@@ -1270,70 +584,42 @@ Remind Ada tomorrow about worship"></textarea>
     class="card"
     style="margin:18px 0">
 
-    <h3>
-      Schedule a post
-    </h3>
+    <h3>Schedule a post</h3>
 
 
     <div class="form-grid">
 
       <div class="field">
-
-        <label>
-          Pack / Group
-        </label>
-
+        <label>Pack / Group</label>
         <input
           id="postPack"
           placeholder="e.g. Weekly Prayer Rota">
-
       </div>
 
-
       <div class="field">
-
-        <label>
-          Post title *
-        </label>
-
+        <label>Post title *</label>
         <input
           id="postTitle"
           placeholder="e.g. Monday Reminder">
-
       </div>
 
-
       <div class="field">
-
-        <label>
-          Post date *
-        </label>
-
+        <label>Post date *</label>
         <input
           id="postDate"
           type="date">
-
       </div>
 
-
       <div class="field">
-
-        <label>
-          Post time *
-        </label>
-
+        <label>Post time *</label>
         <input
           id="postTime"
           type="time">
-
       </div>
-
 
       <div class="field">
 
-        <label>
-          Channel *
-        </label>
+        <label>Channel *</label>
 
         <select id="postChannel">
 
@@ -1357,27 +643,18 @@ Remind Ada tomorrow about worship"></textarea>
 
       </div>
 
-
       <div class="field">
-
-        <label>
-          Link
-        </label>
-
+        <label>Link</label>
         <input
           id="postLink"
           placeholder="https://youtube.com/...">
-
       </div>
-
 
       <div
         class="field"
         style="grid-column:1/-1">
 
-        <label>
-          Caption / Message *
-        </label>
+        <label>Caption / Message *</label>
 
         <textarea
           id="postCaption"
@@ -1387,14 +664,11 @@ Remind Ada tomorrow about worship"></textarea>
 
       </div>
 
-
       <div
         class="field"
         style="grid-column:1/-1">
 
-        <label>
-          Image (optional)
-        </label>
+        <label>Image (optional)</label>
 
         <input
           id="postImage"
@@ -1416,7 +690,9 @@ Remind Ada tomorrow about worship"></textarea>
       <button
         class="primary"
         onclick="addPost()">
+
         Add to queue
+
       </button>
 
     </div>
@@ -1428,9 +704,7 @@ Remind Ada tomorrow about worship"></textarea>
 
     <div class="toolbar">
 
-      <strong>
-        Filter:
-      </strong>
+      <strong>Filter:</strong>
 
       <select
         id="postFilter"
@@ -1457,7 +731,6 @@ Remind Ada tomorrow about worship"></textarea>
 
     </div>
 
-
     <div id="postQueue"></div>
 
   </div>
@@ -1467,14 +740,11 @@ Remind Ada tomorrow about worship"></textarea>
 
 <section id="packs" class="section">
 
-  <h1>
-    Content Packs
-  </h1>
+  <h1>Content Packs</h1>
 
   <div class="subtext">
     Group recurring communication into one reusable pack.
   </div>
-
 
   <div
     class="card"
@@ -1484,9 +754,7 @@ Remind Ada tomorrow about worship"></textarea>
 
       <div class="field">
 
-        <label>
-          Pack name *
-        </label>
+        <label>Pack name *</label>
 
         <input
           id="packName"
@@ -1494,12 +762,9 @@ Remind Ada tomorrow about worship"></textarea>
 
       </div>
 
-
       <div class="field">
 
-        <label>
-          Description
-        </label>
+        <label>Description</label>
 
         <input
           id="packDescription"
@@ -1509,19 +774,19 @@ Remind Ada tomorrow about worship"></textarea>
 
     </div>
 
-
     <div style="margin-top:12px">
 
       <button
         class="primary"
         onclick="addPack()">
+
         Create pack
+
       </button>
 
     </div>
 
   </div>
-
 
   <div id="packList"></div>
 
@@ -1530,14 +795,12 @@ Remind Ada tomorrow about worship"></textarea>
 
 <section id="followups" class="section">
 
-  <h1>
-    Follow-ups
-  </h1>
+  <h1>Follow-ups</h1>
 
   <div class="subtext">
-    Track what has been opened and what still needs attention.
+    Track what has been opened
+    and what still needs attention.
   </div>
-
 
   <div
     class="card"
@@ -1550,23 +813,15 @@ Remind Ada tomorrow about worship"></textarea>
         <thead>
 
           <tr>
-
             <th>Person</th>
-
             <th>Stage</th>
-
             <th>Due</th>
-
             <th>Calendar</th>
-
             <th>Email</th>
-
             <th>WhatsApp</th>
-
           </tr>
 
         </thead>
-
 
         <tbody id="followupRows"></tbody>
 
@@ -1574,11 +829,12 @@ Remind Ada tomorrow about worship"></textarea>
 
     </div>
 
-
     <div
       id="followupEmpty"
       class="empty">
+
       No reminder actions yet.
+
     </div>
 
   </div>
@@ -1588,87 +844,51 @@ Remind Ada tomorrow about worship"></textarea>
 
 <section id="integrations" class="section">
 
-  <h1>
-    Integrations
-  </h1>
-
+  <h1>Integrations</h1>
 
   <div
     class="card"
     style="margin-top:18px">
 
     <p>
-
-      <strong>
-        Google Sheets
-      </strong>
-
+      <strong>Google Sheets</strong>
       <br>
-
       <span class="small">
         Source of truth for people,
         events, reminder dates and messages.
       </span>
-
     </p>
 
-
     <p>
-
-      <strong>
-        Calendar
-      </strong>
-
+      <strong>Calendar</strong>
       <br>
-
       <span class="small">
         Opens a pre-filled Google Calendar event.
       </span>
-
     </p>
 
-
     <p>
-
-      <strong>
-        Email
-      </strong>
-
+      <strong>Email</strong>
       <br>
-
       <span class="small">
         Opens Gmail compose with recipient,
         subject and message pre-filled.
       </span>
-
     </p>
 
-
     <p>
-
-      <strong>
-        WhatsApp
-      </strong>
-
+      <strong>WhatsApp</strong>
       <br>
-
       <span class="small">
         Opens WhatsApp with the message pre-filled.
         Media still needs manual attachment
         in this browser-only MVP.
       </span>
-
     </p>
 
-
     <p>
-
-      <strong>
-        Daily FollowLoop digest
-      </strong>
-
+      <strong>Daily FollowLoop digest</strong>
       <br>
-
       <span class="small">
         Planned next:
         scheduled email/push summary such as
@@ -1676,7 +896,6 @@ Remind Ada tomorrow about worship"></textarea>
         This needs a background scheduler
         such as Apps Script or a backend.
       </span>
-
     </p>
 
   </div>
@@ -1686,21 +905,15 @@ Remind Ada tomorrow about worship"></textarea>
 
 <section id="settings" class="section">
 
-  <h1>
-    Settings
-  </h1>
-
+  <h1>Settings</h1>
 
   <div
     class="card"
     style="margin-top:18px;max-width:720px">
 
-
     <div class="field">
 
-      <label>
-        Calendar duration
-      </label>
+      <label>Calendar duration</label>
 
       <select id="calendarDuration">
 
@@ -1725,7 +938,6 @@ Remind Ada tomorrow about worship"></textarea>
       </select>
 
     </div>
-
 
     <div
       class="field"
@@ -1769,13 +981,17 @@ Remind Ada tomorrow about worship"></textarea>
       <button
         class="secondary"
         onclick="closePreview()">
+
         Cancel
+
       </button>
 
       <button
         id="confirmPreviewBtn"
         class="primary">
+
         Continue
+
       </button>
 
     </div>
@@ -1816,6 +1032,12 @@ let packs = [];
 let chatImageData = null;
 
 let postImageData = null;
+
+let selectedAssignmentIds =
+  new Set();
+
+let bulkQueue =
+  [];
 
 
 /* NAVIGATION */
@@ -2502,6 +1724,16 @@ function importSheetRows(
         ]
       ),
 
+    group:
+      findHeader(
+        headers,
+        [
+          "group",
+          "team",
+          "category"
+        ]
+      ),
+
     phone:
       findHeader(
         headers,
@@ -2584,6 +1816,8 @@ function importSheetRows(
     )
     .filter(
       ([key,value]) =>
+        key !== "group"
+        &&
         value < 0
     )
     .map(
@@ -2645,60 +1879,62 @@ function importSheetRows(
           "-" +
           index,
 
-        source:
-
-          source,
+        source,
 
         name:
-
           row[
             columns.name
           ] || "",
 
         email:
-
           row[
             columns.email
           ] || "",
 
-        phone:
+        group:
+          columns.group >= 0
+          ?
+          (
+            row[
+              columns.group
+            ]
+            ||
+            ""
+          )
+          :
+          "",
 
+        phone:
           row[
             columns.phone
           ] || "",
 
         task:
-
           row[
             columns.task
           ] || "",
 
         date:
-
           row[
             columns.date
           ] || "",
 
         time:
-
           row[
             columns.time
           ] || "",
 
         reminderDate:
-
           row[
             columns.reminderDate
           ] || "",
 
         stage:
-
           row[
             columns.stage
           ] || "",
 
         message:
-
           row[
             columns.message
           ] || "",
@@ -2944,7 +2180,7 @@ function ready(
 }
 
 
-/* BASIC VALUE HELPER */
+/* VALUE */
 
 function val(
   id
@@ -2960,7 +2196,7 @@ function val(
 }
 
 
-/* MANUAL REMINDER ENTRY */
+/* MANUAL REMINDER */
 
 function addManualPerson(){
 
@@ -2984,6 +2220,11 @@ function addManualPerson(){
     email:
       val(
         "manualEmail"
+      ),
+
+    group:
+      val(
+        "manualGroup"
       ),
 
     phone:
@@ -3177,6 +2418,7 @@ function clearManualForm(){
   [
     "manualName",
     "manualEmail",
+    "manualGroup",
     "manualPhone",
     "manualTask",
     "manualDate",
@@ -3204,7 +2446,7 @@ function clearManualForm(){
 }
 
 
-/* DATE HELPERS */
+/* DATE */
 
 function parseDateLoose(
   value
@@ -3278,7 +2520,7 @@ function parseDateLoose(
 }
 
 
-/* DUE STATUS */
+/* DUE */
 
 function dueInfo(
   assignment
@@ -3390,16 +2632,9 @@ function dueInfo(
 }
 
 
-/* RENDER ASSIGNMENTS */
+/* ASSIGNMENT FILTER */
 
-function renderAssignments(){
-
-  const body =
-    document
-      .getElementById(
-        "assignmentRows"
-      );
-
+function currentAssignmentList(){
 
   const filter =
     document
@@ -3407,15 +2642,11 @@ function renderAssignments(){
         "assignmentFilter"
       )
       ?.value
-      || "all";
+      ||
+      "all";
 
 
-  body.innerHTML =
-    "";
-
-
-  let list =
-    assignments
+  return assignments
     .filter(
       assignment => {
 
@@ -3474,6 +2705,36 @@ function renderAssignments(){
       }
     );
 
+}
+
+
+/* RENDER ASSIGNMENTS */
+
+function renderAssignments(){
+
+  const body =
+    document
+      .getElementById(
+        "assignmentRows"
+      );
+
+
+  if(
+    !body
+  ){
+
+    return;
+
+  }
+
+
+  body.innerHTML =
+    "";
+
+
+  const list =
+    currentAssignmentList();
+
 
   document
     .getElementById(
@@ -3512,7 +2773,28 @@ function renderAssignments(){
           );
 
 
+      const checked =
+        selectedAssignmentIds
+        .has(
+          assignment.id
+        )
+        ?
+        "checked"
+        :
+        "";
+
+
       row.innerHTML = `
+
+        <td>
+
+          <input
+            type="checkbox"
+            ${checked}
+            onchange="toggleAssignmentSelection('${assignment.id}',this.checked)">
+
+        </td>
+
 
         <td>
 
@@ -3522,6 +2804,22 @@ function renderAssignments(){
               "Missing name"
             )}
           </strong>
+
+          ${
+            assignment.group
+            ?
+            `
+              <br>
+
+              <span class="small">
+                ${escapeHtml(
+                  assignment.group
+                )}
+              </span>
+            `
+            :
+            ""
+          }
 
           <br>
 
@@ -3574,19 +2872,23 @@ function renderAssignments(){
         <td>
 
           <strong>
+
             ${escapeHtml(
               assignment.stage ||
               "Missing stage"
             )}
+
           </strong>
 
           <br>
 
           <span class="small">
+
             ${escapeHtml(
               assignment.message ||
               "Missing message"
             )}
+
           </span>
 
         </td>
@@ -3609,9 +2911,13 @@ function renderAssignments(){
           ${
             okay
 
-            ? '<span class="status ready">Ready</span>'
+            ?
 
-            : `
+            '<span class="status ready">Ready</span>'
+
+            :
+
+            `
               <span class="status bad">
                 Needs attention
               </span>
@@ -3680,10 +2986,1015 @@ function renderAssignments(){
     }
   );
 
+
+  const selectAll =
+    document
+      .getElementById(
+        "selectAllVisible"
+      );
+
+
+  if(
+    selectAll
+  ){
+
+    selectAll.checked =
+      list.length > 0
+      &&
+      list.every(
+        assignment =>
+          selectedAssignmentIds
+          .has(
+            assignment.id
+          )
+      );
+
+  }
+
+
+  updateBulkSelectionSummary();
+
+  populateGroupAudiences();
+
 }
 
 
-/* FOLLOW-UP TABLE */
+/* SELECTION */
+
+function toggleAssignmentSelection(
+  id,
+  checked
+){
+
+  if(
+    checked
+  ){
+
+    selectedAssignmentIds
+      .add(
+        id
+      );
+
+  }
+
+  else{
+
+    selectedAssignmentIds
+      .delete(
+        id
+      );
+
+  }
+
+
+  updateBulkSelectionSummary();
+
+}
+
+
+function toggleSelectVisible(
+  checked
+){
+
+  currentAssignmentList()
+    .forEach(
+      assignment => {
+
+        if(
+          checked
+        ){
+
+          selectedAssignmentIds
+            .add(
+              assignment.id
+            );
+
+        }
+
+        else{
+
+          selectedAssignmentIds
+            .delete(
+              assignment.id
+            );
+
+        }
+
+      }
+    );
+
+
+  renderAssignments();
+
+}
+
+
+function clearSelection(){
+
+  selectedAssignmentIds
+    .clear();
+
+
+  const checkbox =
+    document
+      .getElementById(
+        "selectAllVisible"
+      );
+
+
+  if(
+    checkbox
+  ){
+
+    checkbox.checked =
+      false;
+
+  }
+
+
+  renderAssignments();
+
+}
+
+
+/* GROUP AUDIENCES */
+
+function populateGroupAudiences(){
+
+  const select =
+    document
+      .getElementById(
+        "bulkAudience"
+      );
+
+
+  if(
+    !select
+  ){
+
+    return;
+
+  }
+
+
+  const current =
+    select.value;
+
+
+  [
+    ...select
+    .querySelectorAll(
+      'option[data-group="1"]'
+    )
+  ]
+  .forEach(
+    option =>
+      option.remove()
+  );
+
+
+  const groups =
+    [
+      ...new Set(
+
+        assignments
+        .map(
+          assignment =>
+            String(
+              assignment.group || ""
+            )
+            .trim()
+        )
+        .filter(
+          Boolean
+        )
+
+      )
+    ]
+    .sort();
+
+
+  groups.forEach(
+    group => {
+
+      const option =
+        document
+          .createElement(
+            "option"
+          );
+
+
+      option.value =
+        "group:" +
+        group;
+
+
+      option.textContent =
+        "Group: " +
+        group;
+
+
+      option.dataset.group =
+        "1";
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  if(
+    [
+      ...select.options
+    ]
+    .some(
+      option =>
+        option.value ===
+        current
+    )
+  ){
+
+    select.value =
+      current;
+
+  }
+
+}
+
+
+/* BULK AUDIENCE */
+
+function getBulkAudience(){
+
+  const audience =
+    document
+      .getElementById(
+        "bulkAudience"
+      )
+      ?.value
+      ||
+      "selected";
+
+
+  if(
+    audience ===
+    "selected"
+  ){
+
+    return assignments
+      .filter(
+        assignment =>
+          selectedAssignmentIds
+          .has(
+            assignment.id
+          )
+      );
+
+  }
+
+
+  if(
+    audience ===
+    "everyone"
+  ){
+
+    return assignments
+      .slice();
+
+  }
+
+
+  if(
+    audience ===
+    "due"
+  ){
+
+    return assignments
+      .filter(
+        assignment =>
+          dueInfo(
+            assignment
+          )
+          .kind
+          ===
+          "due"
+      );
+
+  }
+
+
+  if(
+    audience ===
+    "overdue"
+  ){
+
+    return assignments
+      .filter(
+        assignment =>
+          dueInfo(
+            assignment
+          )
+          .kind
+          ===
+          "overdue"
+      );
+
+  }
+
+
+  if(
+    audience ===
+    "ready"
+  ){
+
+    return assignments
+      .filter(
+        ready
+      );
+
+  }
+
+
+  if(
+    audience ===
+    "bad"
+  ){
+
+    return assignments
+      .filter(
+        assignment =>
+          !ready(
+            assignment
+          )
+      );
+
+  }
+
+
+  if(
+    audience.startsWith(
+      "group:"
+    )
+  ){
+
+    const group =
+      audience.slice(
+        6
+      );
+
+
+    return assignments
+      .filter(
+        assignment =>
+          String(
+            assignment.group || ""
+          )
+          .trim()
+          ===
+          group
+      );
+
+  }
+
+
+  return [];
+
+}
+
+
+/* BULK SUMMARY */
+
+function updateBulkSelectionSummary(){
+
+  const box =
+    document
+      .getElementById(
+        "bulkSelectionSummary"
+      );
+
+
+  if(
+    !box
+  ){
+
+    return;
+
+  }
+
+
+  const audience =
+    document
+      .getElementById(
+        "bulkAudience"
+      )
+      ?.value
+      ||
+      "selected";
+
+
+  const list =
+    getBulkAudience();
+
+
+  box.textContent =
+
+    audience ===
+    "selected"
+
+    ?
+
+    `${selectedAssignmentIds.size} selected`
+
+    :
+
+    `${list.length} in this audience`;
+
+}
+
+
+/* PERSONALISATION */
+
+function personalize(
+  template,
+  assignment
+){
+
+  const source =
+    String(
+      template
+      ||
+      assignment.message
+      ||
+      ""
+    );
+
+
+  return source
+
+    .replaceAll(
+      "{{name}}",
+      assignment.name || ""
+    )
+
+    .replaceAll(
+      "{{event}}",
+      assignment.task || ""
+    )
+
+    .replaceAll(
+      "{{date}}",
+      assignment.date || ""
+    )
+
+    .replaceAll(
+      "{{time}}",
+      assignment.time || ""
+    )
+
+    .replaceAll(
+      "{{stage}}",
+      assignment.stage || ""
+    )
+
+    .replaceAll(
+      "{{group}}",
+      assignment.group || ""
+    );
+
+}
+
+
+/* PREVIEW BULK */
+
+function previewBulkAction(){
+
+  const channel =
+    document
+      .getElementById(
+        "bulkChannel"
+      )
+      ?.value;
+
+
+  const template =
+    document
+      .getElementById(
+        "bulkTemplate"
+      )
+      ?.value
+      ||
+      "";
+
+
+  const audience =
+    getBulkAudience();
+
+
+  if(
+    !channel
+  ){
+
+    return toast(
+      "Choose a bulk channel."
+    );
+
+  }
+
+
+  if(
+    !audience.length
+  ){
+
+    return toast(
+      "No people are in this audience."
+    );
+
+  }
+
+
+  const valid =
+    audience
+    .filter(
+      ready
+    );
+
+
+  const invalid =
+    audience
+    .filter(
+      assignment =>
+        !ready(
+          assignment
+        )
+    );
+
+
+  bulkQueue =
+    valid.map(
+      assignment => ({
+
+        id:
+          assignment.id,
+
+        channel,
+
+        message:
+          personalize(
+            template,
+            assignment
+          ),
+
+        opened:
+          false
+
+      })
+    );
+
+
+  document
+    .getElementById(
+      "previewContent"
+    )
+    .innerHTML = `
+
+      <p>
+        <strong>Audience:</strong>
+        ${audience.length}
+        person(s)
+      </p>
+
+      <p>
+        <strong>Ready:</strong>
+        ${valid.length}
+      </p>
+
+      <p>
+        <strong>Needs attention:</strong>
+        ${invalid.length}
+      </p>
+
+      <p>
+        <strong>Channel:</strong>
+        ${escapeHtml(
+          channel
+        )}
+      </p>
+
+      ${
+        invalid.length
+        ?
+        `
+          <div class="validation warning">
+
+            ${invalid.length}
+            incomplete row(s)
+            will be skipped.
+
+          </div>
+        `
+        :
+        ""
+      }
+
+      <div
+        style="
+          max-height:260px;
+          overflow:auto;
+          margin-top:12px
+        ">
+
+        ${
+          valid
+          .slice(
+            0,
+            30
+          )
+          .map(
+            assignment => `
+
+              <div
+                style="
+                  padding:8px 0;
+                  border-bottom:1px solid var(--line)
+                ">
+
+                <strong>
+                  ${escapeHtml(
+                    assignment.name
+                  )}
+                </strong>
+
+                ${
+                  assignment.group
+                  ?
+                  ` · ${escapeHtml(assignment.group)}`
+                  :
+                  ""
+                }
+
+                <br>
+
+                <span class="small">
+
+                  ${escapeHtml(
+                    personalize(
+                      template,
+                      assignment
+                    )
+                  )}
+
+                </span>
+
+              </div>
+
+            `
+          )
+          .join("")
+        }
+
+        ${
+          valid.length > 30
+          ?
+          `
+            <div
+              class="small"
+              style="padding-top:8px">
+
+              +
+              ${valid.length - 30}
+              more
+
+            </div>
+          `
+          :
+          ""
+        }
+
+      </div>
+
+    `;
+
+
+  document
+    .getElementById(
+      "previewModal"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+
+  document
+    .getElementById(
+      "confirmPreviewBtn"
+    )
+    .textContent =
+      "Create batch";
+
+
+  document
+    .getElementById(
+      "confirmPreviewBtn"
+    )
+    .onclick =
+      () => {
+
+        closePreview();
+
+        buildBulkQueuePanel();
+
+      };
+
+}
+
+
+/* BULK QUEUE */
+
+function buildBulkQueuePanel(){
+
+  const panel =
+    document
+      .getElementById(
+        "bulkQueuePanel"
+      );
+
+
+  if(
+    !panel
+  ){
+
+    return;
+
+  }
+
+
+  if(
+    !bulkQueue.length
+  ){
+
+    panel
+      .classList
+      .add(
+        "hidden"
+      );
+
+    return;
+
+  }
+
+
+  panel
+    .classList
+    .remove(
+      "hidden"
+    );
+
+
+  panel.innerHTML = `
+
+    <div class="validation ok">
+
+      <strong>
+        Batch ready:
+      </strong>
+
+      ${bulkQueue.length}
+      action(s).
+
+      Open them one at a time
+      so you can review before sending.
+
+    </div>
+
+
+    <div
+      style="margin-top:10px">
+
+      <button
+        class="primary"
+        onclick="openNextBulk()">
+
+        Open next
+
+      </button>
+
+    </div>
+
+
+    <div style="margin-top:10px">
+
+      ${
+        bulkQueue
+        .map(
+          item => {
+
+            const assignment =
+              assignments.find(
+                entry =>
+                  entry.id ===
+                  item.id
+              );
+
+
+            if(
+              !assignment
+            ){
+
+              return "";
+
+            }
+
+
+            return `
+
+              <div
+                style="
+                  padding:9px 0;
+                  border-bottom:1px solid var(--line);
+                  display:flex;
+                  justify-content:space-between;
+                  gap:10px;
+                  align-items:center
+                ">
+
+                <div>
+
+                  <strong>
+                    ${escapeHtml(
+                      assignment.name
+                    )}
+                  </strong>
+
+                  <br>
+
+                  <span class="small">
+
+                    ${escapeHtml(
+                      item.opened
+                      ?
+                      "Opened"
+                      :
+                      "Waiting"
+                    )}
+
+                    ·
+
+                    ${escapeHtml(
+                      item.channel
+                    )}
+
+                  </span>
+
+                </div>
+
+
+                <button
+                  class="secondary"
+                  onclick="openBulkItem('${item.id}')">
+
+                  ${
+                    item.opened
+                    ?
+                    "Open again"
+                    :
+                    "Open"
+                  }
+
+                </button>
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("")
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+function openNextBulk(){
+
+  const next =
+    bulkQueue.find(
+      item =>
+        !item.opened
+    );
+
+
+  if(
+    !next
+  ){
+
+    return toast(
+      "This batch is complete."
+    );
+
+  }
+
+
+  openBulkItem(
+    next.id
+  );
+
+}
+
+
+function openBulkItem(
+  id
+){
+
+  const item =
+    bulkQueue.find(
+      entry =>
+        entry.id ===
+        id
+    );
+
+
+  const assignment =
+    assignments.find(
+      entry =>
+        entry.id ===
+        id
+    );
+
+
+  if(
+    !item ||
+    !assignment
+  ){
+
+    return;
+
+  }
+
+
+  const copy = {
+
+    ...assignment,
+
+    message:
+      item.message
+
+  };
+
+
+  if(
+    item.channel ===
+    "calendar"
+  ){
+
+    openCalendar(
+      copy
+    );
+
+  }
+
+
+  if(
+    item.channel ===
+    "email"
+  ){
+
+    openEmail(
+      copy
+    );
+
+  }
+
+
+  if(
+    item.channel ===
+    "whatsapp"
+  ){
+
+    openWhatsApp(
+      copy
+    );
+
+  }
+
+
+  item.opened =
+    true;
+
+
+  buildBulkQueuePanel();
+
+}
+
+
+/* FOLLOW-UPS */
 
 function renderFollowups(){
 
@@ -3720,9 +4031,9 @@ function renderFollowups(){
 
       const row =
         document
-        .createElement(
-          "tr"
-        );
+          .createElement(
+            "tr"
+          );
 
 
       row.innerHTML = `
@@ -3810,7 +4121,7 @@ function badge(
 }
 
 
-/* DASHBOARD */
+/* DUE TODAY */
 
 function renderDueToday(){
 
@@ -3827,7 +4138,8 @@ function renderDueToday(){
       assignment =>
         dueInfo(
           assignment
-        ).kind === "due"
+        ).kind ===
+        "due"
     );
 
 
@@ -3870,6 +4182,7 @@ function renderDueToday(){
           </strong>
 
           —
+
           ${escapeHtml(
             assignment.stage
           )}
@@ -3893,7 +4206,7 @@ function renderDueToday(){
 }
 
 
-/* REFRESH EVERYTHING */
+/* REFRESH */
 
 function refreshAll(){
 
@@ -3927,7 +4240,8 @@ function refreshAll(){
       assignment =>
         dueInfo(
           assignment
-        ).kind === "due"
+        ).kind ===
+        "due"
     )
     .length;
 
@@ -4028,7 +4342,7 @@ function refreshAll(){
 }
 
 
-/* REVIEW REMINDER ACTION */
+/* INDIVIDUAL ACTION */
 
 function previewAction(
   id
@@ -4076,6 +4390,7 @@ function previewAction(
   pendingPreview = {
 
     assignment,
+
     action
 
   };
@@ -4093,9 +4408,9 @@ function previewAction(
           assignment.name
         )}
         (
-          ${escapeHtml(
-            assignment.email
-          )}
+        ${escapeHtml(
+          assignment.email
+        )}
         )
       </p>
 
@@ -4156,6 +4471,14 @@ function previewAction(
     .getElementById(
       "confirmPreviewBtn"
     )
+    .textContent =
+      "Continue";
+
+
+  document
+    .getElementById(
+      "confirmPreviewBtn"
+    )
     .onclick =
       () => {
 
@@ -4174,7 +4497,52 @@ function previewAction(
 }
 
 
-/* CALENDAR */
+/* ACTIONS */
+
+function runChosenAction(
+  assignment,
+  action
+){
+
+  if(
+    action ===
+    "calendar"
+  ){
+
+    openCalendar(
+      assignment
+    );
+
+  }
+
+
+  if(
+    action ===
+    "email"
+  ){
+
+    openEmail(
+      assignment
+    );
+
+  }
+
+
+  if(
+    action ===
+    "whatsapp"
+  ){
+
+    openWhatsApp(
+      assignment
+    );
+
+  }
+
+}
+
+
+/* CALENDAR DATE */
 
 function parseDT(
   assignment
@@ -4254,45 +4622,7 @@ function gdate(
 }
 
 
-function runChosenAction(
-  assignment,
-  action
-){
-
-  if(
-    action === "calendar"
-  ){
-
-    openCalendar(
-      assignment
-    );
-
-  }
-
-
-  if(
-    action === "email"
-  ){
-
-    openEmail(
-      assignment
-    );
-
-  }
-
-
-  if(
-    action === "whatsapp"
-  ){
-
-    openWhatsApp(
-      assignment
-    );
-
-  }
-
-}
-
+/* CALENDAR */
 
 function openCalendar(
   assignment
@@ -4598,7 +4928,7 @@ function previewPostImage(
 }
 
 
-/* CHAT */
+/* CHAT UI */
 
 function addChatMessage(
   text,
@@ -4654,11 +4984,17 @@ function nextWeekday(
   const map = {
 
     sunday:0,
+
     monday:1,
+
     tuesday:2,
+
     wednesday:3,
+
     thursday:4,
+
     friday:5,
+
     saturday:6
 
   };
@@ -4675,7 +5011,8 @@ function nextWeekday(
 
 
   if(
-    target === undefined
+    target ===
+    undefined
   ){
 
     return "";
@@ -4731,7 +5068,7 @@ function nextWeekday(
 }
 
 
-/* CHAT INTERPRETER */
+/* CHAT */
 
 function handleChat(){
 
@@ -4819,7 +5156,7 @@ function handleChat(){
 
 
   const postLike =
-    /post|share|caption|youtube|whatsapp/i
+    /post|share|caption|youtube/i
     .test(
       text
     );
@@ -4831,6 +5168,224 @@ function handleChat(){
       text
     );
 
+
+  const bulkLike =
+
+    /everyone|all people|all of them|due today|selected people|group\s+[a-z0-9]/i
+    .test(
+      text
+    )
+
+    &&
+
+    /send|invite|remind|whatsapp|email|calendar/i
+    .test(
+      text
+    );
+
+
+  /* BULK CHAT COMMAND */
+
+  if(
+    bulkLike
+  ){
+
+    let audience =
+      "selected";
+
+
+    if(
+      /everyone|all people|all of them/i
+      .test(
+        text
+      )
+    ){
+
+      audience =
+        "everyone";
+
+    }
+
+
+    if(
+      /due today/i
+      .test(
+        text
+      )
+    ){
+
+      audience =
+        "due";
+
+    }
+
+
+    const groupMatch =
+      raw.match(
+        /group\s+([A-Za-z0-9_-]+)/i
+      );
+
+
+    if(
+      groupMatch
+    ){
+
+      const exact =
+
+        assignments.find(
+          assignment =>
+            String(
+              assignment.group || ""
+            )
+            .toLowerCase()
+            ===
+            (
+              "group " +
+              groupMatch[1]
+            )
+            .toLowerCase()
+        )
+        ?.group
+
+        ||
+
+        assignments.find(
+          assignment =>
+            String(
+              assignment.group || ""
+            )
+            .toLowerCase()
+            ===
+            groupMatch[1]
+            .toLowerCase()
+        )
+        ?.group;
+
+
+      if(
+        exact
+      ){
+
+        audience =
+          "group:" +
+          exact;
+
+      }
+
+    }
+
+
+    let channel =
+      "";
+
+
+    if(
+      /whatsapp/i
+      .test(
+        text
+      )
+    ){
+
+      channel =
+        "whatsapp";
+
+    }
+
+
+    if(
+      /email/i
+      .test(
+        text
+      )
+    ){
+
+      channel =
+        "email";
+
+    }
+
+
+    if(
+      /calendar|invite/i
+      .test(
+        text
+      )
+    ){
+
+      channel =
+        "calendar";
+
+    }
+
+
+    showSection(
+      "assignments"
+    );
+
+
+    populateGroupAudiences();
+
+
+    const audienceElement =
+      document
+        .getElementById(
+          "bulkAudience"
+        );
+
+
+    if(
+      [
+        ...audienceElement.options
+      ]
+      .some(
+        option =>
+          option.value ===
+          audience
+      )
+    ){
+
+      audienceElement.value =
+        audience;
+
+    }
+
+
+    if(
+      channel
+    ){
+
+      document
+        .getElementById(
+          "bulkChannel"
+        )
+        .value =
+          channel;
+
+    }
+
+
+    updateBulkSelectionSummary();
+
+
+    addChatMessage(
+
+      "I think this is a bulk action. " +
+
+      "I opened Bulk Actions and selected the audience/channel I could understand. " +
+
+      "Review the audience, add a message template if needed, then preview the batch.",
+
+      "bot"
+
+    );
+
+
+    return;
+
+  }
+
+
+  /* POST */
 
   if(
     postLike
@@ -4974,6 +5529,8 @@ function handleChat(){
   }
 
 
+  /* REMINDER */
+
   if(
     reminderLike
   ){
@@ -5114,7 +5671,7 @@ function handleChat(){
 }
 
 
-/* TIME CONVERSION */
+/* TIME */
 
 function to24(
   time
@@ -5150,23 +5707,27 @@ function to24(
 
 
   if(
-    match[3] === "pm"
+    match[3] ===
+    "pm"
     &&
     hour !== 12
   ){
 
-    hour += 12;
+    hour +=
+      12;
 
   }
 
 
   if(
-    match[3] === "am"
+    match[3] ===
+    "am"
     &&
     hour === 12
   ){
 
-    hour = 0;
+    hour =
+      0;
 
   }
 
@@ -5333,7 +5894,7 @@ function addPost(){
 }
 
 
-/* POST DUE STATUS */
+/* POST STATUS */
 
 function postDueInfo(
   post
@@ -5382,7 +5943,8 @@ function postDueInfo(
 
 
   if(
-    post.status === "Sent"
+    post.status ===
+    "Sent"
   ){
 
     return {
@@ -5472,28 +6034,32 @@ function renderPosts(){
 
 
         if(
-          filter === "all"
+          filter ===
+          "all"
         ){
           return true;
         }
 
 
         if(
-          filter === "due"
+          filter ===
+          "due"
         ){
           return due.kind === "due";
         }
 
 
         if(
-          filter === "upcoming"
+          filter ===
+          "upcoming"
         ){
           return due.kind === "upcoming";
         }
 
 
         if(
-          filter === "sent"
+          filter ===
+          "sent"
         ){
           return post.status === "Sent";
         }
@@ -5546,10 +6112,13 @@ function renderPosts(){
               <div>
 
                 <div class="pack-title">
+
                   ${escapeHtml(
                     post.title
                   )}
+
                 </div>
+
 
                 <div class="queue-meta">
 
@@ -5643,19 +6212,27 @@ function renderPosts(){
               <button
                 class="secondary"
                 onclick="reviewPost('${post.id}')">
+
                 Review
+
               </button>
+
 
               <button
                 class="secondary"
                 onclick="duplicatePost('${post.id}')">
+
                 Duplicate
+
               </button>
+
 
               <button
                 class="danger"
                 onclick="removePost('${post.id}')">
+
                 Remove
+
               </button>
 
             </div>
@@ -5700,7 +6277,8 @@ function renderPostsDueToday(){
       post =>
         postDueInfo(
           post
-        ).kind === "due"
+        ).kind ===
+        "due"
     );
 
 
@@ -5737,9 +6315,11 @@ function renderPostsDueToday(){
           ">
 
           <strong>
+
             ${escapeHtml(
               post.title
             )}
+
           </strong>
 
           <br>
@@ -5776,7 +6356,8 @@ function reviewPost(
   const post =
     posts.find(
       item =>
-        item.id === id
+        item.id ===
+        id
     );
 
 
@@ -5798,52 +6379,81 @@ function reviewPost(
       <p>
 
         <strong>
+
           ${escapeHtml(
             post.title
           )}
+
         </strong>
 
       </p>
 
+
       <p>
-        <strong>When:</strong>
+
+        <strong>
+          When:
+        </strong>
+
         ${escapeHtml(
           post.date
         )}
+
         ${escapeHtml(
           post.time
         )}
+
       </p>
 
+
       <p>
-        <strong>Channel:</strong>
+
+        <strong>
+          Channel:
+        </strong>
+
         ${escapeHtml(
           post.channel
         )}
+
       </p>
 
+
       <p>
-        <strong>Caption:</strong>
+
+        <strong>
+          Caption:
+        </strong>
+
         <br>
+
         ${escapeHtml(
           post.caption
         )}
+
       </p>
+
 
       ${
         post.link
         ?
         `
           <p>
-            <strong>Link:</strong>
+
+            <strong>
+              Link:
+            </strong>
+
             ${escapeHtml(
               post.link
             )}
+
           </p>
         `
         :
         ""
       }
+
 
       ${
         post.image
@@ -5874,6 +6484,14 @@ function reviewPost(
     .getElementById(
       "confirmPreviewBtn"
     )
+    .textContent =
+      "Continue";
+
+
+  document
+    .getElementById(
+      "confirmPreviewBtn"
+    )
     .onclick =
       () => {
 
@@ -5888,7 +6506,7 @@ function reviewPost(
 }
 
 
-/* OPEN POST CHANNEL */
+/* OPEN POST */
 
 function openPostChannel(
   post
@@ -6030,7 +6648,8 @@ function duplicatePost(
   const post =
     posts.find(
       item =>
-        item.id === id
+        item.id ===
+        id
     );
 
 
@@ -6121,7 +6740,7 @@ function removePost(
 }
 
 
-/* CONTENT PACKS */
+/* PACKS */
 
 function addPack(){
 
@@ -6281,10 +6900,10 @@ function signOut(){
   ){
 
     google.accounts.oauth2
-    .revoke(
-      accessToken,
-      () => {}
-    );
+      .revoke(
+        accessToken,
+        () => {}
+      );
 
   }
 
@@ -6313,6 +6932,14 @@ function signOut(){
     [];
 
 
+  selectedAssignmentIds
+    .clear();
+
+
+  bulkQueue =
+    [];
+
+
   refreshAll();
 
 
@@ -6338,7 +6965,7 @@ function signOut(){
 }
 
 
-/* CLOSE PREVIEW */
+/* MODAL */
 
 function closePreview(){
 
@@ -6354,7 +6981,7 @@ function closePreview(){
 }
 
 
-/* HTML ESCAPING */
+/* SAFE HTML */
 
 function escapeHtml(
   value
@@ -6393,18 +7020,18 @@ function toast(
   message
 ){
 
-  const toast =
+  const toastBox =
     document
       .getElementById(
         "toast"
       );
 
 
-  toast.textContent =
+  toastBox.textContent =
     message;
 
 
-  toast
+  toastBox
     .classList
     .add(
       "show"
@@ -6414,7 +7041,7 @@ function toast(
   setTimeout(
     () => {
 
-      toast
+      toastBox
         .classList
         .remove(
           "show"
@@ -6427,7 +7054,7 @@ function toast(
 }
 
 
-/* INITIAL LOAD */
+/* START */
 
 refreshAll();
 
