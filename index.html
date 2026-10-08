@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>FollowLoop</title>
-
+<title>FollowLoop — Your reminder and follow-up assistant</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
@@ -15,28 +13,20 @@
   --text:#172033;
   --muted:#6b7280;
   --line:#e5e7eb;
-
   --purple:#4f46e5;
   --purple-light:#eef2ff;
-
   --green:#15803d;
   --green-light:#ecfdf3;
-
   --orange:#b45309;
   --orange-light:#fff7ed;
-
   --red:#b91c1c;
   --red-light:#fef2f2;
-
-  --blue-light:#eff6ff;
   --blue:#1d4ed8;
-
+  --blue-light:#eff6ff;
   --shadow:0 12px 34px rgba(15,23,42,.08);
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -45,10 +35,7 @@ body{
   color:var(--text);
 }
 
-button,
-input,
-select,
-textarea{
+button,input,select,textarea{
   font:inherit;
 }
 
@@ -57,22 +44,19 @@ button{
 }
 
 .hidden{
-  display:none !important;
+  display:none!important;
 }
-
-/* LOGIN */
 
 .login-screen{
   min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:grid;
+  place-items:center;
   padding:24px;
 }
 
 .login-card{
-  width:min(560px,100%);
-  background:white;
+  width:min(620px,100%);
+  background:#fff;
   border:1px solid var(--line);
   border-radius:22px;
   padding:36px;
@@ -81,88 +65,106 @@ button{
 }
 
 .logo{
-  width:56px;
-  height:56px;
-  margin:0 auto 16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:15px;
+  width:60px;
+  height:60px;
+  border-radius:16px;
   background:var(--purple);
-  color:white;
+  color:#fff;
+  display:grid;
+  place-items:center;
+  margin:0 auto 14px;
   font-weight:900;
 }
 
-/* TOP BAR */
+.tagline{
+  font-weight:800;
+  color:#334155;
+}
+
+.promise{
+  color:var(--purple);
+  font-weight:850;
+  margin-top:4px;
+}
+
+.primary{
+  background:var(--purple);
+  color:#fff;
+  border:0;
+  border-radius:10px;
+  padding:11px 15px;
+  font-weight:800;
+}
+
+.secondary{
+  background:#fff;
+  color:#334155;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:750;
+}
+
+.danger{
+  background:var(--red-light);
+  color:var(--red);
+  border:1px solid #fecaca;
+  border-radius:10px;
+  padding:9px 12px;
+  font-weight:750;
+}
 
 .topbar{
-  height:70px;
-  background:white;
+  height:76px;
+  background:#fff;
   border-bottom:1px solid var(--line);
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:10px;
-  font-size:20px;
-  font-weight:800;
+  gap:11px;
 }
 
 .brand-logo{
-  width:38px;
-  height:38px;
-  border-radius:11px;
+  width:40px;
+  height:40px;
+  border-radius:12px;
   background:var(--purple);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  color:#fff;
+  display:grid;
+  place-items:center;
   font-weight:900;
 }
 
-/* BUTTONS */
-
-.primary{
-  border:none;
-  background:var(--purple);
-  color:white;
-  padding:11px 15px;
-  border-radius:10px;
-  font-weight:750;
+.brand-copy strong{
+  display:block;
+  font-size:18px;
 }
 
-.secondary{
-  border:1px solid var(--line);
-  background:white;
-  color:#334155;
-  padding:10px 14px;
-  border-radius:10px;
-  font-weight:700;
+.brand-copy span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
 }
-
-.primary:disabled,
-.secondary:disabled{
-  opacity:.4;
-  cursor:not-allowed;
-}
-
-/* LAYOUT */
 
 .layout{
   display:grid;
-  grid-template-columns:230px 1fr;
-  min-height:calc(100vh - 70px);
+  grid-template-columns:240px 1fr;
+  min-height:calc(100vh - 76px);
 }
 
 .sidebar{
-  background:white;
+  background:#fff;
   border-right:1px solid var(--line);
-  padding:22px 16px;
+  padding:20px 16px;
 }
 
 .nav-item{
@@ -180,8 +182,8 @@ button{
 }
 
 .main{
-  padding:30px;
-  max-width:1450px;
+  padding:28px;
+  max-width:1500px;
   width:100%;
   margin:auto;
 }
@@ -194,14 +196,8 @@ button{
   display:block;
 }
 
-/* TYPOGRAPHY */
-
 h1{
-  margin:0 0 8px;
-}
-
-h3{
-  margin-top:0;
+  margin:0 0 7px;
 }
 
 .subtext,
@@ -213,10 +209,8 @@ h3{
   font-size:13px;
 }
 
-/* CARD */
-
 .card{
-  background:white;
+  background:#fff;
   border:1px solid var(--line);
   border-radius:17px;
   padding:20px;
@@ -225,63 +219,20 @@ h3{
 
 .grid{
   display:grid;
-  grid-template-columns:1.35fr .8fr;
-  gap:20px;
-  margin-top:20px;
+  grid-template-columns:1.15fr .85fr;
+  gap:18px;
+  margin-top:18px;
 }
-
-/* SHEETS */
-
-.sheet-search{
-  width:100%;
-  padding:12px;
-  border:1px solid var(--line);
-  border-radius:10px;
-}
-
-.sheet-results{
-  margin-top:7px;
-  border:1px solid var(--line);
-  border-radius:11px;
-  max-height:220px;
-  overflow-y:auto;
-  background:white;
-}
-
-.sheet-item{
-  padding:11px;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;
-}
-
-.sheet-item:hover{
-  background:#f8fafc;
-}
-
-.sheet-item:last-child{
-  border-bottom:none;
-}
-
-.selected-sheet{
-  margin-top:10px;
-  background:var(--purple-light);
-  color:var(--purple);
-  padding:11px;
-  border-radius:9px;
-  font-weight:700;
-}
-
-/* STATS */
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px;
-  margin:20px 0;
+  margin:18px 0;
 }
 
 .stat{
-  background:white;
+  background:#fff;
   border:1px solid var(--line);
   border-radius:13px;
   padding:15px;
@@ -289,11 +240,23 @@ h3{
 
 .stat-number{
   font-size:25px;
-  font-weight:800;
-  margin-top:5px;
+  font-weight:850;
+  margin-top:4px;
 }
 
-/* FORMS */
+.field input,
+.field select,
+.field textarea,
+.sheet-search,
+.action-select,
+.filter-select,
+.chat-input{
+  width:100%;
+  padding:10px 11px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fff;
+}
 
 .form-grid{
   display:grid;
@@ -308,25 +271,12 @@ h3{
   font-weight:800;
 }
 
-.field input,
-.field select,
-.field textarea,
-.action-select{
-  width:100%;
-  padding:10px 11px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:white;
-}
-
 .error-message{
-  min-height:15px;
-  margin-top:4px;
+  min-height:14px;
+  margin-top:3px;
   color:var(--red);
   font-size:11px;
 }
-
-/* VALIDATION */
 
 .validation{
   margin-top:12px;
@@ -353,7 +303,33 @@ h3{
   border:1px solid #fecaca;
 }
 
-/* TABLE */
+.sheet-results{
+  margin-top:7px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  max-height:220px;
+  overflow:auto;
+  background:#fff;
+}
+
+.sheet-item{
+  padding:11px;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+}
+
+.sheet-item:hover{
+  background:#f8fafc;
+}
+
+.selected-sheet{
+  margin-top:10px;
+  background:var(--purple-light);
+  color:var(--purple);
+  padding:11px;
+  border-radius:9px;
+  font-weight:700;
+}
 
 .table-wrap{
   overflow-x:auto;
@@ -362,7 +338,7 @@ h3{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:1150px;
+  min-width:1100px;
 }
 
 th,
@@ -375,12 +351,10 @@ td{
 }
 
 th{
-  color:#64748b;
   font-size:11px;
+  color:#64748b;
   text-transform:uppercase;
 }
-
-/* STATUS */
 
 .status{
   display:inline-block;
@@ -390,47 +364,40 @@ th{
   font-weight:800;
 }
 
-.status.ready{
+.ready{
   background:var(--green-light);
   color:var(--green);
 }
 
-.status.pending{
+.pending{
   background:var(--orange-light);
   color:var(--orange);
 }
 
-.status.bad{
+.bad{
   background:var(--red-light);
   color:var(--red);
 }
 
-.status.due{
+.due{
   background:#fee2e2;
   color:#991b1b;
 }
 
-.status.soon{
+.soon{
   background:var(--orange-light);
   color:#9a3412;
 }
 
-.status.upcoming{
+.upcoming{
   background:var(--blue-light);
   color:var(--blue);
 }
 
-.status.sent{
-  background:var(--green-light);
-  color:#047857;
-}
-
-/* ACTION */
-
 .action-wrap{
   display:flex;
-  align-items:center;
   gap:6px;
+  align-items:center;
 }
 
 .action-select{
@@ -439,31 +406,165 @@ th{
   font-size:12px;
 }
 
-.action-select:disabled{
-  opacity:.45;
-}
-
 .go-button{
   padding:7px 10px;
-  border:none;
+  border:0;
   border-radius:8px;
   background:var(--purple);
-  color:white;
+  color:#fff;
   font-size:12px;
-  font-weight:750;
+  font-weight:800;
 }
 
-.go-button:disabled{
+.go-button:disabled,
+.action-select:disabled{
   opacity:.4;
   cursor:not-allowed;
 }
 
+.toolbar{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.filter-select{
+  width:auto;
+  min-width:150px;
+}
+
 .empty{
-  padding:25px;
+  padding:24px;
   text-align:center;
   color:var(--muted);
   border:1px dashed var(--line);
   border-radius:10px;
+}
+
+.chat-shell{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:18px;
+}
+
+.chat-window{
+  min-height:460px;
+  display:flex;
+  flex-direction:column;
+}
+
+.chat-log{
+  flex:1;
+  background:#fafafa;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px;
+  overflow:auto;
+  max-height:420px;
+}
+
+.msg{
+  max-width:82%;
+  padding:10px 12px;
+  border-radius:12px;
+  margin:8px 0;
+  line-height:1.45;
+  font-size:14px;
+}
+
+.msg.user{
+  margin-left:auto;
+  background:var(--purple);
+  color:#fff;
+}
+
+.msg.bot{
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.chat-compose{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.chat-input{
+  min-height:72px;
+  resize:vertical;
+}
+
+.chat-hint{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.image-preview{
+  width:120px;
+  height:90px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid var(--line);
+  margin-top:8px;
+}
+
+.pack-card{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:10px;
+  background:#fff;
+}
+
+.pack-title{
+  font-weight:850;
+}
+
+.queue-card{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:10px;
+  background:#fff;
+}
+
+.queue-meta{
+  font-size:12px;
+  color:var(--muted);
+  margin:5px 0;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:100;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:min(650px,100%);
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.modal-actions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  margin-top:16px;
 }
 
 .toast{
@@ -472,60 +573,45 @@ th{
   right:22px;
   bottom:22px;
   background:#111827;
-  color:white;
+  color:#fff;
   padding:12px 15px;
   border-radius:9px;
-  z-index:100;
+  z-index:120;
 }
 
 .toast.show{
   display:block;
 }
 
-@media(max-width:900px){
-
-  .layout{
-    grid-template-columns:1fr;
-  }
-
-  .sidebar{
-    display:none;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .main{
-    padding:18px;
-  }
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .grid,.chat-shell{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:1fr}
+  .main{padding:18px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-
 <div id="loginScreen" class="login-screen">
-
   <div class="login-card">
-
     <div class="logo">FL</div>
 
-    <h1>Welcome to FollowLoop</h1>
+    <h1>FollowLoop</h1>
+
+    <div class="tagline">
+      Your reminder and follow-up assistant.
+    </div>
+
+    <div class="promise">
+      Nothing falls through.
+    </div>
 
     <p class="subtext">
-      Turn your Google Sheets rota or manual entries into reminders,
-      calendar actions and follow-ups.
+      Stay on top of reminders and follow-ups, without letting anything slip.
     </p>
 
     <button
@@ -533,21 +619,32 @@ th{
       onclick="googleLogin()">
       Continue with Google
     </button>
-
   </div>
-
 </div>
 
-
-<!-- APP -->
 
 <div id="appShell" class="hidden">
 
 <header class="topbar">
 
   <div class="brand">
-    <div class="brand-logo">FL</div>
-    FollowLoop
+
+    <div class="brand-logo">
+      FL
+    </div>
+
+    <div class="brand-copy">
+
+      <strong>
+        FollowLoop
+      </strong>
+
+      <span>
+        Your reminder and follow-up assistant · Nothing falls through.
+      </span>
+
+    </div>
+
   </div>
 
   <button
@@ -561,9 +658,6 @@ th{
 
 <div class="layout">
 
-
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
   <div
@@ -575,9 +669,30 @@ th{
 
   <div
     class="nav-item"
+    data-target="chat"
+    onclick="showSection('chat',this)">
+    Chat
+  </div>
+
+  <div
+    class="nav-item"
     data-target="assignments"
     onclick="showSection('assignments',this)">
     Assignments
+  </div>
+
+  <div
+    class="nav-item"
+    data-target="contentqueue"
+    onclick="showSection('contentqueue',this)">
+    Content Queue
+  </div>
+
+  <div
+    class="nav-item"
+    data-target="packs"
+    onclick="showSection('packs',this)">
+    Content Packs
   </div>
 
   <div
@@ -607,8 +722,6 @@ th{
 <main class="main">
 
 
-<!-- DASHBOARD -->
-
 <section id="dashboard" class="section active">
 
   <h1 id="welcomeTitle">
@@ -616,74 +729,7 @@ th{
   </h1>
 
   <div class="subtext">
-    Choose a Google Sheet or add people manually.
-    FollowLoop validates every reminder before actions are enabled.
-  </div>
-
-
-  <div class="grid">
-
-    <div class="card">
-
-      <h3>Choose a Google Sheet</h3>
-
-      <input
-        id="sheetSearch"
-        class="sheet-search"
-        placeholder="Search Google Sheets..."
-        onfocus="showSheetResults()"
-        oninput="filterSheets()">
-
-      <div
-        id="sheetResults"
-        class="sheet-results hidden">
-      </div>
-
-      <div
-        id="selectedSheet"
-        class="selected-sheet hidden">
-      </div>
-
-      <div
-        style="margin-top:12px;display:flex;gap:8px">
-
-        <button
-          class="secondary"
-          onclick="showSheetResults()">
-          Browse Sheets
-        </button>
-
-        <button
-          id="loadSheetButton"
-          class="primary"
-          disabled
-          onclick="loadSelectedSheet()">
-          Load selected Sheet
-        </button>
-
-      </div>
-
-      <div id="sheetValidation"></div>
-
-    </div>
-
-
-    <div class="card">
-
-      <h3>Add manually</h3>
-
-      <p class="small">
-        Add one reminder without preparing a Sheet.
-      </p>
-
-      <button
-        class="primary"
-        onclick="openManualEntry()">
-        Add a person
-      </button>
-
-    </div>
-
+    See what is due, what needs attention, and what still needs follow-up.
   </div>
 
 
@@ -712,14 +758,98 @@ th{
   </div>
 
 
-  <div class="card">
+  <div class="grid">
 
-    <h3>Validation summary</h3>
+    <div class="card">
 
-    <div
-      id="globalValidation"
-      class="validation warning">
-      No assignments loaded yet.
+      <h3>Choose a Google Sheet</h3>
+
+      <input
+        id="sheetSearch"
+        class="sheet-search"
+        placeholder="Search Google Sheets..."
+        onfocus="showSheetResults()"
+        oninput="filterSheets()">
+
+      <div
+        id="sheetResults"
+        class="sheet-results hidden">
+      </div>
+
+      <div
+        id="selectedSheet"
+        class="selected-sheet hidden">
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:8px">
+
+        <button
+          class="secondary"
+          onclick="showSheetResults()">
+          Browse Sheets
+        </button>
+
+        <button
+          id="loadSheetButton"
+          class="primary"
+          disabled
+          onclick="loadSelectedSheet()">
+          Load selected Sheet
+        </button>
+
+      </div>
+
+      <div id="sheetValidation"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>
+        Due today
+      </h3>
+
+      <div
+        id="dueTodayList"
+        class="empty">
+        Nothing due yet.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid">
+
+    <div class="card">
+
+      <h3>
+        Posts due today
+      </h3>
+
+      <div
+        id="postsDueToday"
+        class="empty">
+        No scheduled posts due today.
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>
+        Validation summary
+      </h3>
+
+      <div
+        id="globalValidation"
+        class="validation warning">
+        No assignments loaded yet.
+      </div>
+
     </div>
 
   </div>
@@ -727,27 +857,118 @@ th{
 </section>
 
 
-<!-- ASSIGNMENTS -->
+<section id="chat" class="section">
+
+  <h1>
+    FollowLoop Chat
+  </h1>
+
+  <div class="subtext">
+    Tell FollowLoop what you need in simple language.
+    This MVP interprets common reminder and post commands,
+    then asks you to confirm.
+  </div>
+
+
+  <div
+    class="chat-shell"
+    style="margin-top:18px">
+
+
+    <div class="card chat-window">
+
+      <div
+        id="chatLog"
+        class="chat-log">
+
+        <div class="msg bot">
+          Hi. Tell me what you need to remember,
+          follow up, or prepare to post.
+        </div>
+
+      </div>
+
+
+      <div class="chat-compose">
+
+        <textarea
+          id="chatInput"
+          class="chat-input"
+          placeholder="Examples:
+Emmanuel Saturday meeting 4pm
+Prepare a WhatsApp post for Friday 8am with this YouTube link
+Remind Ada tomorrow about worship"></textarea>
+
+        <button
+          class="primary"
+          onclick="handleChat()">
+          Send
+        </button>
+
+      </div>
+
+
+      <div class="chat-hint">
+        MVP note: this is a lightweight interpreter,
+        not the full AI assistant yet.
+        It will ask when information is missing rather than guessing.
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h3>
+        Add image for this conversation
+      </h3>
+
+      <input
+        id="chatImage"
+        type="file"
+        accept="image/*"
+        onchange="previewChatImage(event)">
+
+      <img
+        id="chatImagePreview"
+        class="image-preview hidden"
+        alt="preview">
+
+      <p class="small">
+        For the MVP, images stay in your browser session.
+        Persistent Drive uploads come later.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 <section id="assignments" class="section">
 
-  <h1>Assignments</h1>
+  <h1>
+    Assignments
+  </h1>
 
   <div class="subtext">
-    Each reminder needs complete event, reminder and contact information.
+    Each reminder must be complete before Calendar,
+    Email or WhatsApp becomes available.
   </div>
 
 
   <div
     id="manualForm"
     class="card"
-    style="margin:20px 0">
+    style="margin:18px 0">
 
-    <h3>Add a reminder manually</h3>
+    <h3>
+      Add a reminder manually
+    </h3>
 
 
     <div class="form-grid">
-
 
       <div class="field">
 
@@ -767,9 +988,7 @@ th{
 
         <label>Email *</label>
 
-        <input
-          id="manualEmail"
-          type="email">
+        <input id="manualEmail">
 
         <div
           id="errorEmail"
@@ -783,9 +1002,7 @@ th{
 
         <label>WhatsApp number *</label>
 
-        <input
-          id="manualPhone"
-          placeholder="+234...">
+        <input id="manualPhone">
 
         <div
           id="errorPhone"
@@ -797,7 +1014,9 @@ th{
 
       <div class="field">
 
-        <label>Assignment / Event *</label>
+        <label>
+          Assignment / Event *
+        </label>
 
         <input id="manualTask">
 
@@ -811,7 +1030,9 @@ th{
 
       <div class="field">
 
-        <label>Event date *</label>
+        <label>
+          Event date *
+        </label>
 
         <input
           id="manualDate"
@@ -827,7 +1048,9 @@ th{
 
       <div class="field">
 
-        <label>Event time *</label>
+        <label>
+          Event time *
+        </label>
 
         <input
           id="manualTime"
@@ -843,7 +1066,9 @@ th{
 
       <div class="field">
 
-        <label>Reminder date *</label>
+        <label>
+          Reminder date *
+        </label>
 
         <input
           id="manualReminderDate"
@@ -859,7 +1084,9 @@ th{
 
       <div class="field">
 
-        <label>Reminder stage *</label>
+        <label>
+          Reminder stage *
+        </label>
 
         <select id="manualStage">
 
@@ -905,12 +1132,14 @@ th{
         class="field"
         style="grid-column:1/-1">
 
-        <label>Reminder message *</label>
+        <label>
+          Reminder message *
+        </label>
 
         <textarea
           id="manualMessage"
-          rows="4"
-          placeholder="Hi Tobi, this is a reminder that you are leading worship tomorrow..."></textarea>
+          rows="4">
+        </textarea>
 
         <div
           id="errorMessage"
@@ -918,7 +1147,6 @@ th{
         </div>
 
       </div>
-
 
     </div>
 
@@ -944,6 +1172,42 @@ th{
 
 
   <div class="card">
+
+    <div class="toolbar">
+
+      <strong>
+        Filter:
+      </strong>
+
+      <select
+        id="assignmentFilter"
+        class="filter-select"
+        onchange="renderAssignments()">
+
+        <option value="all">
+          All
+        </option>
+
+        <option value="due">
+          Due today
+        </option>
+
+        <option value="overdue">
+          Overdue
+        </option>
+
+        <option value="ready">
+          Ready
+        </option>
+
+        <option value="bad">
+          Needs attention
+        </option>
+
+      </select>
+
+    </div>
+
 
     <div class="table-wrap">
 
@@ -990,20 +1254,294 @@ th{
 </section>
 
 
-<!-- FOLLOW UPS -->
+<section id="contentqueue" class="section">
 
-<section id="followups" class="section">
-
-  <h1>Follow-ups</h1>
+  <h1>
+    Content Queue
+  </h1>
 
   <div class="subtext">
-    Track each reminder action separately.
+    Prepare posts once.
+    Review and send when they become due.
   </div>
 
 
   <div
     class="card"
-    style="margin-top:20px">
+    style="margin:18px 0">
+
+    <h3>
+      Schedule a post
+    </h3>
+
+
+    <div class="form-grid">
+
+      <div class="field">
+
+        <label>
+          Pack / Group
+        </label>
+
+        <input
+          id="postPack"
+          placeholder="e.g. Weekly Prayer Rota">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Post title *
+        </label>
+
+        <input
+          id="postTitle"
+          placeholder="e.g. Monday Reminder">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Post date *
+        </label>
+
+        <input
+          id="postDate"
+          type="date">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Post time *
+        </label>
+
+        <input
+          id="postTime"
+          type="time">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Channel *
+        </label>
+
+        <select id="postChannel">
+
+          <option value="">
+            Choose channel
+          </option>
+
+          <option>
+            WhatsApp
+          </option>
+
+          <option>
+            Email
+          </option>
+
+          <option>
+            Calendar
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Link
+        </label>
+
+        <input
+          id="postLink"
+          placeholder="https://youtube.com/...">
+
+      </div>
+
+
+      <div
+        class="field"
+        style="grid-column:1/-1">
+
+        <label>
+          Caption / Message *
+        </label>
+
+        <textarea
+          id="postCaption"
+          rows="4"
+          placeholder="Today's message...">
+        </textarea>
+
+      </div>
+
+
+      <div
+        class="field"
+        style="grid-column:1/-1">
+
+        <label>
+          Image (optional)
+        </label>
+
+        <input
+          id="postImage"
+          type="file"
+          accept="image/*"
+          onchange="previewPostImage(event)">
+
+        <img
+          id="postImagePreview"
+          class="image-preview hidden">
+
+      </div>
+
+    </div>
+
+
+    <div style="margin-top:12px">
+
+      <button
+        class="primary"
+        onclick="addPost()">
+        Add to queue
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="toolbar">
+
+      <strong>
+        Filter:
+      </strong>
+
+      <select
+        id="postFilter"
+        class="filter-select"
+        onchange="renderPosts()">
+
+        <option value="all">
+          All
+        </option>
+
+        <option value="due">
+          Due today
+        </option>
+
+        <option value="upcoming">
+          Upcoming
+        </option>
+
+        <option value="sent">
+          Sent
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div id="postQueue"></div>
+
+  </div>
+
+</section>
+
+
+<section id="packs" class="section">
+
+  <h1>
+    Content Packs
+  </h1>
+
+  <div class="subtext">
+    Group recurring communication into one reusable pack.
+  </div>
+
+
+  <div
+    class="card"
+    style="margin:18px 0">
+
+    <div class="form-grid">
+
+      <div class="field">
+
+        <label>
+          Pack name *
+        </label>
+
+        <input
+          id="packName"
+          placeholder="e.g. AVGM Weekly Pack">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Description
+        </label>
+
+        <input
+          id="packDescription"
+          placeholder="Rota + daily reminder posts">
+
+      </div>
+
+    </div>
+
+
+    <div style="margin-top:12px">
+
+      <button
+        class="primary"
+        onclick="addPack()">
+        Create pack
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div id="packList"></div>
+
+</section>
+
+
+<section id="followups" class="section">
+
+  <h1>
+    Follow-ups
+  </h1>
+
+  <div class="subtext">
+    Track what has been opened and what still needs attention.
+  </div>
+
+
+  <div
+    class="card"
+    style="margin-top:18px">
 
     <div class="table-wrap">
 
@@ -1048,55 +1586,95 @@ th{
 </section>
 
 
-<!-- INTEGRATIONS -->
-
 <section id="integrations" class="section">
 
-  <h1>Integrations</h1>
+  <h1>
+    Integrations
+  </h1>
+
 
   <div
     class="card"
-    style="margin-top:20px">
+    style="margin-top:18px">
 
     <p>
 
-      <strong>Calendar</strong>
+      <strong>
+        Google Sheets
+      </strong>
 
       <br>
 
       <span class="small">
-        Opens a Google Calendar event using the event date,
-        event time and reminder message.
+        Source of truth for people,
+        events, reminder dates and messages.
       </span>
 
     </p>
 
-    <hr style="border:none;border-top:1px solid var(--line)">
 
     <p>
 
-      <strong>Email</strong>
+      <strong>
+        Calendar
+      </strong>
 
       <br>
 
       <span class="small">
-        Opens Gmail compose with the recipient,
-        subject and reminder message already filled.
+        Opens a pre-filled Google Calendar event.
       </span>
 
     </p>
 
-    <hr style="border:none;border-top:1px solid var(--line)">
 
     <p>
 
-      <strong>WhatsApp</strong>
+      <strong>
+        Email
+      </strong>
 
       <br>
 
       <span class="small">
-        Opens WhatsApp with the reminder message
-        already filled for the selected person.
+        Opens Gmail compose with recipient,
+        subject and message pre-filled.
+      </span>
+
+    </p>
+
+
+    <p>
+
+      <strong>
+        WhatsApp
+      </strong>
+
+      <br>
+
+      <span class="small">
+        Opens WhatsApp with the message pre-filled.
+        Media still needs manual attachment
+        in this browser-only MVP.
+      </span>
+
+    </p>
+
+
+    <p>
+
+      <strong>
+        Daily FollowLoop digest
+      </strong>
+
+      <br>
+
+      <span class="small">
+        Planned next:
+        scheduled email/push summary such as
+        “2 posts and 3 follow-ups due today.”
+        This needs a background scheduler
+        such as Apps Script or a backend.
       </span>
 
     </p>
@@ -1106,15 +1684,17 @@ th{
 </section>
 
 
-<!-- SETTINGS -->
-
 <section id="settings" class="section">
 
-  <h1>Settings</h1>
+  <h1>
+    Settings
+  </h1>
+
 
   <div
     class="card"
-    style="margin-top:20px;max-width:700px">
+    style="margin-top:18px;max-width:720px">
+
 
     <div class="field">
 
@@ -1146,6 +1726,22 @@ th{
 
     </div>
 
+
+    <div
+      class="field"
+      style="margin-top:12px">
+
+      <label>
+        Default daily digest time
+      </label>
+
+      <input
+        id="digestTime"
+        type="time"
+        value="08:00">
+
+    </div>
+
   </div>
 
 </section>
@@ -1157,16 +1753,45 @@ th{
 
 
 <div
+  id="previewModal"
+  class="modal">
+
+  <div class="modal-card">
+
+    <h3>
+      Review before opening
+    </h3>
+
+    <div id="previewContent"></div>
+
+    <div class="modal-actions">
+
+      <button
+        class="secondary"
+        onclick="closePreview()">
+        Cancel
+      </button>
+
+      <button
+        id="confirmPreviewBtn"
+        class="primary">
+        Continue
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
   id="toast"
   class="toast">
 </div>
 
 
 <script>
-
-/* ===================================
-   GOOGLE CONFIG
-=================================== */
 
 const CLIENT_ID =
 "8491069642-pkgjuvmjuogs2vqus9nkoe4n868eb6dk.apps.googleusercontent.com";
@@ -1182,14 +1807,22 @@ let selectedSheet = null;
 
 let assignments = [];
 
+let pendingPreview = null;
 
-/* ===================================
-   NAVIGATION
-=================================== */
+let posts = [];
+
+let packs = [];
+
+let chatImageData = null;
+
+let postImageData = null;
+
+
+/* NAVIGATION */
 
 function showSection(
-  sectionId,
-  clickedItem = null
+  id,
+  el = null
 ){
 
   document
@@ -1199,17 +1832,21 @@ function showSection(
     .forEach(
       section =>
         section
-          .classList
-          .remove("active")
+        .classList
+        .remove(
+          "active"
+        )
     );
 
 
   document
     .getElementById(
-      sectionId
+      id
     )
     .classList
-    .add("active");
+    .add(
+      "active"
+    );
 
 
   document
@@ -1219,76 +1856,53 @@ function showSection(
     .forEach(
       item =>
         item
-          .classList
-          .remove("active")
+        .classList
+        .remove(
+          "active"
+        )
     );
 
 
-  const item =
-    clickedItem ||
+  const target =
+    el ||
     document.querySelector(
-      `.nav-item[data-target="${sectionId}"]`
+      `.nav-item[data-target="${id}"]`
     );
 
 
-  if(item){
+  if(
+    target
+  ){
 
-    item
+    target
       .classList
-      .add("active");
+      .add(
+        "active"
+      );
 
   }
 
 }
 
 
-function openManualEntry(){
-
-  showSection(
-    "assignments"
-  );
-
-
-  setTimeout(
-    () => {
-
-      document
-        .getElementById(
-          "manualForm"
-        )
-        .scrollIntoView({
-          behavior:"smooth"
-        });
-
-    },
-    100
-  );
-
-}
-
-
-/* ===================================
-   GOOGLE LOGIN
-=================================== */
+/* GOOGLE LOGIN */
 
 function googleLogin(){
 
   if(
-    !window.google ||
-    !google.accounts ||
-    !google.accounts.oauth2
+    !window.google?.accounts?.oauth2
   ){
 
-    toast(
+    return toast(
       "Google sign-in is still loading."
     );
-
-    return;
 
   }
 
 
-  if(!tokenClient){
+  if(
+    !tokenClient
+  ){
 
     tokenClient =
       google.accounts.oauth2
@@ -1309,11 +1923,9 @@ function googleLogin(){
               response.error
             ){
 
-              toast(
+              return toast(
                 "Google authentication failed."
               );
-
-              return;
 
             }
 
@@ -1327,7 +1939,9 @@ function googleLogin(){
                 "loginScreen"
               )
               .classList
-              .add("hidden");
+              .add(
+                "hidden"
+              );
 
 
             document
@@ -1335,7 +1949,9 @@ function googleLogin(){
                 "appShell"
               )
               .classList
-              .remove("hidden");
+              .remove(
+                "hidden"
+              );
 
 
             await loadProfile();
@@ -1357,9 +1973,7 @@ function googleLogin(){
 }
 
 
-/* ===================================
-   USER PROFILE
-=================================== */
+/* GOOGLE PROFILE */
 
 async function loadProfile(){
 
@@ -1391,9 +2005,7 @@ async function loadProfile(){
           "welcomeTitle"
         )
         .textContent =
-          "Welcome back, " +
-          profile.given_name +
-          " 👋🏾";
+          `Welcome back, ${profile.given_name} 👋🏾`;
 
     }
 
@@ -1408,68 +2020,52 @@ async function loadProfile(){
 }
 
 
-/* ===================================
-   GOOGLE SHEETS
-=================================== */
+/* LOAD GOOGLE SHEETS */
 
 async function loadGoogleSheets(){
 
-  try{
-
-    const query =
-      encodeURIComponent(
-        "mimeType='application/vnd.google-apps.spreadsheet' and trashed=false"
-      );
+  const query =
+    encodeURIComponent(
+      "mimeType='application/vnd.google-apps.spreadsheet' and trashed=false"
+    );
 
 
-    const response =
-      await fetch(
+  const response =
+    await fetch(
 
-        "https://www.googleapis.com/drive/v3/files?" +
+      "https://www.googleapis.com/drive/v3/files?" +
 
-        "q=" +
-        query +
+      "q=" +
+      query +
 
-        "&pageSize=100" +
+      "&pageSize=100" +
 
-        "&orderBy=modifiedTime desc" +
+      "&orderBy=modifiedTime desc" +
 
-        "&fields=files(id,name,modifiedTime)",
+      "&fields=files(id,name,modifiedTime)",
 
-        {
-          headers:{
-            Authorization:
-              "Bearer " +
-              accessToken
-          }
+      {
+        headers:{
+          Authorization:
+            "Bearer " +
+            accessToken
         }
+      }
 
-      );
-
-
-    const result =
-      await response.json();
-
-
-    googleSheets =
-      result.files || [];
-
-
-    renderSheetResults(
-      googleSheets
     );
 
-  }
 
-  catch(error){
+  const data =
+    await response.json();
 
-    console.error(error);
 
-    toast(
-      "Could not load Google Sheets."
-    );
+  googleSheets =
+    data.files || [];
 
-  }
+
+  renderSheetResults(
+    googleSheets
+  );
 
 }
 
@@ -1481,14 +2077,16 @@ function showSheetResults(){
       "sheetResults"
     )
     .classList
-    .remove("hidden");
+    .remove(
+      "hidden"
+    );
 
 }
 
 
 function filterSheets(){
 
-  const search =
+  const query =
     document
       .getElementById(
         "sheetSearch"
@@ -1498,19 +2096,17 @@ function filterSheets(){
       .trim();
 
 
-  const filtered =
+  renderSheetResults(
+
     googleSheets.filter(
       sheet =>
         sheet.name
         .toLowerCase()
         .includes(
-          search
+          query
         )
-    );
+    )
 
-
-  renderSheetResults(
-    filtered
   );
 
 
@@ -1524,16 +2120,18 @@ function renderSheetResults(
 ){
 
   const container =
-    document.getElementById(
-      "sheetResults"
-    );
+    document
+      .getElementById(
+        "sheetResults"
+      );
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   if(
-    list.length === 0
+    !list.length
   ){
 
     container.innerHTML =
@@ -1547,25 +2145,18 @@ function renderSheetResults(
   list.forEach(
     sheet => {
 
-      const row =
-        document.createElement(
-          "div"
-        );
+      const item =
+        document
+          .createElement(
+            "div"
+          );
 
 
-      row.className =
+      item.className =
         "sheet-item";
 
 
-      const modified =
-        sheet.modifiedTime
-        ? new Date(
-            sheet.modifiedTime
-          ).toLocaleString()
-        : "";
-
-
-      row.innerHTML = `
+      item.innerHTML = `
 
         <strong>
           📄
@@ -1575,13 +2166,18 @@ function renderSheetResults(
         </strong>
 
         <div class="small">
-          ${modified}
+          ${
+            new Date(
+              sheet.modifiedTime
+            )
+            .toLocaleString()
+          }
         </div>
 
       `;
 
 
-      row.onclick =
+      item.onclick =
         () =>
           selectSheet(
             sheet
@@ -1590,10 +2186,11 @@ function renderSheetResults(
 
       container
         .appendChild(
-          row
+          item
         );
 
     }
+
   );
 
 }
@@ -1607,19 +2204,19 @@ function selectSheet(
     sheet;
 
 
-  const selected =
-    document
-      .getElementById(
-        "selectedSheet"
-      );
+  document
+    .getElementById(
+      "selectedSheet"
+    )
+    .textContent =
+      "Selected: " +
+      sheet.name;
 
 
-  selected.textContent =
-    "Selected: " +
-    sheet.name;
-
-
-  selected
+  document
+    .getElementById(
+      "selectedSheet"
+    )
     .classList
     .remove(
       "hidden"
@@ -1654,13 +2251,13 @@ function selectSheet(
 }
 
 
-/* ===================================
-   LOAD SELECTED SHEET
-=================================== */
+/* LOAD SELECTED SHEET */
 
 async function loadSelectedSheet(){
 
-  if(!selectedSheet){
+  if(
+    !selectedSheet
+  ){
     return;
   }
 
@@ -1702,39 +2299,40 @@ async function loadSelectedSheet(){
       );
 
 
-    const firstTab =
-      metadata.sheets &&
-      metadata.sheets[0] &&
-      metadata.sheets[0]
-        .properties
-        .title;
+    const tab =
+      metadata
+      .sheets?.[0]
+      ?.properties
+      ?.title;
 
 
-    if(!firstTab){
+    if(
+      !tab
+    ){
 
       throw new Error(
-        "No tab found"
+        "No tab"
       );
 
     }
 
 
-    const safeTab =
-      firstTab.replaceAll(
-        "'",
-        "''"
-      );
-
-
     const range =
       encodeURIComponent(
+
         "'" +
-        safeTab +
+
+        tab.replaceAll(
+          "'",
+          "''"
+        ) +
+
         "'!A1:Z500"
+
       );
 
 
-    const result =
+    const data =
       await fetch(
 
         "https://sheets.googleapis.com/v4/spreadsheets/" +
@@ -1762,12 +2360,14 @@ async function loadSelectedSheet(){
 
     const worked =
       importSheetRows(
-        result.values || [],
+        data.values || [],
         selectedSheet.name
       );
 
 
-    if(worked){
+    if(
+      worked
+    ){
 
       box.innerHTML =
         '<div class="validation ok">Sheet loaded and validated.</div>';
@@ -1787,27 +2387,21 @@ async function loadSelectedSheet(){
 
 
     box.innerHTML =
-      `<div class="validation error">
-
-        FollowLoop could not read this Sheet.
-
-      </div>`;
+      '<div class="validation error">FollowLoop could not read this Sheet.</div>';
 
   }
 
 }
 
 
-/* ===================================
-   COLUMN DETECTION
-=================================== */
+/* SHEET HEADER MATCHING */
 
-function normalizeHeader(
-  value
+function norm(
+  header
 ){
 
   return String(
-    value || ""
+    header || ""
   )
   .trim()
   .toLowerCase()
@@ -1821,24 +2415,24 @@ function normalizeHeader(
 
 function findHeader(
   headers,
-  possibleNames
+  names
 ){
 
   const normalized =
     headers.map(
-      normalizeHeader
+      norm
     );
 
 
   for(
-    const possibleName
-    of possibleNames
+    const name
+    of names
   ){
 
     const index =
       normalized.indexOf(
-        normalizeHeader(
-          possibleName
+        norm(
+          name
         )
       );
 
@@ -1859,13 +2453,11 @@ function findHeader(
 }
 
 
-/* ===================================
-   IMPORT SHEET ROWS
-=================================== */
+/* IMPORT GOOGLE SHEET */
 
 function importSheetRows(
   rows,
-  sourceName
+  source
 ){
 
   if(
@@ -1877,11 +2469,7 @@ function importSheetRows(
         "sheetValidation"
       )
       .innerHTML =
-        `<div class="validation error">
-
-          This Sheet does not contain reminder rows.
-
-        </div>`;
+        '<div class="validation error">This Sheet has no reminder rows.</div>';
 
 
     return false;
@@ -1991,19 +2579,19 @@ function importSheetRows(
 
   const missing =
     Object
-      .entries(
-        columns
-      )
-      .filter(
-        ([key,value]) =>
-          value < 0
-      )
-      .map(
-        ([key]) =>
-          friendlyField(
-            key
-          )
-      );
+    .entries(
+      columns
+    )
+    .filter(
+      ([key,value]) =>
+        value < 0
+    )
+    .map(
+      ([key]) =>
+        friendly(
+          key
+        )
+    );
 
 
   if(
@@ -2024,11 +2612,6 @@ function importSheetRows(
 
           ${missing.join(", ")}.
 
-          <br><br>
-
-          Please add the missing headings
-          to the first row of the Sheet.
-
         </div>
 
       `;
@@ -2045,10 +2628,12 @@ function importSheetRows(
     .filter(
       row =>
         row.some(
-          cell =>
+          value =>
             String(
-              cell || ""
-            ).trim() !== ""
+              value || ""
+            )
+            .trim()
+            !== ""
         )
     )
     .map(
@@ -2061,49 +2646,59 @@ function importSheetRows(
           index,
 
         source:
-          sourceName,
+
+          source,
 
         name:
+
           row[
             columns.name
           ] || "",
 
         email:
+
           row[
             columns.email
           ] || "",
 
         phone:
+
           row[
             columns.phone
           ] || "",
 
         task:
+
           row[
             columns.task
           ] || "",
 
         date:
+
           row[
             columns.date
           ] || "",
 
         time:
+
           row[
             columns.time
           ] || "",
 
         reminderDate:
+
           row[
             columns.reminderDate
           ] || "",
 
         stage:
+
           row[
             columns.stage
           ] || "",
 
         message:
+
           row[
             columns.message
           ] || "",
@@ -2122,16 +2717,15 @@ function importSheetRows(
 
 
   assignments =
-    assignments.filter(
+    assignments
+    .filter(
       assignment =>
         assignment.source
-        !== sourceName
+        !== source
+    )
+    .concat(
+      imported
     );
-
-
-  assignments.push(
-    ...imported
-  );
 
 
   refreshAll();
@@ -2142,15 +2736,13 @@ function importSheetRows(
 }
 
 
-/* ===================================
-   VALIDATION
-=================================== */
+/* FRIENDLY FIELD NAMES */
 
-function friendlyField(
-  field
+function friendly(
+  key
 ){
 
-  const names = {
+  return ({
 
     name:
       "Name",
@@ -2179,28 +2771,26 @@ function friendlyField(
     message:
       "Reminder message"
 
-  };
-
-
-  return (
-    names[field] ||
-    field
-  );
+  })[key] || key;
 
 }
 
 
-function validateAssignment(
+/* VALIDATION */
+
+function validate(
   assignment
 ){
 
-  const errors = [];
+  const errors =
+    [];
 
 
   if(
     !String(
       assignment.name || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2213,7 +2803,8 @@ function validateAssignment(
   if(
     !String(
       assignment.email || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2239,7 +2830,8 @@ function validateAssignment(
   if(
     !String(
       assignment.phone || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2252,7 +2844,8 @@ function validateAssignment(
   if(
     !String(
       assignment.task || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2265,7 +2858,8 @@ function validateAssignment(
   if(
     !String(
       assignment.date || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2278,7 +2872,8 @@ function validateAssignment(
   if(
     !String(
       assignment.time || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2291,7 +2886,8 @@ function validateAssignment(
   if(
     !String(
       assignment.reminderDate || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2304,7 +2900,8 @@ function validateAssignment(
   if(
     !String(
       assignment.stage || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2317,7 +2914,8 @@ function validateAssignment(
   if(
     !String(
       assignment.message || ""
-    ).trim()
+    )
+    .trim()
   ){
 
     errors.push(
@@ -2332,24 +2930,23 @@ function validateAssignment(
 }
 
 
-function assignmentReady(
+function ready(
   assignment
 ){
 
   return (
-    validateAssignment(
+    validate(
       assignment
-    ).length === 0
+    )
+    .length === 0
   );
 
 }
 
 
-/* ===================================
-   MANUAL ENTRY
-=================================== */
+/* BASIC VALUE HELPER */
 
-function valueOf(
+function val(
   id
 ){
 
@@ -2362,6 +2959,8 @@ function valueOf(
 
 }
 
+
+/* MANUAL REMINDER ENTRY */
 
 function addManualPerson(){
 
@@ -2378,47 +2977,47 @@ function addManualPerson(){
       "Manual",
 
     name:
-      valueOf(
+      val(
         "manualName"
       ),
 
     email:
-      valueOf(
+      val(
         "manualEmail"
       ),
 
     phone:
-      valueOf(
+      val(
         "manualPhone"
       ),
 
     task:
-      valueOf(
+      val(
         "manualTask"
       ),
 
     date:
-      valueOf(
+      val(
         "manualDate"
       ),
 
     time:
-      valueOf(
+      val(
         "manualTime"
       ),
 
     reminderDate:
-      valueOf(
+      val(
         "manualReminderDate"
       ),
 
     stage:
-      valueOf(
+      val(
         "manualStage"
       ),
 
     message:
-      valueOf(
+      val(
         "manualMessage"
       ),
 
@@ -2435,12 +3034,12 @@ function addManualPerson(){
 
 
   const errors =
-    validateAssignment(
+    validate(
       assignment
     );
 
 
-  const messages = {
+  const map = {
 
     "Name":[
       "errorName",
@@ -2503,15 +3102,15 @@ function addManualPerson(){
       error => {
 
         if(
-          messages[error]
+          map[error]
         ){
 
           document
             .getElementById(
-              messages[error][0]
+              map[error][0]
             )
             .textContent =
-              messages[error][1];
+              map[error][1];
 
         }
 
@@ -2519,12 +3118,9 @@ function addManualPerson(){
     );
 
 
-    toast(
+    return toast(
       "Please complete the highlighted fields."
     );
-
-
-    return;
 
   }
 
@@ -2564,7 +3160,9 @@ function clearErrors(){
     id => {
 
       document
-        .getElementById(id)
+        .getElementById(
+          id
+        )
         .textContent =
           "";
 
@@ -2591,7 +3189,9 @@ function clearManualForm(){
     id => {
 
       document
-        .getElementById(id)
+        .getElementById(
+          id
+        )
         .value =
           "";
 
@@ -2604,11 +3204,9 @@ function clearManualForm(){
 }
 
 
-/* ===================================
-   DUE LOGIC
-=================================== */
+/* DATE HELPERS */
 
-function parseReminderDate(
+function parseDateLoose(
   value
 ){
 
@@ -2628,7 +3226,38 @@ function parseReminderDate(
 
 
   if(
-    isNaN(date)
+    isNaN(
+      date
+    )
+  ){
+
+    const match =
+      String(
+        value
+      )
+      .match(
+        /(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/
+      );
+
+
+    if(
+      match
+    ){
+
+      date =
+        new Date(
+          `${match[2]} ${match[1]}, ${match[3]}`
+        );
+
+    }
+
+  }
+
+
+  if(
+    isNaN(
+      date
+    )
   ){
 
     return null;
@@ -2649,23 +3278,26 @@ function parseReminderDate(
 }
 
 
-function getDueInfo(
+/* DUE STATUS */
+
+function dueInfo(
   assignment
 ){
 
-  const reminder =
-    parseReminderDate(
+  const date =
+    parseDateLoose(
       assignment.reminderDate
     );
 
 
   if(
-    !reminder
+    !date
   ){
 
     return {
       text:"Invalid date",
-      css:"bad"
+      css:"bad",
+      kind:"bad"
     };
 
   }
@@ -2686,9 +3318,10 @@ function getDueInfo(
   const difference =
     Math.round(
       (
-        reminder -
+        date -
         today
-      ) /
+      )
+      /
       86400000
     );
 
@@ -2699,12 +3332,9 @@ function getDueInfo(
 
     return {
       text:
-        "Overdue by " +
-        Math.abs(
-          difference
-        ) +
-        " day(s)",
-      css:"bad"
+        `Overdue by ${Math.abs(difference)} day(s)`,
+      css:"bad",
+      kind:"overdue"
     };
 
   }
@@ -2715,9 +3345,9 @@ function getDueInfo(
   ){
 
     return {
-      text:
-        "Due today",
-      css:"due"
+      text:"Due today",
+      css:"due",
+      kind:"due"
     };
 
   }
@@ -2728,9 +3358,9 @@ function getDueInfo(
   ){
 
     return {
-      text:
-        "Due tomorrow",
-      css:"soon"
+      text:"Due tomorrow",
+      css:"soon",
+      kind:"soon"
     };
 
   }
@@ -2742,10 +3372,9 @@ function getDueInfo(
 
     return {
       text:
-        "Due in " +
-        difference +
-        " days",
-      css:"soon"
+        `Due in ${difference} days`,
+      css:"soon",
+      kind:"soon"
     };
 
   }
@@ -2753,18 +3382,15 @@ function getDueInfo(
 
   return {
     text:
-      "Due in " +
-      difference +
-      " days",
-    css:"upcoming"
+      `Due in ${difference} days`,
+    css:"upcoming",
+    kind:"upcoming"
   };
 
 }
 
 
-/* ===================================
-   ASSIGNMENTS TABLE
-=================================== */
+/* RENDER ASSIGNMENTS */
 
 function renderAssignments(){
 
@@ -2775,7 +3401,78 @@ function renderAssignments(){
       );
 
 
-  body.innerHTML = "";
+  const filter =
+    document
+      .getElementById(
+        "assignmentFilter"
+      )
+      ?.value
+      || "all";
+
+
+  body.innerHTML =
+    "";
+
+
+  let list =
+    assignments
+    .filter(
+      assignment => {
+
+        const due =
+          dueInfo(
+            assignment
+          );
+
+
+        if(
+          filter ===
+          "all"
+        ){
+          return true;
+        }
+
+
+        if(
+          filter ===
+          "due"
+        ){
+          return due.kind === "due";
+        }
+
+
+        if(
+          filter ===
+          "overdue"
+        ){
+          return due.kind === "overdue";
+        }
+
+
+        if(
+          filter ===
+          "ready"
+        ){
+          return ready(
+            assignment
+          );
+        }
+
+
+        if(
+          filter ===
+          "bad"
+        ){
+          return !ready(
+            assignment
+          );
+        }
+
+
+        return true;
+
+      }
+    );
 
 
   document
@@ -2785,33 +3482,34 @@ function renderAssignments(){
     .classList
     .toggle(
       "hidden",
-      assignments.length > 0
+      list.length > 0
     );
 
 
-  assignments.forEach(
+  list.forEach(
     assignment => {
 
       const errors =
-        validateAssignment(
+        validate(
           assignment
         );
 
 
-      const ready =
+      const okay =
         errors.length === 0;
 
 
       const due =
-        getDueInfo(
+        dueInfo(
           assignment
         );
 
 
       const row =
-        document.createElement(
-          "tr"
-        );
+        document
+          .createElement(
+            "tr"
+          );
 
 
       row.innerHTML = `
@@ -2885,12 +3583,10 @@ function renderAssignments(){
           <br>
 
           <span class="small">
-
             ${escapeHtml(
               assignment.message ||
               "Missing message"
             )}
-
           </span>
 
         </td>
@@ -2911,13 +3607,9 @@ function renderAssignments(){
         <td>
 
           ${
-            ready
+            okay
 
-            ? `
-              <span class="status ready">
-                Ready
-              </span>
-            `
+            ? '<span class="status ready">Ready</span>'
 
             : `
               <span class="status bad">
@@ -2927,8 +3619,6 @@ function renderAssignments(){
               <div
                 class="small"
                 style="margin-top:5px">
-
-                Missing / invalid:
 
                 ${errors.join(", ")}
 
@@ -2946,7 +3636,7 @@ function renderAssignments(){
             <select
               id="action-${assignment.id}"
               class="action-select"
-              ${ready ? "" : "disabled"}>
+              ${okay ? "" : "disabled"}>
 
               <option value="">
                 Choose channel
@@ -2969,10 +3659,10 @@ function renderAssignments(){
 
             <button
               class="go-button"
-              ${ready ? "" : "disabled"}
-              onclick="runAction('${assignment.id}')">
+              ${okay ? "" : "disabled"}
+              onclick="previewAction('${assignment.id}')">
 
-              Go
+              Review
 
             </button>
 
@@ -2993,9 +3683,7 @@ function renderAssignments(){
 }
 
 
-/* ===================================
-   FOLLOW UPS
-=================================== */
+/* FOLLOW-UP TABLE */
 
 function renderFollowups(){
 
@@ -3006,7 +3694,8 @@ function renderFollowups(){
       );
 
 
-  body.innerHTML = "";
+  body.innerHTML =
+    "";
 
 
   document
@@ -3024,13 +3713,14 @@ function renderFollowups(){
     assignment => {
 
       const due =
-        getDueInfo(
+        dueInfo(
           assignment
         );
 
 
       const row =
-        document.createElement(
+        document
+        .createElement(
           "tr"
         );
 
@@ -3038,63 +3728,44 @@ function renderFollowups(){
       row.innerHTML = `
 
         <td>
-
           <strong>
             ${escapeHtml(
               assignment.name ||
               "Incomplete"
             )}
           </strong>
-
         </td>
 
-
         <td>
-
           ${escapeHtml(
             assignment.stage ||
             "—"
           )}
-
         </td>
 
-
         <td>
-
           <span
             class="status ${due.css}">
-
             ${due.text}
-
           </span>
-
         </td>
 
-
         <td>
-
-          ${statusBadge(
+          ${badge(
             assignment.calendar
           )}
-
         </td>
 
-
         <td>
-
-          ${statusBadge(
+          ${badge(
             assignment.emailStatus
           )}
-
         </td>
 
-
         <td>
-
-          ${statusBadge(
+          ${badge(
             assignment.whatsappStatus
           )}
-
         </td>
 
       `;
@@ -3110,7 +3781,7 @@ function renderFollowups(){
 }
 
 
-function statusBadge(
+function badge(
   value
 ){
 
@@ -3119,7 +3790,8 @@ function statusBadge(
       value
     )
     .toLowerCase()
-    !== "pending";
+    !==
+    "pending";
 
 
   return `
@@ -3138,9 +3810,90 @@ function statusBadge(
 }
 
 
-/* ===================================
-   DASHBOARD STATS
-=================================== */
+/* DASHBOARD */
+
+function renderDueToday(){
+
+  const box =
+    document
+      .getElementById(
+        "dueTodayList"
+      );
+
+
+  const items =
+    assignments
+    .filter(
+      assignment =>
+        dueInfo(
+          assignment
+        ).kind === "due"
+    );
+
+
+  if(
+    !items.length
+  ){
+
+    box.className =
+      "empty";
+
+
+    box.textContent =
+      "Nothing due yet.";
+
+
+    return;
+
+  }
+
+
+  box.className =
+    "";
+
+
+  box.innerHTML =
+    items
+    .map(
+      assignment => `
+
+        <div
+          style="
+            padding:9px 0;
+            border-bottom:1px solid var(--line)
+          ">
+
+          <strong>
+            ${escapeHtml(
+              assignment.name
+            )}
+          </strong>
+
+          —
+          ${escapeHtml(
+            assignment.stage
+          )}
+
+          <br>
+
+          <span class="small">
+
+            ${escapeHtml(
+              assignment.task
+            )}
+
+          </span>
+
+        </div>
+
+      `
+    )
+    .join("");
+
+}
+
+
+/* REFRESH EVERYTHING */
 
 function refreshAll(){
 
@@ -3148,11 +3901,19 @@ function refreshAll(){
 
   renderFollowups();
 
+  renderDueToday();
+
+  renderPosts();
+
+  renderPacks();
+
 
   const readyCount =
-    assignments.filter(
-      assignmentReady
-    ).length;
+    assignments
+    .filter(
+      ready
+    )
+    .length;
 
 
   const badCount =
@@ -3160,15 +3921,15 @@ function refreshAll(){
     readyCount;
 
 
-  const dueToday =
-    assignments.filter(
+  const dueCount =
+    assignments
+    .filter(
       assignment =>
-        getDueInfo(
+        dueInfo(
           assignment
-        ).text
-        ===
-        "Due today"
-    ).length;
+        ).kind === "due"
+    )
+    .length;
 
 
   document
@@ -3200,7 +3961,7 @@ function refreshAll(){
       "statDue"
     )
     .textContent =
-      dueToday;
+      dueCount;
 
 
   const box =
@@ -3211,7 +3972,7 @@ function refreshAll(){
 
 
   if(
-    assignments.length === 0
+    !assignments.length
   ){
 
     box.className =
@@ -3224,7 +3985,7 @@ function refreshAll(){
   }
 
   else if(
-    badCount === 0
+    !badCount
   ){
 
     box.className =
@@ -3256,10 +4017,9 @@ function refreshAll(){
         ${badCount}
       </strong>
 
-      <br><br>
+      <br>
 
-      Please complete the missing information
-      before using Calendar, Email or WhatsApp.
+      Please complete missing details before acting.
 
     `;
 
@@ -3268,11 +4028,9 @@ function refreshAll(){
 }
 
 
-/* ===================================
-   RUN ACTION
-=================================== */
+/* REVIEW REMINDER ACTION */
 
-function runAction(
+function previewAction(
   id
 ){
 
@@ -3285,7 +4043,7 @@ function runAction(
 
   if(
     !assignment ||
-    !assignmentReady(
+    !ready(
       assignment
     )
   ){
@@ -3298,7 +4056,8 @@ function runAction(
   const action =
     document
       .getElementById(
-        "action-" + id
+        "action-" +
+        id
       )
       .value;
 
@@ -3307,71 +4066,131 @@ function runAction(
     !action
   ){
 
-    toast(
+    return toast(
       "Choose Calendar, Email or WhatsApp first."
     );
 
-    return;
-
   }
 
 
-  if(
-    action ===
-    "calendar"
-  ){
+  pendingPreview = {
 
-    openCalendar(
-      assignment
+    assignment,
+    action
+
+  };
+
+
+  document
+    .getElementById(
+      "previewContent"
+    )
+    .innerHTML = `
+
+      <p>
+        <strong>To:</strong>
+        ${escapeHtml(
+          assignment.name
+        )}
+        (
+          ${escapeHtml(
+            assignment.email
+          )}
+        )
+      </p>
+
+      <p>
+        <strong>Channel:</strong>
+        ${escapeHtml(
+          action
+        )}
+      </p>
+
+      <p>
+        <strong>Event:</strong>
+        ${escapeHtml(
+          assignment.task
+        )}
+        —
+        ${escapeHtml(
+          assignment.date
+        )}
+        ${escapeHtml(
+          assignment.time
+        )}
+      </p>
+
+      <p>
+        <strong>Reminder:</strong>
+        ${escapeHtml(
+          assignment.stage
+        )}
+        —
+        ${escapeHtml(
+          assignment.reminderDate
+        )}
+      </p>
+
+      <p>
+        <strong>Message:</strong>
+        <br>
+        ${escapeHtml(
+          assignment.message
+        )}
+      </p>
+
+    `;
+
+
+  document
+    .getElementById(
+      "previewModal"
+    )
+    .classList
+    .add(
+      "show"
     );
 
-  }
 
+  document
+    .getElementById(
+      "confirmPreviewBtn"
+    )
+    .onclick =
+      () => {
 
-  if(
-    action ===
-    "email"
-  ){
+        closePreview();
 
-    openEmail(
-      assignment
-    );
+        runChosenAction(
 
-  }
+          pendingPreview.assignment,
 
+          pendingPreview.action
 
-  if(
-    action ===
-    "whatsapp"
-  ){
+        );
 
-    openWhatsApp(
-      assignment
-    );
-
-  }
+      };
 
 }
 
 
-/* ===================================
-   CALENDAR
-=================================== */
+/* CALENDAR */
 
-function parseEventDateTime(
+function parseDT(
   assignment
 ){
 
   let date =
     new Date(
-      assignment.date +
-      " " +
-      assignment.time
+      `${assignment.date} ${assignment.time}`
     );
 
 
   if(
-    isNaN(date) &&
+    isNaN(
+      date
+    )
+    &&
     /^\d{4}-\d{2}-\d{2}$/
     .test(
       assignment.date
@@ -3380,9 +4199,7 @@ function parseEventDateTime(
 
     date =
       new Date(
-        assignment.date +
-        "T" +
-        assignment.time
+        `${assignment.date}T${assignment.time}`
       );
 
   }
@@ -3393,13 +4210,15 @@ function parseEventDateTime(
 }
 
 
-function googleCalendarDate(
+function gdate(
   date
 ){
 
   const pad =
-    value =>
-      String(value)
+    number =>
+      String(
+        number
+      )
       .padStart(
         2,
         "0"
@@ -3435,25 +4254,65 @@ function googleCalendarDate(
 }
 
 
+function runChosenAction(
+  assignment,
+  action
+){
+
+  if(
+    action === "calendar"
+  ){
+
+    openCalendar(
+      assignment
+    );
+
+  }
+
+
+  if(
+    action === "email"
+  ){
+
+    openEmail(
+      assignment
+    );
+
+  }
+
+
+  if(
+    action === "whatsapp"
+  ){
+
+    openWhatsApp(
+      assignment
+    );
+
+  }
+
+}
+
+
 function openCalendar(
   assignment
 ){
 
   const start =
-    parseEventDateTime(
+    parseDT(
       assignment
     );
 
 
   if(
-    isNaN(start)
+    isNaN(
+      start
+    )
   ){
 
-    toast(
-      "Invalid event date or time."
+    return toast(
+      "Invalid event date/time."
     );
-
-    return;
 
   }
 
@@ -3464,15 +4323,18 @@ function openCalendar(
         .getElementById(
           "calendarDuration"
         )
-        .value ||
-      60
+        .value
+        ||
+        60
     );
 
 
   const end =
     new Date(
-      start.getTime() +
-      duration *
+      start.getTime()
+      +
+      duration
+      *
       60000
     );
 
@@ -3489,11 +4351,13 @@ function openCalendar(
     ) +
 
     "&dates=" +
-    googleCalendarDate(
+    gdate(
       start
     ) +
+
     "/" +
-    googleCalendarDate(
+
+    gdate(
       end
     ) +
 
@@ -3523,15 +4387,13 @@ function openCalendar(
 }
 
 
-/* ===================================
-   EMAIL
-=================================== */
+/* EMAIL */
 
 function openEmail(
   assignment
 ){
 
-  const gmailURL =
+  const url =
 
     "https://mail.google.com/mail/?" +
 
@@ -3564,16 +4426,14 @@ function openEmail(
 
 
   window.open(
-    gmailURL,
+    url,
     "_blank"
   );
 
 }
 
 
-/* ===================================
-   WHATSAPP
-=================================== */
+/* WHATSAPP */
 
 function openWhatsApp(
   assignment
@@ -3591,26 +4451,11 @@ function openWhatsApp(
     !phone
   ){
 
-    toast(
+    return toast(
       "Invalid WhatsApp number."
     );
 
-    return;
-
   }
-
-
-  const url =
-
-    "https://wa.me/" +
-
-    phone +
-
-    "?text=" +
-
-    encodeURIComponent(
-      assignment.message
-    );
 
 
   assignment.whatsappStatus =
@@ -3621,24 +4466,1818 @@ function openWhatsApp(
 
 
   window.open(
-    url,
+
+    "https://wa.me/" +
+
+    phone +
+
+    "?text=" +
+
+    encodeURIComponent(
+      assignment.message
+    ),
+
     "_blank"
+
   );
 
 }
 
 
-/* ===================================
-   SIGN OUT
-=================================== */
+/* CHAT IMAGE */
+
+function previewChatImage(
+  event
+){
+
+  const file =
+    event.target.files?.[0];
+
+
+  if(
+    !file
+  ){
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    () => {
+
+      chatImageData =
+        reader.result;
+
+
+      const image =
+        document
+          .getElementById(
+            "chatImagePreview"
+          );
+
+
+      image.src =
+        chatImageData;
+
+
+      image
+        .classList
+        .remove(
+          "hidden"
+        );
+
+    };
+
+
+  reader.readAsDataURL(
+    file
+  );
+
+}
+
+
+/* POST IMAGE */
+
+function previewPostImage(
+  event
+){
+
+  const file =
+    event.target.files?.[0];
+
+
+  if(
+    !file
+  ){
+
+    return;
+
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload =
+    () => {
+
+      postImageData =
+        reader.result;
+
+
+      const image =
+        document
+          .getElementById(
+            "postImagePreview"
+          );
+
+
+      image.src =
+        postImageData;
+
+
+      image
+        .classList
+        .remove(
+          "hidden"
+        );
+
+    };
+
+
+  reader.readAsDataURL(
+    file
+  );
+
+}
+
+
+/* CHAT */
+
+function addChatMessage(
+  text,
+  type
+){
+
+  const log =
+    document
+      .getElementById(
+        "chatLog"
+      );
+
+
+  const message =
+    document
+      .createElement(
+        "div"
+      );
+
+
+  message.className =
+    "msg " +
+    type;
+
+
+  message.innerHTML =
+    escapeHtml(
+      text
+    )
+    .replace(
+      /\n/g,
+      "<br>"
+    );
+
+
+  log.appendChild(
+    message
+  );
+
+
+  log.scrollTop =
+    log.scrollHeight;
+
+}
+
+
+/* NEXT WEEKDAY */
+
+function nextWeekday(
+  dayName
+){
+
+  const map = {
+
+    sunday:0,
+    monday:1,
+    tuesday:2,
+    wednesday:3,
+    thursday:4,
+    friday:5,
+    saturday:6
+
+  };
+
+
+  const today =
+    new Date();
+
+
+  const target =
+    map[
+      dayName
+    ];
+
+
+  if(
+    target === undefined
+  ){
+
+    return "";
+
+  }
+
+
+  let difference =
+
+    (
+      target
+      -
+      today.getDay()
+      +
+      7
+    )
+    %
+    7;
+
+
+  if(
+    difference === 0
+  ){
+
+    difference =
+      7;
+
+  }
+
+
+  const date =
+    new Date(
+      today
+    );
+
+
+  date.setDate(
+
+    today.getDate()
+    +
+    difference
+
+  );
+
+
+  return date
+    .toISOString()
+    .slice(
+      0,
+      10
+    );
+
+}
+
+
+/* CHAT INTERPRETER */
+
+function handleChat(){
+
+  const raw =
+    document
+      .getElementById(
+        "chatInput"
+      )
+      .value
+      .trim();
+
+
+  if(
+    !raw
+  ){
+
+    return;
+
+  }
+
+
+  addChatMessage(
+    raw,
+    "user"
+  );
+
+
+  document
+    .getElementById(
+      "chatInput"
+    )
+    .value =
+      "";
+
+
+  let text =
+    raw
+    .toLowerCase()
+    .replace(
+      /satday/g,
+      "saturday"
+    )
+    .replace(
+      /meting/g,
+      "meeting"
+    )
+    .replace(
+      /tmrw/g,
+      "tomorrow"
+    );
+
+
+  const day =
+    (
+      text.match(
+        /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/
+      )
+      ||
+      []
+    )[1];
+
+
+  const time =
+    (
+      text.match(
+        /\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/
+      )
+      ||
+      []
+    )[0]
+    ||
+    "";
+
+
+  const link =
+    (
+      raw.match(
+        /https?:\/\/\S+/
+      )
+      ||
+      []
+    )[0]
+    ||
+    "";
+
+
+  const postLike =
+    /post|share|caption|youtube|whatsapp/i
+    .test(
+      text
+    );
+
+
+  const reminderLike =
+    /remind|follow up|meeting|worship|prayer/i
+    .test(
+      text
+    );
+
+
+  if(
+    postLike
+  ){
+
+    let caption =
+      raw
+      .replace(
+        link,
+        ""
+      )
+      .trim();
+
+
+    document
+      .getElementById(
+        "postTitle"
+      )
+      .value =
+        day
+        ?
+        day
+        .charAt(
+          0
+        )
+        .toUpperCase()
+        +
+        day.slice(
+          1
+        )
+        +
+        " Post"
+        :
+        "Scheduled Post";
+
+
+    if(
+      day
+    ){
+
+      document
+        .getElementById(
+          "postDate"
+        )
+        .value =
+          nextWeekday(
+            day
+          );
+
+    }
+
+
+    if(
+      time
+    ){
+
+      document
+        .getElementById(
+          "postTime"
+        )
+        .value =
+          to24(
+            time
+          );
+
+    }
+
+
+    document
+      .getElementById(
+        "postLink"
+      )
+      .value =
+        link;
+
+
+    document
+      .getElementById(
+        "postCaption"
+      )
+      .value =
+        caption;
+
+
+    document
+      .getElementById(
+        "postChannel"
+      )
+      .value =
+        "WhatsApp";
+
+
+    if(
+      chatImageData
+    ){
+
+      postImageData =
+        chatImageData;
+
+
+      document
+        .getElementById(
+          "postImagePreview"
+        )
+        .src =
+          chatImageData;
+
+
+      document
+        .getElementById(
+          "postImagePreview"
+        )
+        .classList
+        .remove(
+          "hidden"
+        );
+
+    }
+
+
+    addChatMessage(
+
+      "I think this is a scheduled post. " +
+
+      "I have filled the Content Queue form with what I understood. " +
+
+      "Please review the date, time, caption and channel before adding it.",
+
+      "bot"
+
+    );
+
+
+    showSection(
+      "contentqueue"
+    );
+
+
+    return;
+
+  }
+
+
+  if(
+    reminderLike
+  ){
+
+    const words =
+      raw.split(
+        /\s+/
+      );
+
+
+    const name =
+      words[0]
+      ||
+      "";
+
+
+    document
+      .getElementById(
+        "manualName"
+      )
+      .value =
+        name;
+
+
+    if(
+      day
+    ){
+
+      document
+        .getElementById(
+          "manualDate"
+        )
+        .value =
+          nextWeekday(
+            day
+          );
+
+    }
+
+
+    if(
+      time
+    ){
+
+      document
+        .getElementById(
+          "manualTime"
+        )
+        .value =
+          to24(
+            time
+          );
+
+    }
+
+
+    if(
+      text.includes(
+        "meeting"
+      )
+    ){
+
+      document
+        .getElementById(
+          "manualTask"
+        )
+        .value =
+          "Meeting";
+
+    }
+
+
+    if(
+      text.includes(
+        "worship"
+      )
+    ){
+
+      document
+        .getElementById(
+          "manualTask"
+        )
+        .value =
+          "Worship";
+
+    }
+
+
+    if(
+      text.includes(
+        "prayer"
+      )
+    ){
+
+      document
+        .getElementById(
+          "manualTask"
+        )
+        .value =
+          "Prayer";
+
+    }
+
+
+    addChatMessage(
+
+      "I think this is a reminder/follow-up. " +
+
+      "I have filled the parts I could understand. " +
+
+      "Please complete the contact details, reminder date, stage and message before saving.",
+
+      "bot"
+
+    );
+
+
+    showSection(
+      "assignments"
+    );
+
+
+    return;
+
+  }
+
+
+  addChatMessage(
+
+    "I’m not fully sure what you want yet. " +
+
+    "Tell me whether this is a reminder/follow-up or a post you want prepared.",
+
+    "bot"
+
+  );
+
+}
+
+
+/* TIME CONVERSION */
+
+function to24(
+  time
+){
+
+  const match =
+    time
+    .toLowerCase()
+    .match(
+      /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/
+    );
+
+
+  if(
+    !match
+  ){
+
+    return "";
+
+  }
+
+
+  let hour =
+    Number(
+      match[1]
+    );
+
+
+  const minute =
+    match[2]
+    ||
+    "00";
+
+
+  if(
+    match[3] === "pm"
+    &&
+    hour !== 12
+  ){
+
+    hour += 12;
+
+  }
+
+
+  if(
+    match[3] === "am"
+    &&
+    hour === 12
+  ){
+
+    hour = 0;
+
+  }
+
+
+  return (
+
+    String(
+      hour
+    )
+    .padStart(
+      2,
+      "0"
+    )
+
+    +
+
+    ":"
+
+    +
+
+    minute
+
+  );
+
+}
+
+
+/* ADD POST */
+
+function addPost(){
+
+  const title =
+    val(
+      "postTitle"
+    );
+
+
+  const date =
+    val(
+      "postDate"
+    );
+
+
+  const time =
+    val(
+      "postTime"
+    );
+
+
+  const channel =
+    val(
+      "postChannel"
+    );
+
+
+  const caption =
+    val(
+      "postCaption"
+    );
+
+
+  if(
+    !title ||
+    !date ||
+    !time ||
+    !channel ||
+    !caption
+  ){
+
+    return toast(
+      "Please complete title, date, time, channel and caption."
+    );
+
+  }
+
+
+  posts.push({
+
+    id:
+      "post-" +
+      Date.now(),
+
+    pack:
+      val(
+        "postPack"
+      ),
+
+    title,
+
+    date,
+
+    time,
+
+    channel,
+
+    link:
+      val(
+        "postLink"
+      ),
+
+    caption,
+
+    image:
+      postImageData,
+
+    status:
+      "Pending"
+
+  });
+
+
+  [
+    "postPack",
+    "postTitle",
+    "postDate",
+    "postTime",
+    "postChannel",
+    "postLink",
+    "postCaption"
+  ]
+  .forEach(
+    id => {
+
+      document
+        .getElementById(
+          id
+        )
+        .value =
+          "";
+
+    }
+  );
+
+
+  document
+    .getElementById(
+      "postImage"
+    )
+    .value =
+      "";
+
+
+  document
+    .getElementById(
+      "postImagePreview"
+    )
+    .classList
+    .add(
+      "hidden"
+    );
+
+
+  postImageData =
+    null;
+
+
+  refreshAll();
+
+
+  toast(
+    "Post added to queue."
+  );
+
+}
+
+
+/* POST DUE STATUS */
+
+function postDueInfo(
+  post
+){
+
+  const date =
+    parseDateLoose(
+      post.date
+    );
+
+
+  if(
+    !date
+  ){
+
+    return {
+      kind:"bad",
+      text:"Invalid date",
+      css:"bad"
+    };
+
+  }
+
+
+  const today =
+    new Date();
+
+
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  const difference =
+    Math.round(
+      (
+        date -
+        today
+      )
+      /
+      86400000
+    );
+
+
+  if(
+    post.status === "Sent"
+  ){
+
+    return {
+      kind:"sent",
+      text:"Sent",
+      css:"ready"
+    };
+
+  }
+
+
+  if(
+    difference < 0
+  ){
+
+    return {
+      kind:"overdue",
+      text:"Overdue",
+      css:"bad"
+    };
+
+  }
+
+
+  if(
+    difference === 0
+  ){
+
+    return {
+      kind:"due",
+      text:"Due today",
+      css:"due"
+    };
+
+  }
+
+
+  return {
+    kind:"upcoming",
+    text:
+      `Due in ${difference} day(s)`,
+    css:"upcoming"
+  };
+
+}
+
+
+/* RENDER POSTS */
+
+function renderPosts(){
+
+  const box =
+    document
+      .getElementById(
+        "postQueue"
+      );
+
+
+  if(
+    !box
+  ){
+
+    return;
+
+  }
+
+
+  const filter =
+    document
+      .getElementById(
+        "postFilter"
+      )
+      ?.value
+      ||
+      "all";
+
+
+  let list =
+    posts
+    .filter(
+      post => {
+
+        const due =
+          postDueInfo(
+            post
+          );
+
+
+        if(
+          filter === "all"
+        ){
+          return true;
+        }
+
+
+        if(
+          filter === "due"
+        ){
+          return due.kind === "due";
+        }
+
+
+        if(
+          filter === "upcoming"
+        ){
+          return due.kind === "upcoming";
+        }
+
+
+        if(
+          filter === "sent"
+        ){
+          return post.status === "Sent";
+        }
+
+
+        return true;
+
+      }
+    );
+
+
+  if(
+    !list.length
+  ){
+
+    box.innerHTML =
+      '<div class="empty">No posts in this view.</div>';
+
+
+    renderPostsDueToday();
+
+
+    return;
+
+  }
+
+
+  box.innerHTML =
+    list
+    .map(
+      post => {
+
+        const due =
+          postDueInfo(
+            post
+          );
+
+
+        return `
+
+          <div class="queue-card">
+
+            <div
+              style="
+                display:flex;
+                justify-content:space-between;
+                gap:12px
+              ">
+
+              <div>
+
+                <div class="pack-title">
+                  ${escapeHtml(
+                    post.title
+                  )}
+                </div>
+
+                <div class="queue-meta">
+
+                  ${escapeHtml(
+                    post.date
+                  )}
+
+                  ·
+
+                  ${escapeHtml(
+                    post.time
+                  )}
+
+                  ·
+
+                  ${escapeHtml(
+                    post.channel
+                  )}
+
+                  ${
+                    post.pack
+                    ?
+                    ` · ${escapeHtml(post.pack)}`
+                    :
+                    ""
+                  }
+
+                </div>
+
+              </div>
+
+
+              <span
+                class="status ${due.css}">
+
+                ${due.text}
+
+              </span>
+
+            </div>
+
+
+            <div style="margin-top:8px">
+
+              ${escapeHtml(
+                post.caption
+              )}
+
+            </div>
+
+
+            ${
+              post.link
+              ?
+              `
+                <div
+                  class="small"
+                  style="margin-top:6px">
+
+                  ${escapeHtml(
+                    post.link
+                  )}
+
+                </div>
+              `
+              :
+              ""
+            }
+
+
+            ${
+              post.image
+              ?
+              `
+                <img
+                  src="${post.image}"
+                  class="image-preview">
+              `
+              :
+              ""
+            }
+
+
+            <div
+              style="
+                margin-top:10px;
+                display:flex;
+                gap:8px
+              ">
+
+              <button
+                class="secondary"
+                onclick="reviewPost('${post.id}')">
+                Review
+              </button>
+
+              <button
+                class="secondary"
+                onclick="duplicatePost('${post.id}')">
+                Duplicate
+              </button>
+
+              <button
+                class="danger"
+                onclick="removePost('${post.id}')">
+                Remove
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
+
+
+  renderPostsDueToday();
+
+}
+
+
+/* POSTS DUE TODAY */
+
+function renderPostsDueToday(){
+
+  const box =
+    document
+      .getElementById(
+        "postsDueToday"
+      );
+
+
+  if(
+    !box
+  ){
+
+    return;
+
+  }
+
+
+  const list =
+    posts
+    .filter(
+      post =>
+        postDueInfo(
+          post
+        ).kind === "due"
+    );
+
+
+  if(
+    !list.length
+  ){
+
+    box.className =
+      "empty";
+
+
+    box.textContent =
+      "No scheduled posts due today.";
+
+
+    return;
+
+  }
+
+
+  box.className =
+    "";
+
+
+  box.innerHTML =
+    list
+    .map(
+      post => `
+
+        <div
+          style="
+            padding:9px 0;
+            border-bottom:1px solid var(--line)
+          ">
+
+          <strong>
+            ${escapeHtml(
+              post.title
+            )}
+          </strong>
+
+          <br>
+
+          <span class="small">
+
+            ${escapeHtml(
+              post.time
+            )}
+
+            ·
+
+            ${escapeHtml(
+              post.channel
+            )}
+
+          </span>
+
+        </div>
+
+      `
+    )
+    .join("");
+
+}
+
+
+/* REVIEW POST */
+
+function reviewPost(
+  id
+){
+
+  const post =
+    posts.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(
+    !post
+  ){
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "previewContent"
+    )
+    .innerHTML = `
+
+      <p>
+
+        <strong>
+          ${escapeHtml(
+            post.title
+          )}
+        </strong>
+
+      </p>
+
+      <p>
+        <strong>When:</strong>
+        ${escapeHtml(
+          post.date
+        )}
+        ${escapeHtml(
+          post.time
+        )}
+      </p>
+
+      <p>
+        <strong>Channel:</strong>
+        ${escapeHtml(
+          post.channel
+        )}
+      </p>
+
+      <p>
+        <strong>Caption:</strong>
+        <br>
+        ${escapeHtml(
+          post.caption
+        )}
+      </p>
+
+      ${
+        post.link
+        ?
+        `
+          <p>
+            <strong>Link:</strong>
+            ${escapeHtml(
+              post.link
+            )}
+          </p>
+        `
+        :
+        ""
+      }
+
+      ${
+        post.image
+        ?
+        `
+          <img
+            src="${post.image}"
+            class="image-preview">
+        `
+        :
+        ""
+      }
+
+    `;
+
+
+  document
+    .getElementById(
+      "previewModal"
+    )
+    .classList
+    .add(
+      "show"
+    );
+
+
+  document
+    .getElementById(
+      "confirmPreviewBtn"
+    )
+    .onclick =
+      () => {
+
+        closePreview();
+
+        openPostChannel(
+          post
+        );
+
+      };
+
+}
+
+
+/* OPEN POST CHANNEL */
+
+function openPostChannel(
+  post
+){
+
+  const text =
+    [
+      post.caption,
+      post.link
+    ]
+    .filter(
+      Boolean
+    )
+    .join(
+      "\n\n"
+    );
+
+
+  if(
+    post.channel ===
+    "WhatsApp"
+  ){
+
+    window.open(
+
+      "https://wa.me/?text=" +
+
+      encodeURIComponent(
+        text
+      ),
+
+      "_blank"
+
+    );
+
+  }
+
+  else if(
+    post.channel ===
+    "Email"
+  ){
+
+    window.open(
+
+      "https://mail.google.com/mail/?" +
+
+      "view=cm" +
+
+      "&fs=1" +
+
+      "&su=" +
+
+      encodeURIComponent(
+        post.title
+      ) +
+
+      "&body=" +
+
+      encodeURIComponent(
+        text
+      ),
+
+      "_blank"
+
+    );
+
+  }
+
+  else{
+
+    const start =
+      new Date(
+        `${post.date}T${post.time}`
+      );
+
+
+    const end =
+      new Date(
+        start.getTime()
+        +
+        30
+        *
+        60000
+      );
+
+
+    window.open(
+
+      "https://calendar.google.com/calendar/render" +
+
+      "?action=TEMPLATE" +
+
+      "&text=" +
+
+      encodeURIComponent(
+        post.title
+      ) +
+
+      "&dates=" +
+
+      gdate(
+        start
+      ) +
+
+      "/" +
+
+      gdate(
+        end
+      ) +
+
+      "&details=" +
+
+      encodeURIComponent(
+        text
+      ),
+
+      "_blank"
+
+    );
+
+  }
+
+
+  post.status =
+    "Opened";
+
+
+  refreshAll();
+
+}
+
+
+/* DUPLICATE POST */
+
+function duplicatePost(
+  id
+){
+
+  const post =
+    posts.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(
+    !post
+  ){
+
+    return;
+
+  }
+
+
+  const copy = {
+
+    ...post,
+
+    id:
+      "post-" +
+      Date.now(),
+
+    status:
+      "Pending"
+
+  };
+
+
+  const date =
+    parseDateLoose(
+      copy.date
+    );
+
+
+  if(
+    date
+  ){
+
+    date.setDate(
+
+      date.getDate()
+      +
+      7
+
+    );
+
+
+    copy.date =
+      date
+      .toISOString()
+      .slice(
+        0,
+        10
+      );
+
+  }
+
+
+  posts.push(
+    copy
+  );
+
+
+  refreshAll();
+
+
+  toast(
+    "Duplicated for next week."
+  );
+
+}
+
+
+/* REMOVE POST */
+
+function removePost(
+  id
+){
+
+  posts =
+    posts
+    .filter(
+      post =>
+        post.id !== id
+    );
+
+
+  refreshAll();
+
+}
+
+
+/* CONTENT PACKS */
+
+function addPack(){
+
+  const name =
+    val(
+      "packName"
+    );
+
+
+  if(
+    !name
+  ){
+
+    return toast(
+      "Add a pack name."
+    );
+
+  }
+
+
+  packs.push({
+
+    id:
+      "pack-" +
+      Date.now(),
+
+    name,
+
+    description:
+      val(
+        "packDescription"
+      )
+
+  });
+
+
+  document
+    .getElementById(
+      "packName"
+    )
+    .value =
+      "";
+
+
+  document
+    .getElementById(
+      "packDescription"
+    )
+    .value =
+      "";
+
+
+  renderPacks();
+
+
+  toast(
+    "Content pack created."
+  );
+
+}
+
+
+function renderPacks(){
+
+  const box =
+    document
+      .getElementById(
+        "packList"
+      );
+
+
+  if(
+    !box
+  ){
+
+    return;
+
+  }
+
+
+  if(
+    !packs.length
+  ){
+
+    box.innerHTML =
+      '<div class="empty">No content packs yet.</div>';
+
+    return;
+
+  }
+
+
+  box.innerHTML =
+    packs
+    .map(
+      pack => {
+
+        const count =
+          posts
+          .filter(
+            post =>
+              post.pack ===
+              pack.name
+          )
+          .length;
+
+
+        return `
+
+          <div class="pack-card">
+
+            <div class="pack-title">
+
+              ${escapeHtml(
+                pack.name
+              )}
+
+            </div>
+
+            <div class="small">
+
+              ${escapeHtml(
+                pack.description ||
+                "No description"
+              )}
+
+            </div>
+
+            <div
+              class="small"
+              style="margin-top:6px">
+
+              ${count}
+              queued post(s)
+
+            </div>
+
+          </div>
+
+        `;
+
+      }
+    )
+    .join("");
+
+}
+
+
+/* SIGN OUT */
 
 function signOut(){
 
   if(
-    accessToken &&
-    window.google &&
-    google.accounts &&
-    google.accounts.oauth2
+    accessToken
+    &&
+    window.google?.accounts?.oauth2
   ){
 
     google.accounts.oauth2
@@ -3663,6 +6302,14 @@ function signOut(){
 
 
   assignments =
+    [];
+
+
+  posts =
+    [];
+
+
+  packs =
     [];
 
 
@@ -3691,9 +6338,23 @@ function signOut(){
 }
 
 
-/* ===================================
-   UTILITIES
-=================================== */
+/* CLOSE PREVIEW */
+
+function closePreview(){
+
+  document
+    .getElementById(
+      "previewModal"
+    )
+    .classList
+    .remove(
+      "show"
+    );
+
+}
+
+
+/* HTML ESCAPING */
 
 function escapeHtml(
   value
@@ -3726,22 +6387,24 @@ function escapeHtml(
 }
 
 
+/* TOAST */
+
 function toast(
   message
 ){
 
-  const element =
+  const toast =
     document
       .getElementById(
         "toast"
       );
 
 
-  element.textContent =
+  toast.textContent =
     message;
 
 
-  element
+  toast
     .classList
     .add(
       "show"
@@ -3751,18 +6414,20 @@ function toast(
   setTimeout(
     () => {
 
-      element
+      toast
         .classList
         .remove(
           "show"
         );
 
     },
-    2700
+    2600
   );
 
 }
 
+
+/* INITIAL LOAD */
 
 refreshAll();
 
