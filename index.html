@@ -9,30 +9,38 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
-:root {
+:root{
   --bg:#f6f7fb;
-  --white:#ffffff;
+  --white:#fff;
   --text:#172033;
   --muted:#6b7280;
   --line:#e5e7eb;
+
   --purple:#4f46e5;
   --purple-light:#eef2ff;
+
   --green:#15803d;
   --green-light:#ecfdf3;
+
   --orange:#b45309;
   --orange-light:#fff7ed;
+
   --red:#b91c1c;
   --red-light:#fef2f2;
+
+  --blue-light:#eff6ff;
+  --blue:#1d4ed8;
+
   --shadow:0 12px 34px rgba(15,23,42,.08);
 }
 
-* {
+*{
   box-sizing:border-box;
 }
 
-body {
+body{
   margin:0;
-  font-family:Inter, Arial, sans-serif;
+  font-family:Inter,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
@@ -40,89 +48,54 @@ body {
 button,
 input,
 select,
-textarea {
+textarea{
   font:inherit;
 }
 
-button {
+button{
   cursor:pointer;
 }
 
-.hidden {
+.hidden{
   display:none !important;
 }
 
 /* LOGIN */
 
-.login-screen {
+.login-screen{
   min-height:100vh;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   padding:24px;
 }
 
-.login-card {
+.login-card{
   width:min(560px,100%);
   background:white;
-  padding:36px;
+  border:1px solid var(--line);
   border-radius:22px;
+  padding:36px;
   box-shadow:var(--shadow);
   text-align:center;
-  border:1px solid var(--line);
 }
 
-.logo {
-  width:55px;
-  height:55px;
-  margin:auto;
-  border-radius:15px;
-  background:var(--purple);
-  color:white;
+.logo{
+  width:56px;
+  height:56px;
+  margin:0 auto 16px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-weight:900;
-  font-size:20px;
-}
-
-/* BUTTONS */
-
-.primary {
+  border-radius:15px;
   background:var(--purple);
   color:white;
-  border:none;
-  border-radius:10px;
-  padding:11px 15px;
-  font-weight:700;
+  font-weight:900;
 }
 
-.secondary {
-  background:white;
-  color:#334155;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:10px 14px;
-  font-weight:700;
-}
+/* TOP BAR */
 
-.small-button {
-  background:white;
-  border:1px solid var(--line);
-  padding:7px 9px;
-  border-radius:8px;
-  font-size:12px;
-  font-weight:700;
-}
-
-.small-button:disabled {
-  opacity:.4;
-  cursor:not-allowed;
-}
-
-/* APP */
-
-.topbar {
+.topbar{
   height:70px;
   background:white;
   border-bottom:1px solid var(--line);
@@ -132,48 +105,67 @@ button {
   padding:0 28px;
 }
 
-.brand {
+.brand{
   display:flex;
-  gap:10px;
   align-items:center;
-  font-weight:800;
+  gap:10px;
   font-size:20px;
+  font-weight:800;
 }
 
-.brand-logo {
+.brand-logo{
   width:38px;
   height:38px;
+  border-radius:11px;
   background:var(--purple);
   color:white;
-  border-radius:11px;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   font-weight:900;
 }
 
-.secure {
-  color:var(--green);
-  background:var(--green-light);
-  border-radius:999px;
-  padding:7px 10px;
-  font-size:12px;
+/* BUTTONS */
+
+.primary{
+  border:none;
+  background:var(--purple);
+  color:white;
+  padding:11px 15px;
+  border-radius:10px;
+  font-weight:750;
+}
+
+.secondary{
+  border:1px solid var(--line);
+  background:white;
+  color:#334155;
+  padding:10px 14px;
+  border-radius:10px;
   font-weight:700;
 }
 
-.layout {
+.primary:disabled,
+.secondary:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+/* LAYOUT */
+
+.layout{
   display:grid;
   grid-template-columns:230px 1fr;
   min-height:calc(100vh - 70px);
 }
 
-.sidebar {
+.sidebar{
   background:white;
   border-right:1px solid var(--line);
   padding:22px 16px;
 }
 
-.nav-item {
+.nav-item{
   padding:12px 14px;
   margin-bottom:6px;
   border-radius:10px;
@@ -182,44 +174,48 @@ button {
   cursor:pointer;
 }
 
-.nav-item.active {
+.nav-item.active{
   background:var(--purple-light);
   color:var(--purple);
 }
 
-.main {
+.main{
   padding:30px;
-  max-width:1400px;
+  max-width:1450px;
   width:100%;
   margin:auto;
 }
 
-.section {
+.section{
   display:none;
 }
 
-.section.active {
+.section.active{
   display:block;
 }
 
-h1 {
-  margin:0 0 7px;
+/* TYPOGRAPHY */
+
+h1{
+  margin:0 0 8px;
 }
 
-h3 {
+h3{
   margin-top:0;
 }
 
 .subtext,
-.small {
+.small{
   color:var(--muted);
 }
 
-.small {
+.small{
   font-size:13px;
 }
 
-.card {
+/* CARD */
+
+.card{
   background:white;
   border:1px solid var(--line);
   border-radius:17px;
@@ -227,7 +223,7 @@ h3 {
   box-shadow:var(--shadow);
 }
 
-.grid {
+.grid{
   display:grid;
   grid-template-columns:1.35fr .8fr;
   gap:20px;
@@ -236,14 +232,14 @@ h3 {
 
 /* SHEETS */
 
-.sheet-search {
+.sheet-search{
   width:100%;
   padding:12px;
   border:1px solid var(--line);
   border-radius:10px;
 }
 
-.sheet-results {
+.sheet-results{
   margin-top:7px;
   border:1px solid var(--line);
   border-radius:11px;
@@ -252,87 +248,60 @@ h3 {
   background:white;
 }
 
-.sheet-item {
+.sheet-item{
   padding:11px;
   border-bottom:1px solid var(--line);
   cursor:pointer;
 }
 
-.sheet-item:hover {
+.sheet-item:hover{
   background:#f8fafc;
 }
 
-.sheet-item:last-child {
+.sheet-item:last-child{
   border-bottom:none;
 }
 
-.selected-sheet {
+.selected-sheet{
+  margin-top:10px;
   background:var(--purple-light);
   color:var(--purple);
   padding:11px;
-  margin-top:10px;
   border-radius:9px;
   font-weight:700;
 }
 
 /* STATS */
 
-.stats {
+.stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px;
   margin:20px 0;
 }
 
-.stat {
+.stat{
   background:white;
   border:1px solid var(--line);
   border-radius:13px;
   padding:15px;
 }
 
-.stat-number {
+.stat-number{
   font-size:25px;
   font-weight:800;
   margin-top:5px;
 }
 
-/* VALIDATION */
-
-.validation {
-  margin-top:12px;
-  padding:12px;
-  border-radius:10px;
-  font-size:13px;
-}
-
-.validation.ok {
-  background:var(--green-light);
-  color:var(--green);
-  border:1px solid #bbf7d0;
-}
-
-.validation.warning {
-  background:var(--orange-light);
-  color:var(--orange);
-  border:1px solid #fed7aa;
-}
-
-.validation.error {
-  background:var(--red-light);
-  color:var(--red);
-  border:1px solid #fecaca;
-}
-
 /* FORMS */
 
-.form-grid {
+.form-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:13px;
 }
 
-.field label {
+.field label{
   display:block;
   margin-bottom:5px;
   font-size:12px;
@@ -341,34 +310,63 @@ h3 {
 
 .field input,
 .field select,
-.field textarea {
+.field textarea,
+.action-select{
   width:100%;
-  padding:11px;
+  padding:10px 11px;
   border:1px solid var(--line);
   border-radius:9px;
+  background:white;
 }
 
-.error-message {
+.error-message{
   min-height:15px;
-  margin-top:3px;
+  margin-top:4px;
   color:var(--red);
   font-size:11px;
 }
 
+/* VALIDATION */
+
+.validation{
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+}
+
+.validation.ok{
+  background:var(--green-light);
+  color:var(--green);
+  border:1px solid #bbf7d0;
+}
+
+.validation.warning{
+  background:var(--orange-light);
+  color:var(--orange);
+  border:1px solid #fed7aa;
+}
+
+.validation.error{
+  background:var(--red-light);
+  color:var(--red);
+  border:1px solid #fecaca;
+}
+
 /* TABLE */
 
-.table-wrap {
+.table-wrap{
   overflow-x:auto;
 }
 
-table {
+table{
   width:100%;
   border-collapse:collapse;
-  min-width:900px;
+  min-width:1150px;
 }
 
 th,
-td {
+td{
   padding:11px 9px;
   border-bottom:1px solid var(--line);
   text-align:left;
@@ -376,13 +374,15 @@ td {
   vertical-align:top;
 }
 
-th {
+th{
   color:#64748b;
   font-size:11px;
   text-transform:uppercase;
 }
 
-.status {
+/* STATUS */
+
+.status{
   display:inline-block;
   padding:5px 8px;
   border-radius:999px;
@@ -390,74 +390,121 @@ th {
   font-weight:800;
 }
 
-.status.ready {
+.status.ready{
   background:var(--green-light);
   color:var(--green);
 }
 
-.status.pending {
+.status.pending{
   background:var(--orange-light);
   color:var(--orange);
 }
 
-.status.bad {
+.status.bad{
   background:var(--red-light);
   color:var(--red);
 }
 
-.actions {
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
+.status.due{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-.empty {
-  border:1px dashed var(--line);
-  border-radius:10px;
-  color:var(--muted);
+.status.soon{
+  background:var(--orange-light);
+  color:#9a3412;
+}
+
+.status.upcoming{
+  background:var(--blue-light);
+  color:var(--blue);
+}
+
+.status.sent{
+  background:var(--green-light);
+  color:#047857;
+}
+
+/* ACTION */
+
+.action-wrap{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.action-select{
+  min-width:135px;
+  padding:7px 8px;
+  font-size:12px;
+}
+
+.action-select:disabled{
+  opacity:.45;
+}
+
+.go-button{
+  padding:7px 10px;
+  border:none;
+  border-radius:8px;
+  background:var(--purple);
+  color:white;
+  font-size:12px;
+  font-weight:750;
+}
+
+.go-button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.empty{
   padding:25px;
   text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--line);
+  border-radius:10px;
 }
 
-.toast {
+.toast{
   display:none;
   position:fixed;
   right:22px;
   bottom:22px;
   background:#111827;
   color:white;
-  border-radius:9px;
   padding:12px 15px;
+  border-radius:9px;
   z-index:100;
 }
 
-.toast.show {
+.toast.show{
   display:block;
 }
 
-@media(max-width:900px) {
+@media(max-width:900px){
 
-  .layout {
+  .layout{
     grid-template-columns:1fr;
   }
 
-  .sidebar {
+  .sidebar{
     display:none;
   }
 
-  .grid {
+  .grid{
     grid-template-columns:1fr;
   }
 
-  .stats {
+  .stats{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .form-grid {
+  .form-grid{
     grid-template-columns:1fr;
   }
 
-  .main {
+  .main{
     padding:18px;
   }
 }
@@ -481,11 +528,9 @@ th {
       calendar actions and follow-ups.
     </p>
 
-    <p class="small">
-      Your Google Sheet remains your source of truth.
-    </p>
-
-    <button class="primary" onclick="googleLogin()">
+    <button
+      class="primary"
+      onclick="googleLogin()">
       Continue with Google
     </button>
 
@@ -493,707 +538,832 @@ th {
 
 </div>
 
+
 <!-- APP -->
 
 <div id="appShell" class="hidden">
 
-  <header class="topbar">
+<header class="topbar">
 
-    <div class="brand">
-      <div class="brand-logo">FL</div>
-      FollowLoop
+  <div class="brand">
+    <div class="brand-logo">FL</div>
+    FollowLoop
+  </div>
+
+  <button
+    class="secondary"
+    onclick="signOut()">
+    Sign out
+  </button>
+
+</header>
+
+
+<div class="layout">
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+  <div
+    class="nav-item active"
+    data-target="dashboard"
+    onclick="showSection('dashboard',this)">
+    Dashboard
+  </div>
+
+  <div
+    class="nav-item"
+    data-target="assignments"
+    onclick="showSection('assignments',this)">
+    Assignments
+  </div>
+
+  <div
+    class="nav-item"
+    data-target="followups"
+    onclick="showSection('followups',this)">
+    Follow-ups
+  </div>
+
+  <div
+    class="nav-item"
+    data-target="integrations"
+    onclick="showSection('integrations',this)">
+    Integrations
+  </div>
+
+  <div
+    class="nav-item"
+    data-target="settings"
+    onclick="showSection('settings',this)">
+    Settings
+  </div>
+
+</aside>
+
+
+<main class="main">
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="section active">
+
+  <h1 id="welcomeTitle">
+    Welcome back 👋🏾
+  </h1>
+
+  <div class="subtext">
+    Choose a Google Sheet or add people manually.
+    FollowLoop validates every reminder before actions are enabled.
+  </div>
+
+
+  <div class="grid">
+
+    <div class="card">
+
+      <h3>Choose a Google Sheet</h3>
+
+      <input
+        id="sheetSearch"
+        class="sheet-search"
+        placeholder="Search Google Sheets..."
+        onfocus="showSheetResults()"
+        oninput="filterSheets()">
+
+      <div
+        id="sheetResults"
+        class="sheet-results hidden">
+      </div>
+
+      <div
+        id="selectedSheet"
+        class="selected-sheet hidden">
+      </div>
+
+      <div
+        style="margin-top:12px;display:flex;gap:8px">
+
+        <button
+          class="secondary"
+          onclick="showSheetResults()">
+          Browse Sheets
+        </button>
+
+        <button
+          id="loadSheetButton"
+          class="primary"
+          disabled
+          onclick="loadSelectedSheet()">
+          Load selected Sheet
+        </button>
+
+      </div>
+
+      <div id="sheetValidation"></div>
+
     </div>
 
-    <div style="display:flex;gap:10px;align-items:center">
 
-      <span class="secure">
-        ● Session-based MVP
-      </span>
+    <div class="card">
 
-      <button class="secondary" onclick="signOut()">
-        Sign out
+      <h3>Add manually</h3>
+
+      <p class="small">
+        Add one reminder without preparing a Sheet.
+      </p>
+
+      <button
+        class="primary"
+        onclick="openManualEntry()">
+        Add a person
       </button>
 
     </div>
 
-  </header>
+  </div>
 
-  <div class="layout">
 
-    <!-- SIDEBAR -->
+  <div class="stats">
 
-    <aside class="sidebar">
+    <div class="stat">
+      <div class="small">Assignments</div>
+      <div id="statAll" class="stat-number">0</div>
+    </div>
 
-      <div
-        class="nav-item active"
-        data-target="dashboard"
-        onclick="showSection('dashboard',this)">
-        Dashboard
-      </div>
+    <div class="stat">
+      <div class="small">Ready</div>
+      <div id="statReady" class="stat-number">0</div>
+    </div>
 
-      <div
-        class="nav-item"
-        data-target="assignments"
-        onclick="showSection('assignments',this)">
-        Assignments
-      </div>
+    <div class="stat">
+      <div class="small">Needs attention</div>
+      <div id="statBad" class="stat-number">0</div>
+    </div>
 
-      <div
-        class="nav-item"
-        data-target="followups"
-        onclick="showSection('followups',this)">
-        Follow-ups
-      </div>
-
-      <div
-        class="nav-item"
-        data-target="integrations"
-        onclick="showSection('integrations',this)">
-        Integrations
-      </div>
-
-      <div
-        class="nav-item"
-        data-target="settings"
-        onclick="showSection('settings',this)">
-        Settings
-      </div>
-
-    </aside>
-
-    <main class="main">
-
-      <!-- DASHBOARD -->
-
-      <section id="dashboard" class="section active">
-
-        <h1 id="welcomeTitle">
-          Welcome back 👋🏾
-        </h1>
-
-        <div class="subtext">
-          Select a Google Sheet or add people manually.
-          FollowLoop checks the information before allowing any action.
-        </div>
-
-        <div class="grid">
-
-          <div class="card">
-
-            <h3>Choose a Google Sheet</h3>
-
-            <p class="small">
-              Search your Google Drive without displaying a long list of files.
-            </p>
-
-            <input
-              id="sheetSearch"
-              class="sheet-search"
-              placeholder="Search Google Sheets..."
-              onfocus="showSheetResults()"
-              oninput="filterSheets()">
-
-            <div
-              id="sheetResults"
-              class="sheet-results hidden">
-            </div>
-
-            <div
-              id="selectedSheet"
-              class="selected-sheet hidden">
-            </div>
-
-            <div style="margin-top:12px;display:flex;gap:8px">
-
-              <button
-                class="secondary"
-                onclick="showSheetResults()">
-                Browse Sheets
-              </button>
-
-              <button
-                id="loadSheetButton"
-                class="primary"
-                disabled
-                onclick="loadSelectedSheet()">
-                Load selected Sheet
-              </button>
-
-            </div>
-
-            <div id="sheetValidation"></div>
-
-          </div>
-
-          <div class="card">
-
-            <h3>Add manually</h3>
-
-            <p class="small">
-              Don't have a prepared Sheet? Add a person directly.
-            </p>
-
-            <button
-              class="primary"
-              onclick="openManualEntry()">
-              Add a person
-            </button>
-
-          </div>
-
-        </div>
-
-        <div class="stats">
-
-          <div class="stat">
-            <div class="small">Assignments</div>
-            <div id="statAll" class="stat-number">0</div>
-          </div>
-
-          <div class="stat">
-            <div class="small">Ready</div>
-            <div id="statReady" class="stat-number">0</div>
-          </div>
-
-          <div class="stat">
-            <div class="small">Needs attention</div>
-            <div id="statBad" class="stat-number">0</div>
-          </div>
-
-          <div class="stat">
-            <div class="small">Follow-ups pending</div>
-            <div id="statPending" class="stat-number">0</div>
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <h3>Validation summary</h3>
-
-          <div
-            id="globalValidation"
-            class="validation warning">
-            No assignments loaded yet.
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- ASSIGNMENTS -->
-
-      <section id="assignments" class="section">
-
-        <h1>Assignments</h1>
-
-        <p class="subtext">
-          Load assignments from Google Sheets or add them manually.
-        </p>
-
-        <div id="manualForm" class="card" style="margin:20px 0">
-
-          <h3>Add a person manually</h3>
-
-          <div class="form-grid">
-
-            <div class="field">
-
-              <label>Name *</label>
-
-              <input id="manualName">
-
-              <div
-                id="errorName"
-                class="error-message">
-              </div>
-
-            </div>
-
-            <div class="field">
-
-              <label>Email *</label>
-
-              <input
-                id="manualEmail"
-                type="email">
-
-              <div
-                id="errorEmail"
-                class="error-message">
-              </div>
-
-            </div>
-
-            <div class="field">
-
-              <label>WhatsApp number *</label>
-
-              <input
-                id="manualPhone"
-                placeholder="+234...">
-
-              <div
-                id="errorPhone"
-                class="error-message">
-              </div>
-
-            </div>
-
-            <div class="field">
-
-              <label>Assignment / task *</label>
-
-              <input id="manualTask">
-
-              <div
-                id="errorTask"
-                class="error-message">
-              </div>
-
-            </div>
-
-            <div class="field">
-
-              <label>Date *</label>
-
-              <input
-                id="manualDate"
-                type="date">
-
-              <div
-                id="errorDate"
-                class="error-message">
-              </div>
-
-            </div>
-
-            <div class="field">
-
-              <label>Time *</label>
-
-              <input
-                id="manualTime"
-                type="time">
-
-              <div
-                id="errorTime"
-                class="error-message">
-              </div>
-
-            </div>
-
-          </div>
-
-          <div style="margin-top:12px;display:flex;gap:8px">
-
-            <button
-              class="primary"
-              onclick="addManualPerson()">
-              Add person
-            </button>
-
-            <button
-              class="secondary"
-              onclick="clearManualForm()">
-              Clear
-            </button>
-
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-
-                <tr>
-                  <th>Person</th>
-                  <th>Assignment</th>
-                  <th>Date & Time</th>
-                  <th>Validation</th>
-                  <th>Actions</th>
-                </tr>
-
-              </thead>
-
-              <tbody id="assignmentRows"></tbody>
-
-            </table>
-
-          </div>
-
-          <div
-            id="assignmentEmpty"
-            class="empty">
-            No assignments yet.
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- FOLLOW UPS -->
-
-      <section id="followups" class="section">
-
-        <h1>Follow-ups</h1>
-
-        <p class="subtext">
-          See which communication actions have been started.
-        </p>
-
-        <div class="card" style="margin-top:20px">
-
-          <div class="table-wrap">
-
-            <table>
-
-              <thead>
-
-                <tr>
-                  <th>Person</th>
-                  <th>Calendar</th>
-                  <th>Email</th>
-                  <th>WhatsApp</th>
-                  <th>Confirmation</th>
-                </tr>
-
-              </thead>
-
-              <tbody id="followupRows"></tbody>
-
-            </table>
-
-          </div>
-
-          <div
-            id="followupEmpty"
-            class="empty">
-            No assignments loaded yet.
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- INTEGRATIONS -->
-
-      <section id="integrations" class="section">
-
-        <h1>Integrations</h1>
-
-        <p class="subtext">
-          FollowLoop MVP connections.
-        </p>
-
-        <div class="card" style="margin-top:20px">
-
-          <p>
-            <strong>Google Sign-in</strong><br>
-            <span class="small">
-              Authenticate through Google OAuth.
-            </span>
-          </p>
-
-          <hr style="border:none;border-top:1px solid var(--line)">
-
-          <p>
-            <strong>Google Drive / Sheets</strong><br>
-            <span class="small">
-              Search and read the Google Sheets you authorize.
-            </span>
-          </p>
-
-          <hr style="border:none;border-top:1px solid var(--line)">
-
-          <p>
-            <strong>Google Calendar</strong><br>
-            <span class="small">
-              Create a pre-filled calendar event and attendee.
-            </span>
-          </p>
-
-          <hr style="border:none;border-top:1px solid var(--line)">
-
-          <p>
-            <strong>Email</strong><br>
-            <span class="small">
-              Create a pre-filled reminder email.
-            </span>
-          </p>
-
-          <hr style="border:none;border-top:1px solid var(--line)">
-
-          <p>
-            <strong>WhatsApp</strong><br>
-            <span class="small">
-              Open a pre-filled WhatsApp reminder message.
-            </span>
-          </p>
-
-        </div>
-
-      </section>
-
-      <!-- SETTINGS -->
-
-      <section id="settings" class="section">
-
-        <h1>Settings</h1>
-
-        <p class="subtext">
-          These MVP settings apply to the current browser session.
-        </p>
-
-        <div
-          class="card"
-          style="margin-top:20px;max-width:720px">
-
-          <div class="field">
-
-            <label>Timezone</label>
-
-            <select id="timezone">
-
-              <option value="Africa/Lagos">
-                Africa/Lagos
-              </option>
-
-              <option value="Europe/London">
-                Europe/London
-              </option>
-
-              <option value="America/New_York">
-                America/New_York
-              </option>
-
-            </select>
-
-          </div>
-
-          <div
-            class="field"
-            style="margin-top:15px">
-
-            <label>
-              Default reminder message
-            </label>
-
-            <textarea
-              id="defaultMessage"
-              rows="5">Hello {{name}}, this is a reminder about {{task}} scheduled for {{date}} at {{time}}. Please confirm that you are available. Thank you.</textarea>
-
-          </div>
-
-          <div
-            class="field"
-            style="margin-top:15px">
-
-            <label>
-              Calendar duration
-            </label>
-
-            <select id="calendarDuration">
-
-              <option value="30">
-                30 minutes
-              </option>
-
-              <option
-                value="60"
-                selected>
-                1 hour
-              </option>
-
-              <option value="90">
-                1 hour 30 minutes
-              </option>
-
-              <option value="120">
-                2 hours
-              </option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </main>
+    <div class="stat">
+      <div class="small">Due today</div>
+      <div id="statDue" class="stat-number">0</div>
+    </div>
 
   </div>
 
+
+  <div class="card">
+
+    <h3>Validation summary</h3>
+
+    <div
+      id="globalValidation"
+      class="validation warning">
+      No assignments loaded yet.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ASSIGNMENTS -->
+
+<section id="assignments" class="section">
+
+  <h1>Assignments</h1>
+
+  <div class="subtext">
+    Each reminder needs complete event, reminder and contact information.
+  </div>
+
+
+  <div
+    id="manualForm"
+    class="card"
+    style="margin:20px 0">
+
+    <h3>Add a reminder manually</h3>
+
+
+    <div class="form-grid">
+
+
+      <div class="field">
+
+        <label>Name *</label>
+
+        <input id="manualName">
+
+        <div
+          id="errorName"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Email *</label>
+
+        <input
+          id="manualEmail"
+          type="email">
+
+        <div
+          id="errorEmail"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>WhatsApp number *</label>
+
+        <input
+          id="manualPhone"
+          placeholder="+234...">
+
+        <div
+          id="errorPhone"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Assignment / Event *</label>
+
+        <input id="manualTask">
+
+        <div
+          id="errorTask"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Event date *</label>
+
+        <input
+          id="manualDate"
+          type="date">
+
+        <div
+          id="errorDate"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Event time *</label>
+
+        <input
+          id="manualTime"
+          type="time">
+
+        <div
+          id="errorTime"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Reminder date *</label>
+
+        <input
+          id="manualReminderDate"
+          type="date">
+
+        <div
+          id="errorReminderDate"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>Reminder stage *</label>
+
+        <select id="manualStage">
+
+          <option value="">
+            Choose stage
+          </option>
+
+          <option>
+            2 weeks before
+          </option>
+
+          <option>
+            1 week before
+          </option>
+
+          <option>
+            3 days before
+          </option>
+
+          <option>
+            1 day before
+          </option>
+
+          <option>
+            Today
+          </option>
+
+          <option>
+            Follow-up
+          </option>
+
+        </select>
+
+        <div
+          id="errorStage"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+      <div
+        class="field"
+        style="grid-column:1/-1">
+
+        <label>Reminder message *</label>
+
+        <textarea
+          id="manualMessage"
+          rows="4"
+          placeholder="Hi Tobi, this is a reminder that you are leading worship tomorrow..."></textarea>
+
+        <div
+          id="errorMessage"
+          class="error-message">
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div
+      style="margin-top:12px;display:flex;gap:8px">
+
+      <button
+        class="primary"
+        onclick="addManualPerson()">
+        Add reminder
+      </button>
+
+      <button
+        class="secondary"
+        onclick="clearManualForm()">
+        Clear
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Person</th>
+
+            <th>Event</th>
+
+            <th>Date & Time</th>
+
+            <th>Reminder</th>
+
+            <th>Due</th>
+
+            <th>Validation</th>
+
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="assignmentRows"></tbody>
+
+      </table>
+
+    </div>
+
+
+    <div
+      id="assignmentEmpty"
+      class="empty">
+      No assignments yet.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOLLOW UPS -->
+
+<section id="followups" class="section">
+
+  <h1>Follow-ups</h1>
+
+  <div class="subtext">
+    Track each reminder action separately.
+  </div>
+
+
+  <div
+    class="card"
+    style="margin-top:20px">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Person</th>
+
+            <th>Stage</th>
+
+            <th>Due</th>
+
+            <th>Calendar</th>
+
+            <th>Email</th>
+
+            <th>WhatsApp</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="followupRows"></tbody>
+
+      </table>
+
+    </div>
+
+
+    <div
+      id="followupEmpty"
+      class="empty">
+      No reminder actions yet.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- INTEGRATIONS -->
+
+<section id="integrations" class="section">
+
+  <h1>Integrations</h1>
+
+  <div
+    class="card"
+    style="margin-top:20px">
+
+    <p>
+
+      <strong>Calendar</strong>
+
+      <br>
+
+      <span class="small">
+        Opens a Google Calendar event using the event date,
+        event time and reminder message.
+      </span>
+
+    </p>
+
+    <hr style="border:none;border-top:1px solid var(--line)">
+
+    <p>
+
+      <strong>Email</strong>
+
+      <br>
+
+      <span class="small">
+        Opens Gmail compose with the recipient,
+        subject and reminder message already filled.
+      </span>
+
+    </p>
+
+    <hr style="border:none;border-top:1px solid var(--line)">
+
+    <p>
+
+      <strong>WhatsApp</strong>
+
+      <br>
+
+      <span class="small">
+        Opens WhatsApp with the reminder message
+        already filled for the selected person.
+      </span>
+
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="section">
+
+  <h1>Settings</h1>
+
+  <div
+    class="card"
+    style="margin-top:20px;max-width:700px">
+
+    <div class="field">
+
+      <label>
+        Calendar duration
+      </label>
+
+      <select id="calendarDuration">
+
+        <option value="30">
+          30 minutes
+        </option>
+
+        <option
+          value="60"
+          selected>
+          1 hour
+        </option>
+
+        <option value="90">
+          1 hour 30 minutes
+        </option>
+
+        <option value="120">
+          2 hours
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</main>
 </div>
+</div>
+
 
 <div
   id="toast"
   class="toast">
 </div>
 
+
 <script>
 
-/* =========================
-   GOOGLE CONFIGURATION
-========================= */
+/* ===================================
+   GOOGLE CONFIG
+=================================== */
 
 const CLIENT_ID =
 "8491069642-pkgjuvmjuogs2vqus9nkoe4n868eb6dk.apps.googleusercontent.com";
 
 
 let tokenClient = null;
+
 let accessToken = null;
 
 let googleSheets = [];
+
 let selectedSheet = null;
 
 let assignments = [];
 
 
-/* =========================
+/* ===================================
    NAVIGATION
-========================= */
+=================================== */
 
-function showSection(sectionId, clickedItem = null) {
-
-  document
-    .querySelectorAll(".section")
-    .forEach(section =>
-      section.classList.remove("active")
-    );
+function showSection(
+  sectionId,
+  clickedItem = null
+){
 
   document
-    .getElementById(sectionId)
-    .classList.add("active");
-
-
-  document
-    .querySelectorAll(".nav-item")
-    .forEach(item =>
-      item.classList.remove("active")
+    .querySelectorAll(
+      ".section"
+    )
+    .forEach(
+      section =>
+        section
+          .classList
+          .remove("active")
     );
 
 
-  const navItem =
+  document
+    .getElementById(
+      sectionId
+    )
+    .classList
+    .add("active");
+
+
+  document
+    .querySelectorAll(
+      ".nav-item"
+    )
+    .forEach(
+      item =>
+        item
+          .classList
+          .remove("active")
+    );
+
+
+  const item =
     clickedItem ||
     document.querySelector(
       `.nav-item[data-target="${sectionId}"]`
     );
 
 
-  if (navItem) {
-    navItem.classList.add("active");
+  if(item){
+
+    item
+      .classList
+      .add("active");
+
   }
 
 }
 
 
-function openManualEntry() {
+function openManualEntry(){
 
-  showSection("assignments");
+  showSection(
+    "assignments"
+  );
 
-  setTimeout(() => {
 
-    document
-      .getElementById("manualForm")
-      .scrollIntoView({
-        behavior:"smooth"
-      });
+  setTimeout(
+    () => {
 
-  },100);
+      document
+        .getElementById(
+          "manualForm"
+        )
+        .scrollIntoView({
+          behavior:"smooth"
+        });
+
+    },
+    100
+  );
 
 }
 
 
-/* =========================
-   GOOGLE SIGN-IN
-========================= */
+/* ===================================
+   GOOGLE LOGIN
+=================================== */
 
-function googleLogin() {
+function googleLogin(){
 
-  if (
+  if(
     !window.google ||
     !google.accounts ||
     !google.accounts.oauth2
-  ) {
+  ){
 
-    showToast(
-      "Google sign-in is still loading. Try again."
+    toast(
+      "Google sign-in is still loading."
     );
 
     return;
+
   }
 
 
-  if (!tokenClient) {
+  if(!tokenClient){
 
     tokenClient =
-      google.accounts.oauth2.initTokenClient({
+      google.accounts.oauth2
+      .initTokenClient({
 
-        client_id:CLIENT_ID,
+        client_id:
+          CLIENT_ID,
 
         scope:
           "openid email profile " +
           "https://www.googleapis.com/auth/drive.metadata.readonly " +
           "https://www.googleapis.com/auth/spreadsheets.readonly",
 
-        callback:async response => {
+        callback:
+          async response => {
 
-          if (response.error) {
+            if(
+              response.error
+            ){
 
-            showToast(
-              "Google authentication failed."
-            );
+              toast(
+                "Google authentication failed."
+              );
 
-            return;
+              return;
+
+            }
+
+
+            accessToken =
+              response.access_token;
+
+
+            document
+              .getElementById(
+                "loginScreen"
+              )
+              .classList
+              .add("hidden");
+
+
+            document
+              .getElementById(
+                "appShell"
+              )
+              .classList
+              .remove("hidden");
+
+
+            await loadProfile();
+
+            await loadGoogleSheets();
+
           }
-
-
-          accessToken =
-            response.access_token;
-
-
-          document
-            .getElementById("loginScreen")
-            .classList.add("hidden");
-
-
-          document
-            .getElementById("appShell")
-            .classList.remove("hidden");
-
-
-          await loadGoogleProfile();
-
-          await loadGoogleSheets();
-
-        }
 
       });
 
   }
 
 
-  tokenClient.requestAccessToken({
-    prompt:"consent"
-  });
+  tokenClient
+    .requestAccessToken({
+      prompt:"consent"
+    });
 
 }
 
 
-/* =========================
-   PROFILE
-========================= */
+/* ===================================
+   USER PROFILE
+=================================== */
 
-async function loadGoogleProfile() {
+async function loadProfile(){
 
-  try {
+  try{
 
     const response =
       await fetch(
@@ -1201,7 +1371,8 @@ async function loadGoogleProfile() {
         {
           headers:{
             Authorization:
-              "Bearer " + accessToken
+              "Bearer " +
+              accessToken
           }
         }
       );
@@ -1211,10 +1382,14 @@ async function loadGoogleProfile() {
       await response.json();
 
 
-    if (profile.given_name) {
+    if(
+      profile.given_name
+    ){
 
       document
-        .getElementById("welcomeTitle")
+        .getElementById(
+          "welcomeTitle"
+        )
         .textContent =
           "Welcome back, " +
           profile.given_name +
@@ -1224,7 +1399,7 @@ async function loadGoogleProfile() {
 
   }
 
-  catch(error) {
+  catch(error){
 
     console.error(error);
 
@@ -1233,18 +1408,17 @@ async function loadGoogleProfile() {
 }
 
 
-/* =========================
-   GOOGLE SHEETS LIST
-========================= */
+/* ===================================
+   GOOGLE SHEETS
+=================================== */
 
-async function loadGoogleSheets() {
+async function loadGoogleSheets(){
 
-  try {
+  try{
 
     const query =
       encodeURIComponent(
-        "mimeType='application/vnd.google-apps.spreadsheet' " +
-        "and trashed=false"
+        "mimeType='application/vnd.google-apps.spreadsheet' and trashed=false"
       );
 
 
@@ -1252,15 +1426,21 @@ async function loadGoogleSheets() {
       await fetch(
 
         "https://www.googleapis.com/drive/v3/files?" +
-        "q=" + query +
+
+        "q=" +
+        query +
+
         "&pageSize=100" +
+
         "&orderBy=modifiedTime desc" +
+
         "&fields=files(id,name,modifiedTime)",
 
         {
           headers:{
             Authorization:
-              "Bearer " + accessToken
+              "Bearer " +
+              accessToken
           }
         }
 
@@ -1281,11 +1461,11 @@ async function loadGoogleSheets() {
 
   }
 
-  catch(error) {
+  catch(error){
 
     console.error(error);
 
-    showToast(
+    toast(
       "Could not load Google Sheets."
     );
 
@@ -1294,41 +1474,54 @@ async function loadGoogleSheets() {
 }
 
 
-function showSheetResults() {
+function showSheetResults(){
 
   document
-    .getElementById("sheetResults")
-    .classList.remove("hidden");
+    .getElementById(
+      "sheetResults"
+    )
+    .classList
+    .remove("hidden");
 
 }
 
 
-function filterSheets() {
+function filterSheets(){
 
   const search =
     document
-      .getElementById("sheetSearch")
+      .getElementById(
+        "sheetSearch"
+      )
       .value
       .toLowerCase()
       .trim();
 
 
   const filtered =
-    googleSheets.filter(sheet =>
-      sheet.name
+    googleSheets.filter(
+      sheet =>
+        sheet.name
         .toLowerCase()
-        .includes(search)
+        .includes(
+          search
+        )
     );
 
 
-  renderSheetResults(filtered);
+  renderSheetResults(
+    filtered
+  );
+
 
   showSheetResults();
 
 }
 
 
-function renderSheetResults(list) {
+function renderSheetResults(
+  list
+){
 
   const container =
     document.getElementById(
@@ -1339,65 +1532,86 @@ function renderSheetResults(list) {
   container.innerHTML = "";
 
 
-  if (!list.length) {
+  if(
+    list.length === 0
+  ){
 
     container.innerHTML =
       '<div class="sheet-item">No Sheets found.</div>';
 
     return;
+
   }
 
 
-  list.forEach(sheet => {
+  list.forEach(
+    sheet => {
 
-    const row =
-      document.createElement("div");
-
-
-    row.className =
-      "sheet-item";
-
-
-    const modified =
-      sheet.modifiedTime
-      ? new Date(
-          sheet.modifiedTime
-        ).toLocaleString()
-      : "";
+      const row =
+        document.createElement(
+          "div"
+        );
 
 
-    row.innerHTML = `
-      <strong>
-        📄 ${escapeHtml(sheet.name)}
-      </strong>
-
-      <div class="small">
-        ${modified}
-      </div>
-    `;
+      row.className =
+        "sheet-item";
 
 
-    row.onclick =
-      () => selectSheet(sheet);
+      const modified =
+        sheet.modifiedTime
+        ? new Date(
+            sheet.modifiedTime
+          ).toLocaleString()
+        : "";
 
 
-    container.appendChild(row);
+      row.innerHTML = `
 
-  });
+        <strong>
+          📄
+          ${escapeHtml(
+            sheet.name
+          )}
+        </strong>
+
+        <div class="small">
+          ${modified}
+        </div>
+
+      `;
+
+
+      row.onclick =
+        () =>
+          selectSheet(
+            sheet
+          );
+
+
+      container
+        .appendChild(
+          row
+        );
+
+    }
+  );
 
 }
 
 
-function selectSheet(sheet) {
+function selectSheet(
+  sheet
+){
 
   selectedSheet =
     sheet;
 
 
   const selected =
-    document.getElementById(
-      "selectedSheet"
-    );
+    document
+      .getElementById(
+        "selectedSheet"
+      );
 
 
   selected.textContent =
@@ -1405,9 +1619,11 @@ function selectSheet(sheet) {
     sheet.name;
 
 
-  selected.classList.remove(
-    "hidden"
-  );
+  selected
+    .classList
+    .remove(
+      "hidden"
+    );
 
 
   document
@@ -1422,7 +1638,8 @@ function selectSheet(sheet) {
     .getElementById(
       "sheetResults"
     )
-    .classList.add(
+    .classList
+    .add(
       "hidden"
     );
 
@@ -1437,34 +1654,37 @@ function selectSheet(sheet) {
 }
 
 
-/* =========================
-   LOAD SHEET
-========================= */
+/* ===================================
+   LOAD SELECTED SHEET
+=================================== */
 
-async function loadSelectedSheet() {
+async function loadSelectedSheet(){
 
-  if (!selectedSheet) {
+  if(!selectedSheet){
     return;
   }
 
 
-  const statusBox =
-    document.getElementById(
-      "sheetValidation"
-    );
+  const box =
+    document
+      .getElementById(
+        "sheetValidation"
+      );
 
 
-  statusBox.innerHTML =
+  box.innerHTML =
     '<div class="validation warning">Checking your Sheet...</div>';
 
 
-  try {
+  try{
 
-    const metadataResponse =
+    const metadata =
       await fetch(
 
         "https://sheets.googleapis.com/v4/spreadsheets/" +
+
         selectedSheet.id +
+
         "?fields=sheets.properties",
 
         {
@@ -1475,11 +1695,11 @@ async function loadSelectedSheet() {
           }
         }
 
+      )
+      .then(
+        response =>
+          response.json()
       );
-
-
-    const metadata =
-      await metadataResponse.json();
 
 
     const firstTab =
@@ -1490,10 +1710,12 @@ async function loadSelectedSheet() {
         .title;
 
 
-    if (!firstTab) {
+    if(!firstTab){
+
       throw new Error(
-        "No Sheet tab found"
+        "No tab found"
       );
+
     }
 
 
@@ -1512,12 +1734,15 @@ async function loadSelectedSheet() {
       );
 
 
-    const dataResponse =
+    const result =
       await fetch(
 
         "https://sheets.googleapis.com/v4/spreadsheets/" +
+
         selectedSheet.id +
+
         "/values/" +
+
         range,
 
         {
@@ -1528,23 +1753,23 @@ async function loadSelectedSheet() {
           }
         }
 
+      )
+      .then(
+        response =>
+          response.json()
       );
 
 
-    const result =
-      await dataResponse.json();
-
-
-    const success =
+    const worked =
       importSheetRows(
         result.values || [],
         selectedSheet.name
       );
 
 
-    if (success) {
+    if(worked){
 
-      statusBox.innerHTML =
+      box.innerHTML =
         '<div class="validation ok">Sheet loaded and validated.</div>';
 
 
@@ -1556,16 +1781,16 @@ async function loadSelectedSheet() {
 
   }
 
-  catch(error) {
+  catch(error){
 
     console.error(error);
 
 
-    statusBox.innerHTML =
+    box.innerHTML =
       `<div class="validation error">
+
         FollowLoop could not read this Sheet.
-        Please check that it contains a normal table
-        with column headings in the first row.
+
       </div>`;
 
   }
@@ -1573,14 +1798,16 @@ async function loadSelectedSheet() {
 }
 
 
-/* =========================
-   SHEET VALIDATION
-========================= */
+/* ===================================
+   COLUMN DETECTION
+=================================== */
 
-function normalizeHeader(header) {
+function normalizeHeader(
+  value
+){
 
   return String(
-    header || ""
+    value || ""
   )
   .trim()
   .toLowerCase()
@@ -1595,7 +1822,7 @@ function normalizeHeader(header) {
 function findHeader(
   headers,
   possibleNames
-) {
+){
 
   const normalized =
     headers.map(
@@ -1603,10 +1830,10 @@ function findHeader(
     );
 
 
-  for (
+  for(
     const possibleName
     of possibleNames
-  ) {
+  ){
 
     const index =
       normalized.indexOf(
@@ -1616,8 +1843,12 @@ function findHeader(
       );
 
 
-    if (index >= 0) {
+    if(
+      index >= 0
+    ){
+
       return index;
+
     }
 
   }
@@ -1628,12 +1859,18 @@ function findHeader(
 }
 
 
+/* ===================================
+   IMPORT SHEET ROWS
+=================================== */
+
 function importSheetRows(
   rows,
   sourceName
-) {
+){
 
-  if (rows.length < 2) {
+  if(
+    rows.length < 2
+  ){
 
     document
       .getElementById(
@@ -1641,8 +1878,11 @@ function importSheetRows(
       )
       .innerHTML =
         `<div class="validation error">
-          This Sheet does not contain any assignment rows.
+
+          This Sheet does not contain reminder rows.
+
         </div>`;
+
 
     return false;
 
@@ -1690,6 +1930,7 @@ function importSheetRows(
       findHeader(
         headers,
         [
+          "event",
           "assignment",
           "task",
           "role",
@@ -1701,8 +1942,8 @@ function importSheetRows(
       findHeader(
         headers,
         [
-          "date",
-          "service date"
+          "event date",
+          "date"
         ]
       ),
 
@@ -1710,52 +1951,95 @@ function importSheetRows(
       findHeader(
         headers,
         [
+          "event time",
           "time",
           "start time"
+        ]
+      ),
+
+    reminderDate:
+      findHeader(
+        headers,
+        [
+          "reminder date",
+          "due date"
+        ]
+      ),
+
+    stage:
+      findHeader(
+        headers,
+        [
+          "reminder stage",
+          "stage",
+          "reminder"
+        ]
+      ),
+
+    message:
+      findHeader(
+        headers,
+        [
+          "reminder message",
+          "message",
+          "prompt"
         ]
       )
 
   };
 
 
-  const missingColumns =
+  const missing =
     Object
-    .entries(columns)
-    .filter(
-      ([key,value]) =>
-        value < 0
-    )
-    .map(
-      ([key]) =>
-        friendlyFieldName(key)
-    );
+      .entries(
+        columns
+      )
+      .filter(
+        ([key,value]) =>
+          value < 0
+      )
+      .map(
+        ([key]) =>
+          friendlyField(
+            key
+          )
+      );
 
 
-  if (
-    missingColumns.length
-  ) {
+  if(
+    missing.length
+  ){
 
     document
       .getElementById(
         "sheetValidation"
       )
-      .innerHTML =
-        `<div class="validation error">
+      .innerHTML = `
+
+        <div class="validation error">
+
           <strong>
             Missing required columns:
           </strong>
-          ${missingColumns.join(", ")}.
+
+          ${missing.join(", ")}.
+
           <br><br>
-          Please add the missing column headings
-          to the first row of your Google Sheet.
-        </div>`;
+
+          Please add the missing headings
+          to the first row of the Sheet.
+
+        </div>
+
+      `;
+
 
     return false;
 
   }
 
 
-  const newAssignments =
+  const imported =
     rows
     .slice(1)
     .filter(
@@ -1809,6 +2093,21 @@ function importSheetRows(
             columns.time
           ] || "",
 
+        reminderDate:
+          row[
+            columns.reminderDate
+          ] || "",
+
+        stage:
+          row[
+            columns.stage
+          ] || "",
+
+        message:
+          row[
+            columns.message
+          ] || "",
+
         calendar:
           "Pending",
 
@@ -1816,16 +2115,11 @@ function importSheetRows(
           "Pending",
 
         whatsappStatus:
-          "Pending",
-
-        confirmation:
-          "Awaiting reply"
+          "Pending"
 
       })
     );
 
-
-  /* Remove older copy of same Sheet */
 
   assignments =
     assignments.filter(
@@ -1836,11 +2130,11 @@ function importSheetRows(
 
 
   assignments.push(
-    ...newAssignments
+    ...imported
   );
 
 
-  refreshEverything();
+  refreshAll();
 
 
   return true;
@@ -1848,60 +2142,79 @@ function importSheetRows(
 }
 
 
-/* =========================
+/* ===================================
    VALIDATION
-========================= */
+=================================== */
 
-function friendlyFieldName(
+function friendlyField(
   field
-) {
+){
 
-  const labels = {
+  const names = {
 
-    name:"Name",
+    name:
+      "Name",
 
-    email:"Email",
+    email:
+      "Email",
 
     phone:
       "WhatsApp number",
 
     task:
-      "Assignment/task",
+      "Assignment/Event",
 
-    date:"Date",
+    date:
+      "Event date",
 
-    time:"Time"
+    time:
+      "Event time",
+
+    reminderDate:
+      "Reminder date",
+
+    stage:
+      "Reminder stage",
+
+    message:
+      "Reminder message"
 
   };
 
 
-  return labels[field] ||
-    field;
+  return (
+    names[field] ||
+    field
+  );
 
 }
 
 
 function validateAssignment(
   assignment
-) {
+){
 
   const errors = [];
 
 
-  if (
+  if(
     !String(
       assignment.name || ""
     ).trim()
-  ) {
-    errors.push("Name");
+  ){
+
+    errors.push(
+      "Name"
+    );
+
   }
 
 
-  if (
+  if(
     !String(
       assignment.email || ""
     ).trim()
-  ) {
+  ){
 
     errors.push(
       "Email"
@@ -1909,12 +2222,12 @@ function validateAssignment(
 
   }
 
-  else if (
+  else if(
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
     .test(
       assignment.email.trim()
     )
-  ) {
+  ){
 
     errors.push(
       "Valid email"
@@ -1923,11 +2236,11 @@ function validateAssignment(
   }
 
 
-  if (
+  if(
     !String(
       assignment.phone || ""
     ).trim()
-  ) {
+  ){
 
     errors.push(
       "WhatsApp number"
@@ -1936,40 +2249,79 @@ function validateAssignment(
   }
 
 
-  if (
+  if(
     !String(
       assignment.task || ""
     ).trim()
-  ) {
+  ){
 
     errors.push(
-      "Assignment/task"
+      "Assignment/Event"
     );
 
   }
 
 
-  if (
+  if(
     !String(
       assignment.date || ""
     ).trim()
-  ) {
+  ){
 
     errors.push(
-      "Date"
+      "Event date"
     );
 
   }
 
 
-  if (
+  if(
     !String(
       assignment.time || ""
     ).trim()
-  ) {
+  ){
 
     errors.push(
-      "Time"
+      "Event time"
+    );
+
+  }
+
+
+  if(
+    !String(
+      assignment.reminderDate || ""
+    ).trim()
+  ){
+
+    errors.push(
+      "Reminder date"
+    );
+
+  }
+
+
+  if(
+    !String(
+      assignment.stage || ""
+    ).trim()
+  ){
+
+    errors.push(
+      "Reminder stage"
+    );
+
+  }
+
+
+  if(
+    !String(
+      assignment.message || ""
+    ).trim()
+  ){
+
+    errors.push(
+      "Reminder message"
     );
 
   }
@@ -1980,9 +2332,9 @@ function validateAssignment(
 }
 
 
-function assignmentIsReady(
+function assignmentReady(
   assignment
-) {
+){
 
   return (
     validateAssignment(
@@ -1993,11 +2345,25 @@ function assignmentIsReady(
 }
 
 
-/* =========================
+/* ===================================
    MANUAL ENTRY
-========================= */
+=================================== */
 
-function addManualPerson() {
+function valueOf(
+  id
+){
+
+  return document
+    .getElementById(
+      id
+    )
+    .value
+    .trim();
+
+}
+
+
+function addManualPerson(){
 
   clearErrors();
 
@@ -2008,63 +2374,62 @@ function addManualPerson() {
       "manual-" +
       Date.now(),
 
-    source:"Manual",
+    source:
+      "Manual",
 
     name:
-      document
-        .getElementById(
-          "manualName"
-        )
-        .value
-        .trim(),
+      valueOf(
+        "manualName"
+      ),
 
     email:
-      document
-        .getElementById(
-          "manualEmail"
-        )
-        .value
-        .trim(),
+      valueOf(
+        "manualEmail"
+      ),
 
     phone:
-      document
-        .getElementById(
-          "manualPhone"
-        )
-        .value
-        .trim(),
+      valueOf(
+        "manualPhone"
+      ),
 
     task:
-      document
-        .getElementById(
-          "manualTask"
-        )
-        .value
-        .trim(),
+      valueOf(
+        "manualTask"
+      ),
 
     date:
-      document
-        .getElementById(
-          "manualDate"
-        )
-        .value,
+      valueOf(
+        "manualDate"
+      ),
 
     time:
-      document
-        .getElementById(
-          "manualTime"
-        )
-        .value,
+      valueOf(
+        "manualTime"
+      ),
 
-    calendar:"Pending",
+    reminderDate:
+      valueOf(
+        "manualReminderDate"
+      ),
 
-    emailStatus:"Pending",
+    stage:
+      valueOf(
+        "manualStage"
+      ),
 
-    whatsappStatus:
+    message:
+      valueOf(
+        "manualMessage"
+      ),
+
+    calendar:
       "Pending",
 
-    confirmation:
-      "Awaiting reply"
+    emailStatus:
+      "Pending",
+
+    whatsappStatus:
+      "Pending"
 
   };
 
@@ -2075,123 +2440,86 @@ function addManualPerson() {
     );
 
 
-  if (
+  const messages = {
+
+    "Name":[
+      "errorName",
+      "Please add the person's name."
+    ],
+
+    "Email":[
+      "errorEmail",
+      "Please add an email address."
+    ],
+
+    "Valid email":[
+      "errorEmail",
+      "That email address doesn't look right."
+    ],
+
+    "WhatsApp number":[
+      "errorPhone",
+      "Please add a WhatsApp number."
+    ],
+
+    "Assignment/Event":[
+      "errorTask",
+      "Please add the assignment or event."
+    ],
+
+    "Event date":[
+      "errorDate",
+      "Please add the event date."
+    ],
+
+    "Event time":[
+      "errorTime",
+      "Please add the event time."
+    ],
+
+    "Reminder date":[
+      "errorReminderDate",
+      "Please add the reminder date."
+    ],
+
+    "Reminder stage":[
+      "errorStage",
+      "Please choose the reminder stage."
+    ],
+
+    "Reminder message":[
+      "errorMessage",
+      "Please add the reminder message."
+    ]
+
+  };
+
+
+  if(
     errors.length
-  ) {
+  ){
 
-    if (
-      errors.includes(
-        "Name"
-      )
-    ) {
+    errors.forEach(
+      error => {
 
-      document
-        .getElementById(
-          "errorName"
-        )
-        .textContent =
-          "Please add the person's name.";
+        if(
+          messages[error]
+        ){
 
-    }
+          document
+            .getElementById(
+              messages[error][0]
+            )
+            .textContent =
+              messages[error][1];
 
+        }
 
-    if (
-      errors.includes(
-        "Email"
-      )
-    ) {
-
-      document
-        .getElementById(
-          "errorEmail"
-        )
-        .textContent =
-          "Please add an email address.";
-
-    }
+      }
+    );
 
 
-    if (
-      errors.includes(
-        "Valid email"
-      )
-    ) {
-
-      document
-        .getElementById(
-          "errorEmail"
-        )
-        .textContent =
-          "That email address doesn't look right.";
-
-    }
-
-
-    if (
-      errors.includes(
-        "WhatsApp number"
-      )
-    ) {
-
-      document
-        .getElementById(
-          "errorPhone"
-        )
-        .textContent =
-          "Please add a WhatsApp number.";
-
-    }
-
-
-    if (
-      errors.includes(
-        "Assignment/task"
-      )
-    ) {
-
-      document
-        .getElementById(
-          "errorTask"
-        )
-        .textContent =
-          "What are they being reminded about?";
-
-    }
-
-
-    if (
-      errors.includes(
-        "Date"
-      )
-    ) {
-
-      document
-        .getElementById(
-          "errorDate"
-        )
-        .textContent =
-          "Please add the date.";
-
-    }
-
-
-    if (
-      errors.includes(
-        "Time"
-      )
-    ) {
-
-      document
-        .getElementById(
-          "errorTime"
-        )
-        .textContent =
-          "Please add the time.";
-
-    }
-
-
-    showToast(
+    toast(
       "Please complete the highlighted fields."
     );
 
@@ -2209,17 +2537,17 @@ function addManualPerson() {
   clearManualForm();
 
 
-  refreshEverything();
+  refreshAll();
 
 
-  showToast(
-    "Person added successfully."
+  toast(
+    "Reminder added."
   );
 
 }
 
 
-function clearErrors() {
+function clearErrors(){
 
   [
     "errorName",
@@ -2227,14 +2555,18 @@ function clearErrors() {
     "errorPhone",
     "errorTask",
     "errorDate",
-    "errorTime"
+    "errorTime",
+    "errorReminderDate",
+    "errorStage",
+    "errorMessage"
   ]
   .forEach(
     id => {
 
       document
         .getElementById(id)
-        .textContent = "";
+        .textContent =
+          "";
 
     }
   );
@@ -2242,7 +2574,7 @@ function clearErrors() {
 }
 
 
-function clearManualForm() {
+function clearManualForm(){
 
   [
     "manualName",
@@ -2250,14 +2582,18 @@ function clearManualForm() {
     "manualPhone",
     "manualTask",
     "manualDate",
-    "manualTime"
+    "manualTime",
+    "manualReminderDate",
+    "manualStage",
+    "manualMessage"
   ]
   .forEach(
     id => {
 
       document
         .getElementById(id)
-        .value = "";
+        .value =
+          "";
 
     }
   );
@@ -2268,16 +2604,175 @@ function clearManualForm() {
 }
 
 
-/* =========================
-   ASSIGNMENT TABLE
-========================= */
+/* ===================================
+   DUE LOGIC
+=================================== */
 
-function renderAssignments() {
+function parseReminderDate(
+  value
+){
+
+  if(
+    !value
+  ){
+
+    return null;
+
+  }
+
+
+  let date =
+    new Date(
+      value
+    );
+
+
+  if(
+    isNaN(date)
+  ){
+
+    return null;
+
+  }
+
+
+  date.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  return date;
+
+}
+
+
+function getDueInfo(
+  assignment
+){
+
+  const reminder =
+    parseReminderDate(
+      assignment.reminderDate
+    );
+
+
+  if(
+    !reminder
+  ){
+
+    return {
+      text:"Invalid date",
+      css:"bad"
+    };
+
+  }
+
+
+  const today =
+    new Date();
+
+
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  const difference =
+    Math.round(
+      (
+        reminder -
+        today
+      ) /
+      86400000
+    );
+
+
+  if(
+    difference < 0
+  ){
+
+    return {
+      text:
+        "Overdue by " +
+        Math.abs(
+          difference
+        ) +
+        " day(s)",
+      css:"bad"
+    };
+
+  }
+
+
+  if(
+    difference === 0
+  ){
+
+    return {
+      text:
+        "Due today",
+      css:"due"
+    };
+
+  }
+
+
+  if(
+    difference === 1
+  ){
+
+    return {
+      text:
+        "Due tomorrow",
+      css:"soon"
+    };
+
+  }
+
+
+  if(
+    difference <= 3
+  ){
+
+    return {
+      text:
+        "Due in " +
+        difference +
+        " days",
+      css:"soon"
+    };
+
+  }
+
+
+  return {
+    text:
+      "Due in " +
+      difference +
+      " days",
+    css:"upcoming"
+  };
+
+}
+
+
+/* ===================================
+   ASSIGNMENTS TABLE
+=================================== */
+
+function renderAssignments(){
 
   const body =
-    document.getElementById(
-      "assignmentRows"
-    );
+    document
+      .getElementById(
+        "assignmentRows"
+      );
 
 
   body.innerHTML = "";
@@ -2287,7 +2782,8 @@ function renderAssignments() {
     .getElementById(
       "assignmentEmpty"
     )
-    .classList.toggle(
+    .classList
+    .toggle(
       "hidden",
       assignments.length > 0
     );
@@ -2304,6 +2800,12 @@ function renderAssignments() {
 
       const ready =
         errors.length === 0;
+
+
+      const due =
+        getDueInfo(
+          assignment
+        );
 
 
       const row =
@@ -2348,7 +2850,7 @@ function renderAssignments() {
 
           ${escapeHtml(
             assignment.task ||
-            "Missing assignment"
+            "Missing event"
           )}
 
         </td>
@@ -2373,19 +2875,63 @@ function renderAssignments() {
 
         <td>
 
+          <strong>
+            ${escapeHtml(
+              assignment.stage ||
+              "Missing stage"
+            )}
+          </strong>
+
+          <br>
+
+          <span class="small">
+
+            ${escapeHtml(
+              assignment.message ||
+              "Missing message"
+            )}
+
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <span
+            class="status ${due.css}">
+
+            ${due.text}
+
+          </span>
+
+        </td>
+
+
+        <td>
+
           ${
             ready
 
-            ? '<span class="status ready">Ready</span>'
+            ? `
+              <span class="status ready">
+                Ready
+              </span>
+            `
 
             : `
               <span class="status bad">
                 Needs attention
               </span>
 
-              <div class="small" style="margin-top:5px">
-                Missing/invalid:
+              <div
+                class="small"
+                style="margin-top:5px">
+
+                Missing / invalid:
+
                 ${errors.join(", ")}
+
               </div>
             `
           }
@@ -2395,29 +2941,39 @@ function renderAssignments() {
 
         <td>
 
-          <div class="actions">
+          <div class="action-wrap">
+
+            <select
+              id="action-${assignment.id}"
+              class="action-select"
+              ${ready ? "" : "disabled"}>
+
+              <option value="">
+                Choose channel
+              </option>
+
+              <option value="calendar">
+                Calendar
+              </option>
+
+              <option value="email">
+                Email
+              </option>
+
+              <option value="whatsapp">
+                WhatsApp
+              </option>
+
+            </select>
+
 
             <button
-              class="small-button"
+              class="go-button"
               ${ready ? "" : "disabled"}
-              onclick="openCalendar('${assignment.id}')">
-              Calendar
-            </button>
+              onclick="runAction('${assignment.id}')">
 
+              Go
 
-            <button
-              class="small-button"
-              ${ready ? "" : "disabled"}
-              onclick="openEmail('${assignment.id}')">
-              Email
-            </button>
-
-
-            <button
-              class="small-button"
-              ${ready ? "" : "disabled"}
-              onclick="openWhatsApp('${assignment.id}')">
-              WhatsApp
             </button>
 
           </div>
@@ -2427,7 +2983,9 @@ function renderAssignments() {
       `;
 
 
-      body.appendChild(row);
+      body.appendChild(
+        row
+      );
 
     }
   );
@@ -2435,16 +2993,17 @@ function renderAssignments() {
 }
 
 
-/* =========================
-   FOLLOW UP TABLE
-========================= */
+/* ===================================
+   FOLLOW UPS
+=================================== */
 
-function renderFollowups() {
+function renderFollowups(){
 
   const body =
-    document.getElementById(
-      "followupRows"
-    );
+    document
+      .getElementById(
+        "followupRows"
+      );
 
 
   body.innerHTML = "";
@@ -2454,7 +3013,8 @@ function renderFollowups() {
     .getElementById(
       "followupEmpty"
     )
-    .classList.toggle(
+    .classList
+    .toggle(
       "hidden",
       assignments.length > 0
     );
@@ -2462,6 +3022,12 @@ function renderFollowups() {
 
   assignments.forEach(
     assignment => {
+
+      const due =
+        getDueInfo(
+          assignment
+        );
+
 
       const row =
         document.createElement(
@@ -2472,42 +3038,71 @@ function renderFollowups() {
       row.innerHTML = `
 
         <td>
+
           <strong>
             ${escapeHtml(
               assignment.name ||
-              "Incomplete entry"
+              "Incomplete"
             )}
           </strong>
+
         </td>
 
+
         <td>
+
+          ${escapeHtml(
+            assignment.stage ||
+            "—"
+          )}
+
+        </td>
+
+
+        <td>
+
+          <span
+            class="status ${due.css}">
+
+            ${due.text}
+
+          </span>
+
+        </td>
+
+
+        <td>
+
           ${statusBadge(
             assignment.calendar
           )}
+
         </td>
 
+
         <td>
+
           ${statusBadge(
             assignment.emailStatus
           )}
+
         </td>
 
+
         <td>
+
           ${statusBadge(
             assignment.whatsappStatus
           )}
-        </td>
 
-        <td>
-          ${statusBadge(
-            assignment.confirmation
-          )}
         </td>
 
       `;
 
 
-      body.appendChild(row);
+      body.appendChild(
+        row
+      );
 
     }
   );
@@ -2515,56 +3110,64 @@ function renderFollowups() {
 }
 
 
-function statusBadge(value) {
-
-  const lower =
-    String(value)
-    .toLowerCase();
-
+function statusBadge(
+  value
+){
 
   const good =
-    lower.includes("created") ||
-    lower.includes("opened") ||
-    lower.includes("sent") ||
-    lower.includes("confirmed");
+    String(
+      value
+    )
+    .toLowerCase()
+    !== "pending";
 
 
   return `
-    <span class="status ${good ? "ready" : "pending"}">
-      ${escapeHtml(value)}
+
+    <span
+      class="status ${good ? "ready" : "pending"}">
+
+      ${escapeHtml(
+        value
+      )}
+
     </span>
+
   `;
 
 }
 
 
-/* =========================
+/* ===================================
    DASHBOARD STATS
-========================= */
+=================================== */
 
-function refreshEverything() {
+function refreshAll(){
 
   renderAssignments();
 
   renderFollowups();
 
 
-  const ready =
+  const readyCount =
     assignments.filter(
-      assignmentIsReady
+      assignmentReady
     ).length;
 
 
-  const bad =
+  const badCount =
     assignments.length -
-    ready;
+    readyCount;
 
 
-  const pending =
+  const dueToday =
     assignments.filter(
       assignment =>
-        assignment.confirmation
-        !== "Confirmed"
+        getDueInfo(
+          assignment
+        ).text
+        ===
+        "Due today"
     ).length;
 
 
@@ -2581,7 +3184,7 @@ function refreshEverything() {
       "statReady"
     )
     .textContent =
-      ready;
+      readyCount;
 
 
   document
@@ -2589,73 +3192,74 @@ function refreshEverything() {
       "statBad"
     )
     .textContent =
-      bad;
+      badCount;
 
 
   document
     .getElementById(
-      "statPending"
+      "statDue"
     )
     .textContent =
-      pending;
+      dueToday;
 
 
-  const validation =
-    document.getElementById(
-      "globalValidation"
-    );
+  const box =
+    document
+      .getElementById(
+        "globalValidation"
+      );
 
 
-  if (
+  if(
     assignments.length === 0
-  ) {
+  ){
 
-    validation.className =
+    box.className =
       "validation warning";
 
 
-    validation.textContent =
+    box.textContent =
       "No assignments loaded yet.";
 
   }
 
-  else if (
-    bad === 0
-  ) {
+  else if(
+    badCount === 0
+  ){
 
-    validation.className =
+    box.className =
       "validation ok";
 
 
-    validation.textContent =
-      `All ${ready} assignments are complete and ready to process.`;
+    box.textContent =
+      `All ${readyCount} reminder rows are complete and ready.`;
 
   }
 
-  else {
+  else{
 
-    validation.className =
+    box.className =
       "validation error";
 
 
-    validation.innerHTML = `
+    box.innerHTML = `
 
       <strong>
-        Ready to process:
-        ${ready}
+        Ready:
+        ${readyCount}
       </strong>
 
       <br>
 
       <strong>
         Needs attention:
-        ${bad}
+        ${badCount}
       </strong>
 
       <br><br>
 
       Please complete the missing information
-      before sending reminders.
+      before using Calendar, Email or WhatsApp.
 
     `;
 
@@ -2664,60 +3268,99 @@ function refreshEverything() {
 }
 
 
-/* =========================
-   MESSAGES
-========================= */
+/* ===================================
+   RUN ACTION
+=================================== */
 
-function findAssignment(id) {
+function runAction(
+  id
+){
 
-  return assignments.find(
-    assignment =>
-      assignment.id === id
-  );
-
-}
-
-
-function createReminderMessage(
-  assignment
-) {
-
-  return document
-    .getElementById(
-      "defaultMessage"
-    )
-    .value
-
-    .replaceAll(
-      "{{name}}",
-      assignment.name
-    )
-
-    .replaceAll(
-      "{{task}}",
-      assignment.task
-    )
-
-    .replaceAll(
-      "{{date}}",
-      assignment.date
-    )
-
-    .replaceAll(
-      "{{time}}",
-      assignment.time
+  const assignment =
+    assignments.find(
+      item =>
+        item.id === id
     );
 
+
+  if(
+    !assignment ||
+    !assignmentReady(
+      assignment
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const action =
+    document
+      .getElementById(
+        "action-" + id
+      )
+      .value;
+
+
+  if(
+    !action
+  ){
+
+    toast(
+      "Choose Calendar, Email or WhatsApp first."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    action ===
+    "calendar"
+  ){
+
+    openCalendar(
+      assignment
+    );
+
+  }
+
+
+  if(
+    action ===
+    "email"
+  ){
+
+    openEmail(
+      assignment
+    );
+
+  }
+
+
+  if(
+    action ===
+    "whatsapp"
+  ){
+
+    openWhatsApp(
+      assignment
+    );
+
+  }
+
 }
 
 
-/* =========================
+/* ===================================
    CALENDAR
-========================= */
+=================================== */
 
-function parseAssignmentDateTime(
+function parseEventDateTime(
   assignment
-) {
+){
 
   let date =
     new Date(
@@ -2727,13 +3370,13 @@ function parseAssignmentDateTime(
     );
 
 
-  if (
+  if(
     isNaN(date) &&
     /^\d{4}-\d{2}-\d{2}$/
     .test(
       assignment.date
     )
-  ) {
+  ){
 
     date =
       new Date(
@@ -2750,15 +3393,21 @@ function parseAssignmentDateTime(
 }
 
 
-function calendarDate(date) {
+function googleCalendarDate(
+  date
+){
 
   const pad =
-    number =>
-      String(number)
-      .padStart(2,"0");
+    value =>
+      String(value)
+      .padStart(
+        2,
+        "0"
+      );
 
 
   return (
+
     date.getFullYear() +
 
     pad(
@@ -2780,39 +3429,28 @@ function calendarDate(date) {
     ) +
 
     "00"
+
   );
 
 }
 
 
-function openCalendar(id) {
-
-  const assignment =
-    findAssignment(id);
-
-
-  if (
-    !assignment ||
-    !assignmentIsReady(
-      assignment
-    )
-  ) {
-    return;
-  }
-
+function openCalendar(
+  assignment
+){
 
   const start =
-    parseAssignmentDateTime(
+    parseEventDateTime(
       assignment
     );
 
 
-  if (
+  if(
     isNaN(start)
-  ) {
+  ){
 
-    showToast(
-      "FollowLoop could not understand this date/time."
+    toast(
+      "Invalid event date or time."
     );
 
     return;
@@ -2851,15 +3489,17 @@ function openCalendar(id) {
     ) +
 
     "&dates=" +
-    calendarDate(start) +
+    googleCalendarDate(
+      start
+    ) +
     "/" +
-    calendarDate(end) +
+    googleCalendarDate(
+      end
+    ) +
 
     "&details=" +
     encodeURIComponent(
-      createReminderMessage(
-        assignment
-      )
+      assignment.message
     ) +
 
     "&add=" +
@@ -2869,10 +3509,10 @@ function openCalendar(id) {
 
 
   assignment.calendar =
-    "Created";
+    "Opened";
 
 
-  refreshEverything();
+  refreshAll();
 
 
   window.open(
@@ -2883,38 +3523,36 @@ function openCalendar(id) {
 }
 
 
-/* =========================
+/* ===================================
    EMAIL
-========================= */
+=================================== */
 
-function openEmail(id) {
+function openEmail(
+  assignment
+){
 
-  const assignment =
-    findAssignment(id);
+  const gmailURL =
 
+    "https://mail.google.com/mail/?" +
 
-  if (
-    !assignment ||
-    !assignmentIsReady(
-      assignment
-    )
-  ) {
-    return;
-  }
+    "view=cm" +
 
+    "&fs=1" +
 
-  const subject =
+    "&to=" +
+    encodeURIComponent(
+      assignment.email
+    ) +
+
+    "&su=" +
     encodeURIComponent(
       "Reminder: " +
       assignment.task
-    );
+    ) +
 
-
-  const body =
+    "&body=" +
     encodeURIComponent(
-      createReminderMessage(
-        assignment
-      )
+      assignment.message
     );
 
 
@@ -2922,45 +3560,24 @@ function openEmail(id) {
     "Opened";
 
 
-  refreshEverything();
+  refreshAll();
 
 
-  window.location.href =
-
-    "mailto:" +
-
-    encodeURIComponent(
-      assignment.email
-    ) +
-
-    "?subject=" +
-    subject +
-
-    "&body=" +
-    body;
+  window.open(
+    gmailURL,
+    "_blank"
+  );
 
 }
 
 
-/* =========================
+/* ===================================
    WHATSAPP
-========================= */
+=================================== */
 
-function openWhatsApp(id) {
-
-  const assignment =
-    findAssignment(id);
-
-
-  if (
-    !assignment ||
-    !assignmentIsReady(
-      assignment
-    )
-  ) {
-    return;
-  }
-
+function openWhatsApp(
+  assignment
+){
 
   const phone =
     assignment.phone
@@ -2970,10 +3587,12 @@ function openWhatsApp(id) {
     );
 
 
-  if (!phone) {
+  if(
+    !phone
+  ){
 
-    showToast(
-      "The WhatsApp number is invalid."
+    toast(
+      "Invalid WhatsApp number."
     );
 
     return;
@@ -2981,11 +3600,16 @@ function openWhatsApp(id) {
   }
 
 
-  const message =
+  const url =
+
+    "https://wa.me/" +
+
+    phone +
+
+    "?text=" +
+
     encodeURIComponent(
-      createReminderMessage(
-        assignment
-      )
+      assignment.message
     );
 
 
@@ -2993,37 +3617,32 @@ function openWhatsApp(id) {
     "Opened";
 
 
-  refreshEverything();
+  refreshAll();
 
 
   window.open(
-
-    "https://wa.me/" +
-    phone +
-    "?text=" +
-    message,
-
+    url,
     "_blank"
-
   );
 
 }
 
 
-/* =========================
+/* ===================================
    SIGN OUT
-========================= */
+=================================== */
 
-function signOut() {
+function signOut(){
 
-  if (
+  if(
     accessToken &&
     window.google &&
     google.accounts &&
     google.accounts.oauth2
-  ) {
+  ){
 
-    google.accounts.oauth2.revoke(
+    google.accounts.oauth2
+    .revoke(
       accessToken,
       () => {}
     );
@@ -3031,23 +3650,31 @@ function signOut() {
   }
 
 
-  accessToken = null;
-
-  selectedSheet = null;
-
-  googleSheets = [];
-
-  assignments = [];
+  accessToken =
+    null;
 
 
-  refreshEverything();
+  googleSheets =
+    [];
+
+
+  selectedSheet =
+    null;
+
+
+  assignments =
+    [];
+
+
+  refreshAll();
 
 
   document
     .getElementById(
       "appShell"
     )
-    .classList.add(
+    .classList
+    .add(
       "hidden"
     );
 
@@ -3056,18 +3683,21 @@ function signOut() {
     .getElementById(
       "loginScreen"
     )
-    .classList.remove(
+    .classList
+    .remove(
       "hidden"
     );
 
 }
 
 
-/* =========================
+/* ===================================
    UTILITIES
-========================= */
+=================================== */
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+){
 
   return String(
     value ?? ""
@@ -3096,37 +3726,45 @@ function escapeHtml(value) {
 }
 
 
-function showToast(message) {
+function toast(
+  message
+){
 
-  const toast =
-    document.getElementById(
-      "toast"
-    );
+  const element =
+    document
+      .getElementById(
+        "toast"
+      );
 
 
-  toast.textContent =
+  element.textContent =
     message;
 
 
-  toast.classList.add(
-    "show"
-  );
+  element
+    .classList
+    .add(
+      "show"
+    );
 
 
   setTimeout(
-    () =>
-      toast.classList.remove(
-        "show"
-      ),
-    2800
+    () => {
+
+      element
+        .classList
+        .remove(
+          "show"
+        );
+
+    },
+    2700
   );
 
 }
 
 
-/* INITIAL DISPLAY */
-
-refreshEverything();
+refreshAll();
 
 </script>
 
