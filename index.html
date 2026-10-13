@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FollowLoop — Your reminder and follow-up assistant</title>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
 :root{--bg:#f6f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#e5e7eb;--p:#4f46e5;--pl:#eef2ff;--g:#15803d;--gl:#ecfdf3;--o:#b45309;--ol:#fff7ed;--r:#b91c1c;--rl:#fef2f2;--b:#1d4ed8;--bl:#eff6ff;--sh:0 12px 34px rgba(15,23,42,.08)}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
@@ -20,7 +21,27 @@ main{padding:28px;max-width:1500px;width:100%;margin:auto}.section{display:none}
 .toolbar,.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toolbar{margin-bottom:12px}.filter{width:auto;min-width:150px}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px}
 .chat-shell{display:grid;grid-template-columns:1fr 320px;gap:18px}.chat-window{min-height:460px;display:flex;flex-direction:column}.chat-log{flex:1;background:#fafafa;border:1px solid var(--line);border-radius:12px;padding:14px;overflow:auto;max-height:420px}.msg{max-width:82%;padding:10px 12px;border-radius:12px;margin:8px 0;line-height:1.45;font-size:14px}.msg.user{margin-left:auto;background:var(--p);color:#fff}.msg.bot{background:#fff;border:1px solid var(--line)}.chat-compose{display:flex;gap:8px;margin-top:10px}.chat-input{min-height:72px;resize:vertical}
 .preview{width:120px;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--line);margin-top:8px}.queue,.pack{border:1px solid var(--line);border-radius:13px;padding:14px;margin-bottom:10px;background:#fff}
-.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0}.pill{background:var(--pl);color:var(--p);border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}.howgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.step{display:flex;gap:12px;align-items:flex-start}.stepno{min-width:34px;height:34px;border-radius:10px;background:var(--p);color:#fff;display:grid;place-items:center;font-weight:900}.advanced{border:1px solid #c7d2fe;background:#f8faff}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:18px 0}.pill{background:var(--pl);color:var(--p);border-radius:999px;padding:8px 12px;font-weight:800;font-size:13px}.howgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.step{display:flex;gap:12px;align-items:flex-start}.stepno{min-width:34px;height:34px;border-radius:10px;background:var(--p);color:#fff;display:grid;place-items:center;font-weight:900}
+.advanced{border:1px solid #c7d2fe;background:#f8faff}
+.journey{display:grid;gap:14px;margin-top:18px}
+.journey-card{display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:start}
+.journey-card h3{margin:0 0 6px}
+.journey-card ul{margin:8px 0 0 18px;padding:0;color:var(--muted);line-height:1.6}
+.journey-card .secondary{white-space:nowrap}
+.paste-note{margin-top:8px;padding:10px 12px;background:#f8fafc;border:1px dashed var(--line);border-radius:10px;color:var(--muted);font-size:12px}
+.chat-image-strip{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin-top:10px}
+
+.quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.quick-actions button{border:1px solid var(--line);background:#fff;color:#334155;border-radius:999px;padding:8px 12px;font-weight:800}
+.quick-actions button:hover{background:var(--pl);color:var(--p)}
+.assistant-card{background:#fbfbff;border:1px solid #dbe3ff;border-radius:14px;padding:14px;margin:10px 0}
+.assistant-progress{font-size:12px;color:var(--muted);margin-bottom:6px}
+.review-grid{display:grid;gap:8px;margin-top:10px}
+.review-row{display:grid;grid-template-columns:130px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.ocr-box{margin-top:10px;padding:12px;border:1px dashed var(--line);border-radius:10px;background:#fafafa}
+
+@media(max-width:760px){.journey-card{grid-template-columns:42px 1fr}.journey-card .secondary{grid-column:2}}
+
 .modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.show{display:flex}.modal-card{width:min(680px,100%);background:#fff;border-radius:18px;padding:20px;box-shadow:var(--sh)}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.toast{display:none;position:fixed;right:22px;bottom:22px;background:#111827;color:#fff;padding:12px 15px;border-radius:9px;z-index:120}.toast.show{display:block}
 @media(max-width:980px){.layout{grid-template-columns:1fr}.side{display:none}.grid,.chat-shell,.howgrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr}main{padding:18px}}
 </style>
@@ -55,28 +76,201 @@ main{padding:28px;max-width:1500px;width:100%;margin:auto}.section{display:none}
 </section>
 
 <section id="howto" class="section">
-<h1>How to Use FollowLoop</h1><div class="muted">FollowLoop helps you prepare, check and act on reminders and follow-ups without letting things slip.</div>
-<div class="flow"><span class="pill">Add</span>→<span class="pill">Check</span>→<span class="pill">See what’s due</span>→<span class="pill">Review</span>→<span class="pill">Act</span>→<span class="pill">Follow up</span></div>
-<div class="howgrid">
-<div class="card step"><div class="stepno">1</div><div><h3 style="margin-top:0">Add your information</h3><div class="muted">Connect a Google Sheet, paste rows from Excel or Google Sheets into Chat, or add a reminder manually.</div></div></div>
-<div class="card step"><div class="stepno">2</div><div><h3 style="margin-top:0">Let FollowLoop check it</h3><div class="muted">FollowLoop flags missing names, contacts, dates, times or messages before you act.</div></div></div>
-<div class="card step"><div class="stepno">3</div><div><h3 style="margin-top:0">See what needs attention</h3><div class="muted">Use the Dashboard to see what is due today, upcoming or overdue.</div></div></div>
-<div class="card step"><div class="stepno">4</div><div><h3 style="margin-top:0">Review</h3><div class="muted">Choose Email, WhatsApp or Calendar and check the message before continuing.</div></div></div>
-<div class="card step"><div class="stepno">5</div><div><h3 style="margin-top:0">Complete the action</h3><div class="muted">FollowLoop prepares the action. You review and complete the send or calendar step.</div></div></div>
-<div class="card step"><div class="stepno">6</div><div><h3 style="margin-top:0">Use bulk actions</h3><div class="muted">Tick people or choose Everyone, a Group, Due Today or Overdue.</div></div></div>
-<div class="card step"><div class="stepno">7</div><div><h3 style="margin-top:0">Use Chat</h3><div class="muted">Try: “Remind Emmanuel about Saturday’s meeting at 4 PM” or “WhatsApp everyone due today.”</div></div></div>
-<div class="card advanced"><h3 style="margin-top:0">Advanced: Content Queue</h3><div class="muted">Prepare recurring communication ahead of time, then review and send it when due.</div><button class="secondary" style="margin-top:12px" onclick="show('content')">Open Content Queue</button></div>
+<h1>How to Use FollowLoop</h1>
+<div class="muted">Start here the first time you use the app. Follow the journey from top to bottom — each step tells you what to do, what to expect, and where to go next.</div>
+
+<div class="flow">
+  <span class="pill">1. Chat</span>→
+  <span class="pill">2. Assignments</span>→
+  <span class="pill">3. Follow-ups</span>→
+  <span class="pill">4. Dashboard</span>→
+  <span class="pill">5. Integrations</span>→
+  <span class="pill">6. Settings</span>→
+  <span class="pill">7. Content Queue</span>→
+  <span class="pill">8. Content Packs</span>
 </div>
-<div class="card" style="margin-top:18px"><strong>Remember:</strong><span class="muted"> FollowLoop is currently assisted. It prepares, organises and checks the work; you still review before sending.</span></div>
+
+<div class="journey">
+
+  <div class="card journey-card">
+    <div class="stepno">1</div>
+    <div>
+      <h3>Start in Chat</h3>
+      <div class="muted">Use Chat when you want the quickest way to give FollowLoop information.</div>
+      <ul>
+        <li>Type a request naturally, for example: “Remind Emmanuel about Saturday’s meeting at 4 PM.”</li>
+        <li>Or copy rows from Excel/Google Sheets and paste them directly into the chat box.</li>
+        <li>You can also paste an image from your clipboard into the chat box, or upload an image using the image button.</li>
+        <li>If FollowLoop recognises a copied table, it sends the rows to Assignments automatically.</li>
+        <li>If anything is missing, FollowLoop should flag it instead of guessing.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('chat')">Go to Chat</button>
+  </div>
+
+  <div class="card journey-card">
+    <div class="stepno">2</div>
+    <div>
+      <h3>Review everything in Assignments</h3>
+      <div class="muted">Assignments is where reminder details are checked before you act.</div>
+      <ul>
+        <li>Confirm the person, email, WhatsApp number, event, date, time, reminder date, stage and message.</li>
+        <li>Times display in normal AM/PM format so they are easy to read.</li>
+        <li>Rows marked <strong>Needs attention</strong> are incomplete. Use Edit to correct them.</li>
+        <li>Use Delete if a reminder is no longer needed.</li>
+        <li>For several people, tick them or choose an audience under Bulk actions.</li>
+        <li>Choose Calendar, Email or WhatsApp, then click Review before opening the action.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('assignments')">Go to Assignments</button>
+  </div>
+
+  <div class="card journey-card">
+    <div class="stepno">3</div>
+    <div>
+      <h3>Check Follow-ups</h3>
+      <div class="muted">This page helps you see what has already been opened and what may still need attention.</div>
+      <ul>
+        <li>Check the status under Calendar, Email and WhatsApp.</li>
+        <li>Use Edit if the reminder details need to change.</li>
+        <li>In the assisted version, “Opened” means FollowLoop prepared and opened the action — it does not mean the recipient definitely received or responded.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('followups')">Go to Follow-ups</button>
+  </div>
+
+  <div class="card journey-card">
+    <div class="stepno">4</div>
+    <div>
+      <h3>Return to the Dashboard</h3>
+      <div class="muted">The Dashboard is your quick check-in point.</div>
+      <ul>
+        <li>See how many assignments are ready or need attention.</li>
+        <li>See reminders due today.</li>
+        <li>Connect or reload a Google Sheet whenever you need to refresh your reminder data.</li>
+        <li>Scroll to the top of any page if needed — FollowLoop also takes you back to the top whenever you open a new section.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('dashboard')">Go to Dashboard</button>
+  </div>
+
+  <div class="card journey-card">
+    <div class="stepno">5</div>
+    <div>
+      <h3>Understand Integrations</h3>
+      <div class="muted">This explains what FollowLoop currently does with Google Sheets, Calendar, Gmail and WhatsApp.</div>
+      <ul>
+        <li>Google Sheets can supply reminder or content data.</li>
+        <li>Calendar opens a prepared event.</li>
+        <li>Gmail opens a prepared email.</li>
+        <li>WhatsApp opens a prepared message.</li>
+        <li>Full background sending comes later when FollowLoop becomes autonomous.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('integrations')">Go to Integrations</button>
+  </div>
+
+  <div class="card journey-card">
+    <div class="stepno">6</div>
+    <div>
+      <h3>Adjust Settings if needed</h3>
+      <div class="muted">You normally do not need to change these every time.</div>
+      <ul>
+        <li>Choose the default Calendar event duration.</li>
+        <li>Choose the preferred time for a future daily digest.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('settings')">Go to Settings</button>
+  </div>
+
+  <div class="card journey-card advanced">
+    <div class="stepno">7</div>
+    <div>
+      <h3>Advanced: Prepare recurring communication in Content Queue</h3>
+      <div class="muted">Use this only when you want to prepare messages or posts ahead of time.</div>
+      <ul>
+        <li>Add one item manually, or load a Content Queue Google Sheet.</li>
+        <li>Set the title, date, time, channel and message.</li>
+        <li>Add a link only if that communication actually needs one.</li>
+        <li>Add a leader reminder email if you want FollowLoop to prepare an email reminding the leader that the content is due.</li>
+        <li>When the time arrives, the item appears as Due now / Due today / Overdue.</li>
+        <li>In this assisted version, you still click Review or Email leader. Automatic background email comes with the autonomous version.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('content')">Go to Content Queue</button>
+  </div>
+
+  <div class="card journey-card advanced">
+    <div class="stepno">8</div>
+    <div>
+      <h3>Advanced: Reuse repeated content with Content Packs</h3>
+      <div class="muted">A Content Pack is simply a reusable group of Content Queue items.</div>
+      <ul>
+        <li>Create a pack name, for example “AVGM Weekly Pack”.</li>
+        <li>Use that pack name when adding Content Queue items.</li>
+        <li>Next week, click <strong>Create next week</strong> and FollowLoop copies the pack’s queued items forward by 7 days.</li>
+        <li>You can then edit only what changed instead of creating everything again.</li>
+      </ul>
+    </div>
+    <button class="secondary" onclick="show('packs')">Go to Content Packs</button>
+  </div>
+
+</div>
+
+<div class="card" style="margin-top:18px">
+  <strong>The simple idea:</strong>
+  <span class="muted"> Give FollowLoop the information → check it → review what is due → act → follow up. Content Queue and Content Packs are optional advanced tools for recurring communication.</span>
+</div>
 </section>
 
 <section id="chat" class="section">
-<h1>FollowLoop Chat</h1><div class="muted">Type naturally or paste rows copied from Excel/Google Sheets. FollowLoop will organise recognised table data into Assignments.</div>
-<div class="chat-shell" style="margin-top:18px"><div class="card chat-window"><div id="chatLog" class="chat-log"><div class="msg bot">Hi. Tell me what you need to remember, follow up, or prepare to post.</div></div><div class="chat-compose"><textarea id="chatInput" class="chat-input" placeholder="Examples:
-Emmanuel Saturday meeting 4pm
-WhatsApp everyone due today
-Paste copied Excel/Google Sheets rows here"></textarea><button class="primary" onclick="handleChat()">Send</button></div><div class="small" style="margin-top:8px">FollowLoop checks before acting instead of guessing.</div></div>
-<div class="card"><h3>Add image</h3><input id="chatImage" type="file" accept="image/*" onchange="previewChatImage(event)"><img id="chatImagePreview" class="preview hidden"><p class="small">Images stay in your browser session in this MVP.</p></div></div>
+<h1>FollowLoop Assistant</h1>
+<div class="muted">You do not need to know where to start. Choose what you want to do and FollowLoop will guide you step by step.</div>
+
+<div class="quick-actions">
+  <button onclick="startAssistant('assignment')">➕ Add assignment</button>
+  <button onclick="startAssistant('bulk')">👥 Prepare bulk action</button>
+  <button onclick="startAssistant('followup')">🔁 Add follow-up</button>
+  <button onclick="startAssistant('content')">🗓️ Add to Content Queue</button>
+  <button onclick="startAssistant('pack')">📦 Create Content Pack</button>
+  <button onclick="assistantDue()">✅ Check what is due</button>
+  <button onclick="startAssistant('image')">🖼️ Import from image</button>
+</div>
+
+<div class="chat-shell" style="margin-top:18px">
+  <div class="card chat-window">
+    <div id="chatLog" class="chat-log">
+      <div class="msg bot">Hi. What would you like to do today? You can use the buttons above, type naturally, paste rows from Excel/Google Sheets, or paste an image.</div>
+    </div>
+
+    <div id="assistantChoices" class="quick-actions"></div>
+
+    <div class="chat-compose">
+      <textarea id="chatInput" class="chat-input" placeholder="Type your answer here...
+You can also paste Excel/Google Sheets rows or paste an image directly."></textarea>
+      <button class="primary" onclick="handleChat()">Send</button>
+    </div>
+
+    <div class="paste-note">Tip: click inside the chat box and press Ctrl+V / Cmd+V to paste an image. You can also drag an image into the box.</div>
+
+    <div id="chatPastedImageWrap" class="chat-image-strip hidden">
+      <img id="chatImagePreview" class="preview">
+      <div>
+        <button class="primary" onclick="processChatImage()">Read image</button>
+        <button class="danger" onclick="clearChatImage()">Remove image</button>
+      </div>
+    </div>
+
+    <div id="ocrStatus" class="ocr-box hidden"></div>
+    <div class="small" style="margin-top:8px">FollowLoop asks for confirmation before adding or changing structured data.</div>
+  </div>
+
+  <div class="card">
+    <h3>Upload image</h3>
+    <input id="chatImage" type="file" accept="image/*" onchange="previewChatImage(event)">
+    <p class="small">Upload is another way to add an image. Use “Read image” after uploading. Image reading is a beta feature and should always be reviewed before importing.</p>
+  </div>
+</div>
 </section>
 
 <section id="assignments" class="section">
@@ -121,7 +315,7 @@ Paste copied Excel/Google Sheets rows here"></textarea><button class="primary" o
 
 <section id="packs" class="section">
 <h1>Content Packs <span class="status upcoming">Advanced</span></h1><div class="muted">Content Packs work with the Content Queue. Save a recurring set once, then reuse or roll it forward instead of rebuilding it every week.</div>
-<div class="card" style="margin:18px 0"><div class="form"><div class="field"><label>Pack name *</label><input id="packName"></div><div class="field"><label>Description</label><input id="packDescription"></div></div><div class="small" style="margin-top:8px">Create once, then use it in Content Queue or create the next week from its queued posts.</div><div class="actions" style="margin-top:12px"><button id="packSave" class="primary" onclick="savePack()">Create pack</button><button class="secondary" onclick="clearPackForm()">Clear</button></div></div><div id="packList"></div>
+<div class="card" style="margin:18px 0"><div class="form"><div class="field"><label>Pack name *</label><input id="packName"></div><div class="field"><label>Description</label><input id="packDescription"></div></div><div class="small" style="margin-top:8px">Save a group of repeated posts once. Next week, FollowLoop can copy them forward for you, and you only edit what changed.</div><div class="actions" style="margin-top:12px"><button id="packSave" class="primary" onclick="savePack()">Create pack</button><button class="secondary" onclick="clearPackForm()">Clear</button></div></div><div id="packList"></div>
 </section>
 </main>
 </div></div>
@@ -131,11 +325,11 @@ Paste copied Excel/Google Sheets rows here"></textarea><button class="primary" o
 
 <script>
 const CLIENT_ID="8491069642-pkgjuvmjuogs2vqus9nkoe4n868eb6dk.apps.googleusercontent.com";
-let tokenClient=null,accessToken=null,googleSheets=[],selectedSheet=null,assignments=[],posts=[],packs=[],selectedIds=new Set(),bulkQueue=[],chatImage=null,postImage=null,editA=null,editP=null,editPackId=null;
+let tokenClient=null,accessToken=null,googleSheets=[],selectedSheet=null,assignments=[],posts=[],packs=[],selectedIds=new Set(),bulkQueue=[],chatImage=null,postImage=null,editA=null,editP=null,editPackId=null,assistantState=null;
 
 const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 function toast(m){$("toast").textContent=m;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2400)}
-function show(id,el=null){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));(el||document.querySelector(`.nav[data-target="${id}"]`))?.classList.add("active")}
+function show(id,el=null){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));(el||document.querySelector(`.nav[data-target="${id}"]`))?.classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
 function openModal(html,label,fn){$("modalContent").innerHTML=html;$("modal").classList.add("show");$("modalConfirm").textContent=label||"Continue";$("modalConfirm").onclick=()=>{closeModal();fn&&fn()}}
 function closeModal(){$("modal").classList.remove("show")}
 function v(id){return $(id).value.trim()}
@@ -186,11 +380,214 @@ function openCalendar(a){const s=dt(a);if(isNaN(s))return toast("Invalid event d
 function openEmail(a){a.emailStatus="Opened";refresh();window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(a.email)}&su=${encodeURIComponent("Reminder: "+a.task)}&body=${encodeURIComponent(a.message)}`,"_blank")}
 function openWhatsApp(a){const p=a.phone.replace(/\D/g,"");if(!p)return toast("Invalid WhatsApp number.");a.whatsappStatus="Opened";refresh();window.open(`https://wa.me/${p}?text=${encodeURIComponent(a.message)}`,"_blank")}
 
+
+function assistantButtons(items){
+  const box=$("assistantChoices");
+  box.innerHTML="";
+  items.forEach(item=>{
+    const b=document.createElement("button");
+    b.textContent=item.label;
+    b.onclick=()=>item.action();
+    box.appendChild(b);
+  });
+}
+function assistantClearChoices(){$("assistantChoices").innerHTML=""}
+function startAssistant(type){
+  assistantClearChoices();
+  if(type==="assignment"){
+    assistantState={type,step:0,data:{}};
+    addChat("Let’s add an assignment. What is the person’s name?","bot");
+  }else if(type==="followup"){
+    assistantState={type:"assignment",step:0,data:{stage:"Follow-up"}};
+    addChat("Let’s add a follow-up. What is the person’s name?","bot");
+  }else if(type==="bulk"){
+    assistantState={type,step:0,data:{}};
+    addChat("Who should receive this bulk action?","bot");
+    assistantButtons([
+      {label:"Selected people",action:()=>assistantBulkAudience("selected")},
+      {label:"Everyone",action:()=>assistantBulkAudience("everyone")},
+      {label:"Due today",action:()=>assistantBulkAudience("due")},
+      {label:"Overdue",action:()=>assistantBulkAudience("overdue")}
+    ]);
+  }else if(type==="content"){
+    assistantState={type,step:0,data:{}};
+    addChat("Let’s add something to the Content Queue. What is the title?","bot");
+  }else if(type==="pack"){
+    assistantState={type,step:0,data:{}};
+    addChat("Let’s create a Content Pack. What should the pack be called?","bot");
+  }else if(type==="image"){
+    assistantState={type:"image",step:0,data:{}};
+    addChat("Paste or upload the image, then click “Read image”. I’ll extract what I can and ask you to review it before adding anything.","bot");
+  }
+}
+function assistantBulkAudience(audience){
+  assistantState.data.audience=audience;
+  assistantState.step=1;
+  assistantClearChoices();
+  addChat("Which channel should FollowLoop prepare?","bot");
+  assistantButtons([
+    {label:"WhatsApp",action:()=>assistantBulkChannel("whatsapp")},
+    {label:"Email",action:()=>assistantBulkChannel("email")},
+    {label:"Calendar",action:()=>assistantBulkChannel("calendar")}
+  ]);
+}
+function assistantBulkChannel(channel){
+  assistantState.data.channel=channel;
+  assistantState.step=2;
+  assistantClearChoices();
+  addChat("Type the message template you want to use. You can use {{name}}, {{event}}, {{date}}, {{time}}, {{stage}} or {{group}}. If you want each person’s saved reminder message, type: use saved message","bot");
+}
+function assistantDue(){
+  const due=assignments.filter(a=>dueInfo(a).kind==="due");
+  const overdue=assignments.filter(a=>dueInfo(a).kind==="overdue");
+  addChat(`You currently have ${due.length} reminder(s) due today and ${overdue.length} overdue reminder(s). I can take you to the Dashboard or Assignments.`,`bot`);
+  assistantButtons([
+    {label:"Open Dashboard",action:()=>{assistantClearChoices();show("dashboard")}},
+    {label:"Open Assignments",action:()=>{assistantClearChoices();show("assignments")}}
+  ]);
+}
+function assistantHandleInput(raw){
+  if(!assistantState)return false;
+  const s=assistantState;
+  if(s.type==="assignment"){
+    const fields=[
+      ["name","What is the person’s email address?"],
+      ["email","What is their WhatsApp number?"],
+      ["phone","What is the event or assignment?"],
+      ["task","What is the event date? Please use YYYY-MM-DD."],
+      ["date","What time is the event? Example: 4:00 PM."],
+      ["time","When should the reminder be due? Please use YYYY-MM-DD."],
+      ["reminderDate","What reminder stage is this? Example: 1 week before, 1 day before, Today, or Follow-up."],
+      ["stage","What message should FollowLoop prepare?"],
+      ["message",null]
+    ];
+    const [field,next]=fields[s.step];
+    if(field==="stage" && s.data.stage==="Follow-up"){ s.data.message=raw; }
+    else s.data[field]=raw;
+    if(s.data.stage==="Follow-up" && s.step===6){ s.step=7; addChat("What message should FollowLoop prepare?","bot"); return true; }
+    s.step++;
+    if(next){addChat(next,"bot");return true;}
+    const a={id:"chat-"+Date.now(),source:"Chat",name:s.data.name||"",email:s.data.email||"",group:"",phone:s.data.phone||"",task:s.data.task||"",date:toDate(s.data.date||""),time:toTime(s.data.time||""),reminderDate:toDate(s.data.reminderDate||""),stage:s.data.stage||"",message:s.data.message||"",calendar:"Pending",emailStatus:"Pending",whatsappStatus:"Pending"};
+    const errors=validate(a);
+    assistantState={type:"confirmAssignment",data:a};
+    addChat(`Please review:\nName: ${a.name}\nEmail: ${a.email}\nWhatsApp: ${a.phone}\nEvent: ${a.task}\nDate: ${a.date}\nTime: ${timeDisplay(a.time)}\nReminder date: ${a.reminderDate}\nStage: ${a.stage}\nMessage: ${a.message}${errors.length?`\n\nNeeds attention: ${errors.join(", ")}`:""}`,"bot");
+    assistantButtons([
+      {label:"Add to Assignments",action:()=>confirmAssistantAssignment()},
+      {label:"Edit in Assignments",action:()=>editAssistantAssignment()},
+      {label:"Cancel",action:()=>cancelAssistant()}
+    ]);
+    return true;
+  }
+  if(s.type==="bulk" && s.step===2){
+    s.data.template=/use saved message/i.test(raw)?"":raw;
+    $("bulkAudience").value=s.data.audience;
+    $("bulkChannel").value=s.data.channel;
+    $("bulkTemplate").value=s.data.template;
+    assistantState=null;assistantClearChoices();show("assignments");bulkSummary();
+    addChat("I filled Bulk Actions for you. Review the audience, channel and message, then click Preview bulk action.","bot");
+    return true;
+  }
+  if(s.type==="content"){
+    const fields=[
+      ["title","What date should it be sent or posted? Use YYYY-MM-DD."],
+      ["date","What time? Example: 8:00 AM."],
+      ["time","Which channel: WhatsApp, Email or Calendar?"],
+      ["channel","What message or caption should be prepared?"],
+      ["caption","Do you need a link? Paste it, or type none."],
+      ["link","Do you want a leader reminder email? Enter the email, or type none."],
+      ["leaderEmail",null]
+    ];
+    const [field,next]=fields[s.step];
+    s.data[field]=/^none$/i.test(raw)?"":raw;
+    s.step++;
+    if(next){addChat(next,"bot");return true;}
+    const p={id:"chat-post-"+Date.now(),pack:"",title:s.data.title||"",date:toDate(s.data.date||""),time:toTime(s.data.time||""),channel:(s.data.channel||"").replace(/^./,c=>c.toUpperCase()),link:s.data.link||"",caption:s.data.caption||"",leaderEmail:s.data.leaderEmail||"",image:chatImage||null,status:"Pending"};
+    assistantState={type:"confirmContent",data:p};
+    addChat(`Please review this Content Queue item:\nTitle: ${p.title}\nDate: ${p.date}\nTime: ${timeDisplay(p.time)}\nChannel: ${p.channel}\nMessage: ${p.caption}\nLink: ${p.link||"None"}\nLeader reminder: ${p.leaderEmail||"None"}`,"bot");
+    assistantButtons([
+      {label:"Add to Content Queue",action:()=>confirmAssistantContent()},
+      {label:"Edit in Content Queue",action:()=>editAssistantContent()},
+      {label:"Cancel",action:()=>cancelAssistant()}
+    ]);
+    return true;
+  }
+  if(s.type==="pack"){
+    if(s.step===0){s.data.name=raw;s.step=1;addChat("Add a short description so you remember what this pack is for.","bot");return true;}
+    s.data.description=raw;
+    assistantState={type:"confirmPack",data:{id:"chat-pack-"+Date.now(),name:s.data.name,description:s.data.description}};
+    addChat(`Please review:\nPack name: ${s.data.name}\nDescription: ${s.data.description}`,"bot");
+    assistantButtons([
+      {label:"Create Content Pack",action:()=>confirmAssistantPack()},
+      {label:"Cancel",action:()=>cancelAssistant()}
+    ]);
+    return true;
+  }
+  return false;
+}
+function confirmAssistantAssignment(){const a=assistantState?.data;if(!a)return;assignments.push(a);assistantState=null;assistantClearChoices();refresh();addChat("Added to Assignments. I’ve opened the page so you can review it.","bot");show("assignments")}
+function editAssistantAssignment(){const a=assistantState?.data;if(!a)return;assignments.push(a);assistantState=null;assistantClearChoices();refresh();editAssignment(a.id)}
+function confirmAssistantContent(){const p=assistantState?.data;if(!p)return;posts.push(p);assistantState=null;assistantClearChoices();refresh();addChat("Added to Content Queue.","bot");show("content")}
+function editAssistantContent(){const p=assistantState?.data;if(!p)return;posts.push(p);assistantState=null;assistantClearChoices();refresh();editPost(p.id)}
+function confirmAssistantPack(){const p=assistantState?.data;if(!p)return;packs.push(p);assistantState=null;assistantClearChoices();renderPacks();addChat("Content Pack created.","bot");show("packs")}
+function cancelAssistant(){assistantState=null;assistantClearChoices();addChat("Cancelled. Choose another activity whenever you’re ready.","bot")}
+
 function addChat(text,type){const d=document.createElement("div");d.className="msg "+type;d.innerHTML=esc(text).replace(/\n/g,"<br>");$("chatLog").appendChild(d);$("chatLog").scrollTop=$("chatLog").scrollHeight}
 function parseTSV(raw){if(!raw.includes("\t"))return false;const rows=raw.trim().split(/\r?\n/).map(r=>r.split("\t"));const h=rows[0].map(norm),keys=["name","email","whatsapp","event","date","time","reminder"];if(!keys.some(k=>h.some(x=>x.includes(k))))return false;const ok=importAssignments(rows,"Pasted data");if(ok){addChat("I recognised a copied table and added the rows to Assignments. Please review anything marked Needs attention.","bot");show("assignments")}return ok}
 function nextDay(name){const map={sunday:0,monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6},t=new Date(),target=map[name];if(target===undefined)return"";let n=(target-t.getDay()+7)%7;if(!n)n=7;t.setDate(t.getDate()+n);return toDate(t)}
-function handleChat(){const raw=v("chatInput");if(!raw)return;addChat(raw,"user");$("chatInput").value="";if(parseTSV(raw))return;const text=raw.toLowerCase().replace(/satday/g,"saturday").replace(/meting/g,"meeting").replace(/tmrw/g,"tomorrow"),day=(text.match(/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/)||[])[1],tm=(text.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/)||[])[0]||"",bulk=/everyone|all people|due today|group\s+\w+/i.test(text)&&/send|invite|remind|whatsapp|email|calendar/i.test(text);if(bulk){show("assignments");populateGroups();if(/everyone|all people/.test(text))$("bulkAudience").value="everyone";if(/due today/.test(text))$("bulkAudience").value="due";if(/whatsapp/.test(text))$("bulkChannel").value="whatsapp";if(/email/.test(text))$("bulkChannel").value="email";if(/calendar|invite/.test(text))$("bulkChannel").value="calendar";bulkSummary();addChat("I opened Bulk Actions and selected what I could understand. Please review before continuing.","bot");return}if(/post|share|caption|youtube/.test(text)){show("content");$("pTitle").value=day?day[0].toUpperCase()+day.slice(1)+" Post":"Scheduled Post";if(day)$("pDate").value=nextDay(day);if(tm)$("pTime").value=toTime(tm);$("pCaption").value=raw;$("pChannel").value="WhatsApp";if(chatImage){postImage=chatImage;$("pImagePreview").src=chatImage;$("pImagePreview").classList.remove("hidden")}addChat("I treated this as a scheduled post. Review the Content Queue form before saving.","bot");return}if(/remind|follow up|meeting|worship|prayer/.test(text)){show("assignments");$("aName").value=raw.split(/\s+/)[0]||"";if(day)$("aDate").value=nextDay(day);if(tm)$("aTime").value=toTime(tm);if(text.includes("meeting"))$("aTask").value="Meeting";if(text.includes("worship"))$("aTask").value="Worship";if(text.includes("prayer"))$("aTask").value="Prayer";addChat("I filled the parts I could understand. Please complete the missing details before saving.","bot");return}addChat("I’m not fully sure yet. Tell me whether this is a reminder/follow-up, a scheduled post, a bulk action, or paste a copied table.","bot")}
-function previewChatImage(e){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{chatImage=r.result;$("chatImagePreview").src=chatImage;$("chatImagePreview").classList.remove("hidden")};r.readAsDataURL(f)}
+function handleChat(){const raw=v("chatInput");if(!raw)return;addChat(raw,"user");$("chatInput").value="";if(assistantHandleInput(raw))return;if(parseTSV(raw))return;const text=raw.toLowerCase().replace(/satday/g,"saturday").replace(/meting/g,"meeting").replace(/tmrw/g,"tomorrow"),day=(text.match(/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/)||[])[1],tm=(text.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/)||[])[0]||"",bulk=/everyone|all people|due today|group\s+\w+/i.test(text)&&/send|invite|remind|whatsapp|email|calendar/i.test(text);if(bulk){show("assignments");populateGroups();if(/everyone|all people/.test(text))$("bulkAudience").value="everyone";if(/due today/.test(text))$("bulkAudience").value="due";if(/whatsapp/.test(text))$("bulkChannel").value="whatsapp";if(/email/.test(text))$("bulkChannel").value="email";if(/calendar|invite/.test(text))$("bulkChannel").value="calendar";bulkSummary();addChat("I opened Bulk Actions and selected what I could understand. Please review before continuing.","bot");return}if(/post|share|caption|youtube/.test(text)){show("content");$("pTitle").value=day?day[0].toUpperCase()+day.slice(1)+" Post":"Scheduled Post";if(day)$("pDate").value=nextDay(day);if(tm)$("pTime").value=toTime(tm);$("pCaption").value=raw;$("pChannel").value="WhatsApp";if(chatImage){postImage=chatImage;$("pImagePreview").src=chatImage;$("pImagePreview").classList.remove("hidden")}addChat("I treated this as a scheduled post. Review the Content Queue form before saving.","bot");return}if(/remind|follow up|meeting|worship|prayer/.test(text)){show("assignments");$("aName").value=raw.split(/\s+/)[0]||"";if(day)$("aDate").value=nextDay(day);if(tm)$("aTime").value=toTime(tm);if(text.includes("meeting"))$("aTask").value="Meeting";if(text.includes("worship"))$("aTask").value="Worship";if(text.includes("prayer"))$("aTask").value="Prayer";addChat("I filled the parts I could understand. Please complete the missing details before saving.","bot");return}addChat("I’m not fully sure yet. Tell me whether this is a reminder/follow-up, a scheduled post, a bulk action, or paste a copied table.","bot")}
+
+async function processChatImage(){
+  if(!chatImage)return toast("Paste or upload an image first.");
+  if(!window.Tesseract)return toast("Image reader is still loading. Try again in a moment.");
+  $("ocrStatus").classList.remove("hidden");
+  $("ocrStatus").innerHTML='<div class="validation warn">Reading image… this may take a little while.</div>';
+  try{
+    const result=await Tesseract.recognize(chatImage,"eng",{logger:m=>{if(m.status==="recognizing text")$("ocrStatus").innerHTML=`<div class="validation warn">Reading image… ${Math.round((m.progress||0)*100)}%</div>`}});
+    const text=(result.data.text||"").trim();
+    if(!text)throw Error("No text");
+    $("ocrStatus").innerHTML=`<div class="validation ok"><strong>Text found.</strong><br><span class="small">${esc(text.slice(0,1200)).replace(/\n/g,"<br>")}</span></div>`;
+    assistantState={type:"imageReview",raw:text};
+    addChat("I read the image. What should I try to create from it?","bot");
+    assistantButtons([
+      {label:"Assignments",action:()=>imageToAssignments(text)},
+      {label:"Content Queue",action:()=>imageToContent(text)},
+      {label:"Cancel",action:()=>cancelAssistant()}
+    ]);
+  }catch(e){
+    $("ocrStatus").innerHTML='<div class="validation error">I could not read enough text from this image. Try a clearer screenshot or use Excel/Google Sheets paste instead.</div>';
+  }
+}
+function splitOcrLines(text){return text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}
+function imageToContent(text){
+  assistantClearChoices();
+  const lines=splitOcrLines(text);
+  const dateRe=/\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}|\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}|\d{1,2}\s+[A-Za-z]{3,9}\s+\d{4})\b/;
+  const timeRe=/\b\d{1,2}(?::\d{2})?\s*(?:AM|PM)\b/i;
+  const channels=["WhatsApp","Email","Calendar"];
+  const candidates=[];
+  for(const line of lines){
+    const dm=line.match(dateRe),tm=line.match(timeRe),ch=channels.find(c=>line.toLowerCase().includes(c.toLowerCase()));
+    if(dm||tm||ch)candidates.push({line,date:dm?toDate(dm[0]):"",time:tm?toTime(tm[0]):"",channel:ch||""});
+  }
+  if(!candidates.length){
+    addChat("I found text, but I could not reliably identify Content Queue rows. I can take you to Content Queue so you can paste the extracted text into the fields manually.","bot");
+    assistantButtons([{label:"Open Content Queue",action:()=>{assistantClearChoices();show("content")}}]);
+    return;
+  }
+  addChat(`I found ${candidates.length} possible Content Queue row(s). Because image reading can make mistakes, I will not add them automatically. Open Content Queue and use the extracted text as a starting point.`,"bot");
+  $("ocrStatus").innerHTML += `<div class="assistant-card"><strong>Possible rows found:</strong>${candidates.map(c=>`<div class="small" style="margin-top:6px">${esc(c.line)}</div>`).join("")}</div>`;
+  assistantButtons([{label:"Open Content Queue",action:()=>{assistantClearChoices();show("content")}}]);
+}
+function imageToAssignments(text){
+  assistantClearChoices();
+  addChat("I can read text from the image, but converting an image into assignment rows is still beta. I will not guess names, contacts or dates. Open Assignments and use the extracted text as your reference, or paste the original Excel/Google Sheets rows for the most reliable import.","bot");
+  assistantButtons([{label:"Open Assignments",action:()=>{assistantClearChoices();show("assignments")}}]);
+}
+
+function setChatImage(file){if(!file||!file.type?.startsWith("image/"))return;const r=new FileReader();r.onload=()=>{chatImage=r.result;$("chatImagePreview").src=chatImage;$("chatPastedImageWrap").classList.remove("hidden");toast("Image added to Chat.")};r.readAsDataURL(file)}
+function previewChatImage(e){const f=e.target.files?.[0];if(f)setChatImage(f)}
+function clearChatImage(){chatImage=null;$("chatImage").value="";$("chatPastedImageWrap").classList.add("hidden");$("chatImagePreview").src=""}
+function setupChatImagePaste(){const box=$("chatInput");if(!box)return;box.addEventListener("paste",e=>{const items=[...(e.clipboardData?.items||[])];const imageItem=items.find(i=>i.type?.startsWith("image/"));if(imageItem){const file=imageItem.getAsFile();if(file){e.preventDefault();setChatImage(file)}}});box.addEventListener("dragover",e=>{e.preventDefault()});box.addEventListener("drop",e=>{e.preventDefault();const file=[...(e.dataTransfer?.files||[])].find(f=>f.type?.startsWith("image/"));if(file)setChatImage(file)})}
 
 function populateContentSheets(){const s=$("contentSheet");if(!s)return;s.innerHTML='<option value="">Choose a Sheet</option>'+googleSheets.map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("")}
 async function loadContentSheet(){const id=v("contentSheet");if(!id)return toast("Choose a Sheet.");$("contentSheetStatus").innerHTML='<div class="validation warn">Loading content...</div>';try{const d=await sheetValues(id),rows=d.values||[];if(rows.length<2)throw Error();const h=rows[0],c={title:find(h,["title","post title"]),date:find(h,["date","post date"]),time:find(h,["time","post time"]),channel:find(h,["channel"]),caption:find(h,["caption","message"]),pack:find(h,["pack","group"]),link:find(h,["link","url"]),leader:find(h,["leader email","reminder email"])};if(["title","date","time","channel","caption"].some(k=>c[k]<0))return $("contentSheetStatus").innerHTML='<div class="validation error">Required columns: Title, Date, Time, Channel, Caption/Message.</div>';const base=Date.now(),list=rows.slice(1).filter(r=>r.some(x=>String(x||"").trim())).map((r,i)=>({id:`content-${base}-${i}`,pack:c.pack>=0?r[c.pack]||"":"",title:r[c.title]||"",date:toDate(r[c.date]),time:toTime(r[c.time]),channel:r[c.channel]||"",link:c.link>=0?r[c.link]||"":"",caption:r[c.caption]||"",leaderEmail:c.leader>=0?r[c.leader]||"":"",image:null,status:"Pending"}));posts.push(...list);refresh();$("contentSheetStatus").innerHTML=`<div class="validation ok">${list.length} item(s) added to Content Queue.</div>`}catch{$("contentSheetStatus").innerHTML='<div class="validation error">FollowLoop could not read that content Sheet.</div>'}}
@@ -219,6 +616,7 @@ function renderFollowups(){$("followupRows").innerHTML=assignments.map(a=>{const
 function renderDueToday(){const list=assignments.filter(a=>dueInfo(a).kind==="due");$("dueToday").className=list.length?"":"empty";$("dueToday").innerHTML=list.length?list.map(a=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><strong>${esc(a.name)}</strong> — ${esc(a.stage)}<br><span class="small">${esc(a.task)}</span></div>`).join(""):"Nothing due yet."}
 function refresh(){renderAssignments();renderFollowups();renderDueToday();renderPosts();renderPacks();const r=assignments.filter(ready).length,b=assignments.length-r,d=assignments.filter(a=>dueInfo(a).kind==="due").length;$("sAll").textContent=assignments.length;$("sReady").textContent=r;$("sBad").textContent=b;$("sDue").textContent=d;$("globalValidation").className="validation "+(!assignments.length?"warn":b?"error":"ok");$("globalValidation").innerHTML=!assignments.length?"No assignments loaded yet.":b?`<strong>Ready: ${r}</strong><br><strong>Needs attention: ${b}</strong><br>Please complete missing details before acting.`:`All ${r} reminder rows are complete and ready.`}
 function signOut(){if(accessToken&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(accessToken,()=>{});accessToken=null;googleSheets=[];selectedSheet=null;assignments=[];posts=[];packs=[];selectedIds.clear();bulkQueue=[];editA=editP=editPackId=null;refresh();$("app").classList.add("hidden");$("login").classList.remove("hidden")}
+setupChatImagePaste();
 refresh();
 </script>
 </body>
