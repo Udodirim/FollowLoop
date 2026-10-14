@@ -714,9 +714,7 @@ function cancelAssistant(){
 }
 function addChat(text,type){const d=document.createElement("div");d.className="msg "+type;d.innerHTML=esc(text).replace(/\n/g,"<br>");$("chatLog").appendChild(d);$("chatLog").scrollTop=$("chatLog").scrollHeight}
 function parsePastedTable(raw){
-  const lines=raw.trim().split(/
-?
-/).filter(Boolean);
+  const lines=raw.trim().split(/\r?\n/).filter(Boolean);
   if(lines.length<2)return false;
 
   let delimiter=raw.includes("	")?"	":(lines[0].includes(",")?",":null);
@@ -757,9 +755,7 @@ function parsePastedTable(raw){
     };
 
     if(["title","date","time","channel","caption"].some(k=>c[k]<0)){
-      addChat("I can see Content Queue data, but some required columns are missing.
-
-Please include: Title, Date, Time, Channel, Caption/Message.","bot");
+      addChat("I can see Content Queue data, but some required columns are missing.\n\nPlease include: Title, Date, Time, Channel, Caption/Message.","bot");
       return true;
     }
 
