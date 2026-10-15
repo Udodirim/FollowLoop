@@ -50,6 +50,7 @@ main{padding:28px;max-width:1500px;width:100%;margin:auto}.section{display:none}
 @media(max-width:760px){.journey-card{grid-template-columns:42px 1fr}.journey-card .secondary{grid-column:2}}
 
 .modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.show{display:flex}.modal-card{width:min(680px,100%);background:#fff;border-radius:18px;padding:20px;box-shadow:var(--sh)}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.toast{display:none;position:fixed;right:22px;bottom:22px;background:#111827;color:#fff;padding:12px 15px;border-radius:9px;z-index:120}.toast.show{display:block}
+.more-toggle{display:flex;align-items:center;justify-content:space-between}.more-menu{display:none;padding-left:8px}.more-menu.open{display:block}.more-menu .nav{font-size:13px;margin-bottom:3px}
 @media(max-width:980px){.layout{grid-template-columns:1fr}.side{display:none}.grid,.chat-shell,.howgrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.form{grid-template-columns:1fr}main{padding:18px}}
 </style>
 </head>
@@ -60,180 +61,31 @@ main{padding:28px;max-width:1500px;width:100%;margin:auto}.section{display:none}
 <header class="top"><div class="brand"><div class="brand-logo">FL</div><div><strong>FollowLoop</strong><span>Your reminder and follow-up assistant · Nothing falls through.</span></div></div><button class="secondary" onclick="signOut()">Sign out</button></header>
 <div class="layout">
 <aside class="side">
-<div class="nav active" data-target="dashboard" onclick="show('dashboard',this)">Dashboard</div>
-<div class="nav" data-target="howto" onclick="show('howto',this)">How to Use</div>
-<div class="nav" data-target="chat" onclick="show('chat',this)">Chat</div>
-<div class="nav" data-target="assignments" onclick="show('assignments',this)">Assignments</div>
+<div class="nav active" data-target="chat" onclick="show('chat',this)">Chat</div>
+<div class="nav" data-target="dashboard" onclick="show('dashboard',this)">Dashboard</div>
+<div class="nav" data-target="assignments" onclick="show('assignments',this)">Reminders</div>
 <div class="nav" data-target="followups" onclick="show('followups',this)">Follow-ups</div>
-<div class="nav" data-target="integrations" onclick="show('integrations',this)">Integrations</div>
-<div class="nav" data-target="settings" onclick="show('settings',this)">Settings</div>
-<div class="nav" data-target="content" onclick="show('content',this)">Content Queue · Advanced</div>
-<div class="nav" data-target="packs" onclick="show('packs',this)">Content Packs · Advanced</div>
+<div class="nav more-toggle" onclick="toggleMore()"><span>More</span><span id="moreArrow">⌄</span></div>
+<div id="moreMenu" class="more-menu">
+  <div class="nav" data-target="integrations" onclick="show('integrations',this)">Integrations</div>
+  <div class="nav" data-target="settings" onclick="show('settings',this)">Settings</div>
+  <div class="nav" data-target="content" onclick="show('content',this)">Content Queue</div>
+  <div class="nav" data-target="packs" onclick="show('packs',this)">Content Packs</div>
+</div>
 </aside>
 
 <main>
-<section id="dashboard" class="section active">
+<section id="dashboard" class="section">
 <h1 id="welcome">Welcome back 👋🏾</h1><div class="muted">See what is due, what needs attention, and what still needs follow-up.</div>
-<div class="stats"><div class="stat"><div class="small">Assignments</div><div id="sAll" class="num">0</div></div><div class="stat"><div class="small">Ready</div><div id="sReady" class="num">0</div></div><div class="stat"><div class="small">Needs attention</div><div id="sBad" class="num">0</div></div><div class="stat"><div class="small">Due today</div><div id="sDue" class="num">0</div></div></div>
+<div class="stats"><div class="stat"><div class="small">Reminders</div><div id="sAll" class="num">0</div></div><div class="stat"><div class="small">Ready</div><div id="sReady" class="num">0</div></div><div class="stat"><div class="small">Needs attention</div><div id="sBad" class="num">0</div></div><div class="stat"><div class="small">Due today</div><div id="sDue" class="num">0</div></div></div>
 <div class="grid">
 <div class="card"><h3>Choose a Google Sheet</h3><input id="sheetSearch" class="search" placeholder="Search Google Sheets..." onfocus="showSheetResults()" oninput="filterSheets()"><div id="sheetResults" class="results hidden"></div><div id="selectedSheet" class="selected hidden"></div><div class="actions" style="margin-top:12px"><button class="secondary" onclick="showSheetResults()">Browse Sheets</button><button id="loadSheet" class="primary" disabled onclick="loadSelectedSheet()">Load selected Sheet</button></div><div id="sheetStatus"></div></div>
 <div class="card"><h3>Due today</h3><div id="dueToday" class="empty">Nothing due yet.</div></div>
 </div>
-<div class="grid"><div class="card"><h3>Posts due today</h3><div id="postsDue" class="empty">No scheduled posts due now.</div></div><div class="card"><h3>Validation summary</h3><div id="globalValidation" class="validation warn">No assignments loaded yet.</div></div></div>
+<div class="grid"><div class="card"><h3>Posts due today</h3><div id="postsDue" class="empty">No scheduled posts due now.</div></div><div class="card"><h3>Validation summary</h3><div id="globalValidation" class="validation warn">No reminders loaded yet.</div></div></div>
 </section>
 
-<section id="howto" class="section">
-<h1>How to Use FollowLoop</h1>
-<div class="muted">Start here the first time you use the app. Follow the journey from top to bottom — each step tells you what to do, what to expect, and where to go next.</div>
-
-<div class="flow">
-  <span class="pill">1. Chat</span>→
-  <span class="pill">2. Assignments</span>→
-  <span class="pill">3. Follow-ups</span>→
-  <span class="pill">4. Dashboard</span>→
-  <span class="pill">5. Integrations</span>→
-  <span class="pill">6. Settings</span>→
-  <span class="pill">7. Content Queue</span>→
-  <span class="pill">8. Content Packs</span>
-</div>
-
-<div class="journey">
-
-  <div class="card journey-card">
-    <div class="stepno">1</div>
-    <div>
-      <h3>Start in Chat — this is the fastest route</h3>
-      <div class="muted">FollowLoop is designed for tired, busy people. You do not need to learn the app first. Just tell it what you need or dump the information you already have.</div>
-      <ul>
-        <li>Talk naturally: “I need to remind three people about Friday.”</li>
-        <li>If you are new, type: “I’m new. What can you do?” FollowLoop will explain the available options.</li>
-        <li>If you already have a list, copy and paste it from Excel/Google Sheets. FollowLoop can recognise assignment/reminder data and Content Queue data.</li>
-        <li>For assignments/reminders, useful columns are: Name, Email, WhatsApp, Event, Event Date, Event Time, Reminder Date, Reminder Stage, Reminder Message.</li>
-        <li>For Content Queue, use: Title, Date, Time, Channel, Caption/Message. Optional: Pack/Group, Link, Leader Email.</li>
-        <li>You can paste or upload an image. FollowLoop reads the text first and asks you to review before importing.</li>
-        <li>When you finish one activity and start another, the assistant starts a fresh conversation so the old task does not clutter the new one.</li>
-        <li>Dates, times, email addresses, WhatsApp numbers and links are checked before FollowLoop accepts them.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('chat')">Go to Chat</button>
-  </div>
-
-  <div class="card journey-card">
-    <div class="stepno">2</div>
-    <div>
-      <h3>Review everything in Assignments</h3>
-      <div class="muted">Assignments is where reminder details are checked before you act.</div>
-      <ul>
-        <li>Confirm the person, email, WhatsApp number, event, date, time, reminder date, stage and message.</li>
-        <li>Times display in normal AM/PM format so they are easy to read.</li>
-        <li>Rows marked <strong>Needs attention</strong> are incomplete. Use Edit to correct them.</li>
-        <li>Use Delete if a reminder is no longer needed.</li>
-        <li>For several people, tick them or choose an audience under Bulk actions.</li>
-        <li>Choose Calendar, Email or WhatsApp, then click Review before opening the action.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('assignments')">Go to Assignments</button>
-  </div>
-
-  <div class="card journey-card">
-    <div class="stepno">3</div>
-    <div>
-      <h3>Check Follow-ups</h3>
-      <div class="muted">This page helps you see what has already been opened and what may still need attention.</div>
-      <ul>
-        <li>Check the status under Calendar, Email and WhatsApp.</li>
-        <li>Use Edit if the reminder details need to change.</li>
-        <li>In the assisted version, “Opened” means FollowLoop prepared and opened the action — it does not mean the recipient definitely received or responded.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('followups')">Go to Follow-ups</button>
-  </div>
-
-  <div class="card journey-card">
-    <div class="stepno">4</div>
-    <div>
-      <h3>Return to the Dashboard</h3>
-      <div class="muted">The Dashboard is your quick check-in point.</div>
-      <ul>
-        <li>See how many assignments are ready or need attention.</li>
-        <li>See reminders due today.</li>
-        <li>Connect or reload a Google Sheet whenever you need to refresh your reminder data.</li>
-        <li>Scroll to the top of any page if needed — FollowLoop also takes you back to the top whenever you open a new section.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('dashboard')">Go to Dashboard</button>
-  </div>
-
-  <div class="card journey-card">
-    <div class="stepno">5</div>
-    <div>
-      <h3>Understand Integrations</h3>
-      <div class="muted">This explains what FollowLoop currently does with Google Sheets, Calendar, Gmail and WhatsApp.</div>
-      <ul>
-        <li>Google Sheets can supply reminder or content data.</li>
-        <li>Calendar opens a prepared event.</li>
-        <li>Gmail opens a prepared email.</li>
-        <li>WhatsApp opens a prepared message.</li>
-        <li>Full background sending comes later when FollowLoop becomes autonomous.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('integrations')">Go to Integrations</button>
-  </div>
-
-  <div class="card journey-card">
-    <div class="stepno">6</div>
-    <div>
-      <h3>Adjust Settings if needed</h3>
-      <div class="muted">You normally do not need to change these every time.</div>
-      <ul>
-        <li>Choose the default Calendar event duration.</li>
-        <li>Choose the preferred time for a future daily digest.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('settings')">Go to Settings</button>
-  </div>
-
-  <div class="card journey-card advanced">
-    <div class="stepno">7</div>
-    <div>
-      <h3>Advanced: Prepare recurring communication in Content Queue</h3>
-      <div class="muted">Use this only when you want to prepare messages or posts ahead of time.</div>
-      <ul>
-        <li>Add one item manually, or load a Content Queue Google Sheet.</li>
-        <li>Set the title, date, time, channel and message.</li>
-        <li>Add a link only if that communication actually needs one.</li>
-        <li>Add a leader reminder email if you want FollowLoop to prepare an email reminding the leader that the content is due.</li>
-        <li>When the time arrives, the item appears as Due now / Due today / Overdue.</li>
-        <li>In this assisted version, you still click Review or Email leader. Automatic background email comes with the autonomous version.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('content')">Go to Content Queue</button>
-  </div>
-
-  <div class="card journey-card advanced">
-    <div class="stepno">8</div>
-    <div>
-      <h3>Advanced: Reuse repeated content with Content Packs</h3>
-      <div class="muted">A Content Pack is simply a reusable group of Content Queue items.</div>
-      <ul>
-        <li>Create a pack name, for example “Weekly Team Pack”.</li>
-        <li>Use that pack name when adding Content Queue items.</li>
-        <li>Next week, click <strong>Create next week</strong> and FollowLoop copies the pack’s queued items forward by 7 days.</li>
-        <li>You can then edit only what changed instead of creating everything again.</li>
-      </ul>
-    </div>
-    <button class="secondary" onclick="show('packs')">Go to Content Packs</button>
-  </div>
-
-</div>
-
-<div class="card" style="margin-top:18px">
-  <strong>The simple idea:</strong>
-  <span class="muted"> Give FollowLoop the information → check it → review what is due → act → follow up. Content Queue and Content Packs are optional advanced tools for recurring communication.</span>
-</div>
-</section>
-
-<section id="chat" class="section">
+<section id="chat" class="section active">
 <div class="chat-header">
   <div>
     <h1>FollowLoop Assistant</h1>
@@ -285,20 +137,8 @@ You can also paste Excel/Google Sheets rows or an image."></textarea>
 </section>
 
 <section id="assignments" class="section">
-<h1>Assignments</h1><div class="muted">Each reminder must be complete before Calendar, Email or WhatsApp becomes available.</div>
-<div class="card" style="margin:18px 0"><h3 id="assignmentFormTitle">Add a reminder manually</h3><div class="form">
-<div class="field"><label>Name *</label><input id="aName"><div id="eName" class="err"></div></div>
-<div class="field"><label>Email *</label><input id="aEmail"><div id="eEmail" class="err"></div></div>
-<div class="field"><label>Group / Team</label><input id="aGroup" placeholder="e.g. Group A"></div>
-<div class="field"><label>WhatsApp number *</label><input id="aPhone"><div id="ePhone" class="err"></div></div>
-<div class="field"><label>Assignment / Event *</label><input id="aTask"><div id="eTask" class="err"></div></div>
-<div class="field"><label>Event date *</label><input id="aDate" type="date"><div id="eDate" class="err"></div></div>
-<div class="field"><label>Event time *</label><input id="aTime" type="time"><div id="eTime" class="err"></div></div>
-<div class="field"><label>Reminder date *</label><input id="aReminderDate" type="date"><div id="eReminderDate" class="err"></div></div>
-<div class="field"><label>Reminder stage *</label><select id="aStage"><option value="">Choose stage</option><option>2 weeks before</option><option>1 week before</option><option>3 days before</option><option>1 day before</option><option>Today</option><option>Follow-up</option></select><div id="eStage" class="err"></div></div>
-<div class="field" style="grid-column:1/-1"><label>Reminder message *</label><textarea id="aMessage" rows="4"></textarea><div id="eMessage" class="err"></div></div>
-</div><div class="actions" style="margin-top:12px"><button id="assignmentSave" class="primary" onclick="saveAssignment()">Add reminder</button><button class="secondary" onclick="clearAssignmentForm()">Clear</button></div></div>
-
+<h1>Reminders</h1><div class="muted">Your reminders live here. Add or change them through FollowLoop Chat; incomplete details are clearly flagged before you act.</div>
+<div class="card" style="margin:18px 0"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap"><div><h3 style="margin:0 0 4px">Need to add or change a reminder?</h3><div class="muted">Use FollowLoop Chat. Tell it what you need, paste a list, or paste an image.</div></div><button class="primary" onclick="show('chat')">Open Chat</button></div></div>
 <div class="card" style="margin-bottom:18px"><h3>Bulk actions</h3><div class="muted" style="margin-bottom:12px">Choose an audience, personalise the message, review the batch, then open each action safely.</div>
 <div class="form"><div class="field"><label>Audience</label><select id="bulkAudience" onchange="bulkSummary()"><option value="selected">Selected people</option><option value="everyone">Everyone</option><option value="due">Due today</option><option value="overdue">Overdue</option><option value="ready">Ready</option><option value="bad">Needs attention</option></select></div>
 <div class="field"><label>Channel</label><select id="bulkChannel"><option value="">Choose channel</option><option value="calendar">Calendar</option><option value="email">Email</option><option value="whatsapp">WhatsApp</option></select></div>
@@ -306,7 +146,7 @@ You can also paste Excel/Google Sheets rows or an image."></textarea>
 <div class="actions" style="margin-top:12px"><span id="bulkCount" class="small">0 selected</span><button class="primary" onclick="previewBulk()">Preview bulk action</button><button class="secondary" onclick="clearSelected()">Clear selected</button></div><div id="bulkPanel" class="hidden" style="margin-top:16px"></div></div>
 
 <div class="card"><div class="toolbar"><strong>Filter:</strong><select id="assignmentFilter" class="filter" onchange="renderAssignments()"><option value="all">All</option><option value="due">Due today</option><option value="overdue">Overdue</option><option value="ready">Ready</option><option value="bad">Needs attention</option></select></div>
-<div class="table"><table><thead><tr><th><input id="selectAll" type="checkbox" onchange="toggleAll(this.checked)"></th><th>Person</th><th>Event</th><th>Date & Time</th><th>Reminder</th><th>Due</th><th>Validation</th><th>Actions</th></tr></thead><tbody id="assignmentRows"></tbody></table></div><div id="assignmentEmpty" class="empty">No assignments yet.</div></div>
+<div class="table"><table><thead><tr><th><input id="selectAll" type="checkbox" onchange="toggleAll(this.checked)"></th><th>Person</th><th>Event</th><th>Date & Time</th><th>Reminder</th><th>Due</th><th>Validation</th><th>Actions</th></tr></thead><tbody id="assignmentRows"></tbody></table></div><div id="assignmentEmpty" class="empty">No reminders yet.</div></div>
 </section>
 
 <section id="followups" class="section"><h1>Follow-ups</h1><div class="muted">Track what has been opened and what still needs attention.</div><div class="card" style="margin-top:18px"><div class="table"><table><thead><tr><th>Person</th><th>Stage</th><th>Due</th><th>Calendar</th><th>Email</th><th>WhatsApp</th><th>Action</th></tr></thead><tbody id="followupRows"></tbody></table></div><div id="followupEmpty" class="empty">No reminder actions yet.</div></div></section>
@@ -340,12 +180,13 @@ let tokenClient=null,accessToken=null,googleSheets=[],selectedSheet=null,assignm
 
 const $=id=>document.getElementById(id), esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 function toast(m){$("toast").textContent=m;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2400)}
-function show(id,el=null){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));(el||document.querySelector(`.nav[data-target="${id}"]`))?.classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
+function show(id,el=null){document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));(el||document.querySelector(`.nav[data-target="${id}"]`))?.classList.add("active");if(["integrations","settings","content","packs"].includes(id)){$("moreMenu").classList.add("open");$("moreArrow").textContent="⌃";}window.scrollTo({top:0,behavior:"smooth"})}
+function toggleMore(){const open=$("moreMenu").classList.toggle("open");$("moreArrow").textContent=open?"⌃":"⌄";}
 function openModal(html,label,fn){$("modalContent").innerHTML=html;$("modal").classList.add("show");$("modalConfirm").textContent=label||"Continue";$("modalConfirm").onclick=()=>{closeModal();fn&&fn()}}
 function closeModal(){$("modal").classList.remove("show")}
 function v(id){return $(id).value.trim()}
 
-function googleLogin(){if(!window.google?.accounts?.oauth2)return toast("Google sign-in is still loading.");if(!tokenClient)tokenClient=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:"openid email profile https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/spreadsheets.readonly",callback:async r=>{if(r.error)return toast("Google authentication failed.");accessToken=r.access_token;$("login").classList.add("hidden");$("app").classList.remove("hidden");await loadProfile();await loadSheets()}});tokenClient.requestAccessToken({prompt:"consent"})}
+function googleLogin(){if(!window.google?.accounts?.oauth2)return toast("Google sign-in is still loading.");if(!tokenClient)tokenClient=google.accounts.oauth2.initTokenClient({client_id:CLIENT_ID,scope:"openid email profile https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/spreadsheets.readonly",callback:async r=>{if(r.error)return toast("Google authentication failed.");accessToken=r.access_token;$("login").classList.add("hidden");$("app").classList.remove("hidden");await loadProfile();await loadSheets();show("chat")}});tokenClient.requestAccessToken({prompt:"consent"})}
 async function loadProfile(){try{const r=await fetch("https://www.googleapis.com/oauth2/v3/userinfo",{headers:{Authorization:"Bearer "+accessToken}}),p=await r.json();if(p.given_name)$("welcome").textContent=`Welcome back, ${p.given_name} 👋🏾`}catch{}}
 async function loadSheets(){const q=encodeURIComponent("mimeType='application/vnd.google-apps.spreadsheet' and trashed=false"),r=await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&pageSize=100&orderBy=modifiedTime desc&fields=files(id,name,modifiedTime)`,{headers:{Authorization:"Bearer "+accessToken}}),d=await r.json();googleSheets=d.files||[];renderSheetResults(googleSheets);populateContentSheets()}
 function showSheetResults(){$("sheetResults").classList.remove("hidden")}
@@ -356,7 +197,23 @@ async function sheetValues(id){const meta=await fetch(`https://sheets.googleapis
 async function loadSelectedSheet(){if(!selectedSheet)return;$("sheetStatus").innerHTML='<div class="validation warn">Checking your Sheet...</div>';try{const d=await sheetValues(selectedSheet.id),ok=importAssignments(d.values||[],selectedSheet.name);if(ok){$("sheetStatus").innerHTML='<div class="validation ok">Sheet loaded and checked.</div>';show("assignments")}}catch{$("sheetStatus").innerHTML='<div class="validation error">FollowLoop could not read this Sheet.</div>'}}
 const norm=s=>String(s||"").trim().toLowerCase().replace(/[^a-z0-9]/g,""), find=(h,n)=>{const a=h.map(norm);for(const x of n){const i=a.indexOf(norm(x));if(i>=0)return i}return-1};
 function mapHeaders(h){return{name:find(h,["name","full name","person"]),email:find(h,["email","email address"]),group:find(h,["group","team","category"]),phone:find(h,["whatsapp","whatsapp number","phone","phone number","mobile"]),task:find(h,["event","assignment","task","role","duty"]),date:find(h,["event date","date"]),time:find(h,["event time","time","start time"]),reminderDate:find(h,["reminder date","due date"]),stage:find(h,["reminder stage","stage","reminder"]),message:find(h,["reminder message","message","prompt"])}}
-function importAssignments(rows,source="Pasted data"){if(rows.length<2)return toast("I could not find assignment rows.");const c=mapHeaders(rows[0]),missing=Object.entries(c).filter(([k,i])=>k!=="group"&&i<0).map(([k])=>k);if(missing.length){toast("Missing columns: "+missing.join(", "));return false}const base=Date.now();const list=rows.slice(1).filter(r=>r.some(x=>String(x||"").trim())).map((r,i)=>({id:`${source}-${base}-${i}`,source,name:r[c.name]||"",email:r[c.email]||"",group:c.group>=0?r[c.group]||"":"",phone:r[c.phone]||"",task:r[c.task]||"",date:toDate(r[c.date]),time:toTime(r[c.time]),reminderDate:toDate(r[c.reminderDate]),stage:r[c.stage]||"",message:r[c.message]||"",calendar:"Pending",emailStatus:"Pending",whatsappStatus:"Pending"}));assignments=source==="Pasted data"?assignments.concat(list):assignments.filter(a=>a.source!==source).concat(list);refresh();return true}
+function importAssignments(rows,source="Pasted data"){
+  if(rows.length<2){toast("I could not find reminder rows.");return false}
+  const c=mapHeaders(rows[0]);
+  const recognised=Object.values(c).filter(i=>i>=0).length;
+  if(recognised<2){toast("I could not recognise enough reminder columns yet.");return false}
+  const base=Date.now();
+  const get=(r,i)=>i>=0?(r[i]||""):"";
+  const list=rows.slice(1).filter(r=>r.some(x=>String(x||"").trim())).map((r,i)=>({
+    id:`${source}-${base}-${i}`,source,
+    name:get(r,c.name),email:get(r,c.email),group:get(r,c.group),phone:get(r,c.phone),task:get(r,c.task),
+    date:toDate(get(r,c.date)),time:toTime(get(r,c.time)),reminderDate:toDate(get(r,c.reminderDate)),
+    stage:get(r,c.stage),message:get(r,c.message),calendar:"Pending",emailStatus:"Pending",whatsappStatus:"Pending"
+  }));
+  assignments=source==="Pasted data"?assignments.concat(list):assignments.filter(a=>a.source!==source).concat(list);
+  refresh();
+  return true;
+}
 function toDate(x){if(!x)return"";if(/^\d{4}-\d{2}-\d{2}$/.test(String(x)))return String(x);const d=new Date(x);if(isNaN(d))return String(x);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
 function toTime(x){const s=String(x||"").trim();if(!s)return"";if(/^\d{1,2}:\d{2}$/.test(s))return s.padStart(5,"0");const m=s.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i);if(!m)return s;let h=+m[1];if(m[3].toLowerCase()==="pm"&&h!==12)h+=12;if(m[3].toLowerCase()==="am"&&h===12)h=0;return `${String(h).padStart(2,"0")}:${m[2]||"00"}`}
 function timeDisplay(x){const s=String(x||"").trim();if(!s)return"";if(/\b(am|pm)\b/i.test(s))return s.toUpperCase();const m=s.match(/^(\d{1,2}):(\d{2})/);if(!m)return s;let h=+m[1],ap=h>=12?"PM":"AM";h=h%12||12;return `${h}:${m[2]} ${ap}`}
@@ -368,9 +225,11 @@ const ready=a=>validate(a).length===0;
 function saveAssignment(){["eName","eEmail","ePhone","eTask","eDate","eTime","eReminderDate","eStage","eMessage"].forEach(id=>$(id).textContent="");const a={id:editA||("manual-"+Date.now()),source:"Manual",name:v("aName"),email:v("aEmail"),group:v("aGroup"),phone:v("aPhone"),task:v("aTask"),date:v("aDate"),time:v("aTime"),reminderDate:v("aReminderDate"),stage:v("aStage"),message:v("aMessage"),calendar:"Pending",emailStatus:"Pending",whatsappStatus:"Pending"},old=assignments.find(x=>x.id===editA);if(old){a.source=old.source;a.calendar=old.calendar;a.emailStatus=old.emailStatus;a.whatsappStatus=old.whatsappStatus}const e=validate(a),m={"Name":"eName","Email":"eEmail","Valid email":"eEmail","WhatsApp number":"ePhone","Event":"eTask","Event date":"eDate","Event time":"eTime","Reminder date":"eReminderDate","Reminder stage":"eStage","Reminder message":"eMessage"};if(e.length){e.forEach(x=>$(m[x]).textContent=x==="Valid email"?"That email address doesn't look right.":"Please complete this field.");return toast("Please complete the highlighted fields.")}if(editA){assignments[assignments.findIndex(x=>x.id===editA)]=a;toast("Reminder updated.")}else{assignments.push(a);toast("Reminder added.")}clearAssignmentForm();refresh()}
 function clearAssignmentForm(){["aName","aEmail","aGroup","aPhone","aTask","aDate","aTime","aReminderDate","aStage","aMessage"].forEach(id=>$(id).value="");editA=null;$("assignmentSave").textContent="Add reminder";$("assignmentFormTitle").textContent="Add a reminder manually"}
 function editAssignment(id){const a=assignments.find(x=>x.id===id);if(!a)return;editA=id;$("aName").value=a.name;$("aEmail").value=a.email;$("aGroup").value=a.group||"";$("aPhone").value=a.phone;$("aTask").value=a.task;$("aDate").value=toDate(a.date);$("aTime").value=toTime(a.time);$("aReminderDate").value=toDate(a.reminderDate);$("aStage").value=a.stage;$("aMessage").value=a.message;$("assignmentSave").textContent="Save changes";$("assignmentFormTitle").textContent="Edit reminder";show("assignments");window.scrollTo({top:0,behavior:"smooth"})}
+function chatEditReminder(id){const a=assignments.find(x=>x.id===id);if(!a)return;show("chat");clearChatLog();assistantState={type:"editExistingReminder",data:a};addChat(`Here is the reminder:\n\nName: ${a.name}\nEmail: ${a.email}\nWhatsApp: ${a.phone}\nEvent: ${a.task}\nDate: ${a.date}\nTime: ${timeDisplay(a.time)}\nReminder date: ${a.reminderDate}\nStage: ${a.stage}\nMessage: ${a.message}\n\nTell me what you want to change, for example: “change the time to 4:30 PM”.`,"bot");assistantButtons([{label:"Change name",action:()=>chatEditField("name")},{label:"Change email",action:()=>chatEditField("email")},{label:"Change WhatsApp",action:()=>chatEditField("phone")},{label:"Change event",action:()=>chatEditField("task")},{label:"Change date",action:()=>chatEditField("date")},{label:"Change time",action:()=>chatEditField("time")},{label:"Change reminder date",action:()=>chatEditField("reminderDate")},{label:"Change message",action:()=>chatEditField("message")}])}
+function chatEditField(field){if(!assistantState?.data)return;assistantState={type:"editReminderField",field,data:assistantState.data};assistantClearChoices();const labels={name:"name",email:"email address",phone:"WhatsApp number",task:"event/task",date:"event date",time:"event time",reminderDate:"reminder date",message:"message"};addChat(`What should the new ${labels[field]} be?`,"bot")}
 function deleteAssignment(id){const a=assignments.find(x=>x.id===id);if(!a||!confirm(`Delete ${a.name}'s reminder?`))return;assignments=assignments.filter(x=>x.id!==id);selectedIds.delete(id);if(editA===id)clearAssignmentForm();refresh();toast("Reminder deleted.")}
 function filteredAssignments(){const f=$("assignmentFilter").value;return assignments.filter(a=>f==="all"||f==="due"&&dueInfo(a).kind==="due"||f==="overdue"&&dueInfo(a).kind==="overdue"||f==="ready"&&ready(a)||f==="bad"&&!ready(a))}
-function renderAssignments(){const list=filteredAssignments();$("assignmentRows").innerHTML=list.map(a=>{const d=dueInfo(a),e=validate(a),ok=!e.length;return `<tr><td><input type="checkbox" ${selectedIds.has(a.id)?"checked":""} onchange="toggleOne('${a.id}',this.checked)"></td><td><strong>${esc(a.name||"Missing name")}</strong>${a.group?`<br><span class="small">${esc(a.group)}</span>`:""}<br><span class="small">${esc(a.email||"No email")}<br>${esc(a.phone||"No WhatsApp")}</span></td><td>${esc(a.task||"Missing event")}</td><td>${esc(a.date||"Missing date")}<br>${esc(timeDisplay(a.time)||"Missing time")}</td><td><strong>${esc(a.stage||"Missing stage")}</strong><br><span class="small">${esc(a.message||"Missing message")}</span></td><td><span class="status ${d.css}">${d.text}</span></td><td>${ok?'<span class="status ready">Ready</span>':`<span class="status bad">Needs attention</span><div class="small">${e.join(", ")}</div>`}</td><td><div class="actions"><select id="act-${a.id}" class="action" ${ok?"":"disabled"}><option value="">Choose channel</option><option value="calendar">Calendar</option><option value="email">Email</option><option value="whatsapp">WhatsApp</option></select><button class="primary" ${ok?"":"disabled"} onclick="previewAction('${a.id}')">Review</button></div><div class="actions" style="margin-top:7px"><button class="secondary" onclick="editAssignment('${a.id}')">Edit</button><button class="danger" onclick="deleteAssignment('${a.id}')">Delete</button></div></td></tr>`}).join("");$("assignmentEmpty").classList.toggle("hidden",list.length>0);$("selectAll").checked=list.length>0&&list.every(a=>selectedIds.has(a.id));populateGroups();bulkSummary()}
+function renderAssignments(){const list=filteredAssignments();$("assignmentRows").innerHTML=list.map(a=>{const d=dueInfo(a),e=validate(a),ok=!e.length;return `<tr><td><input type="checkbox" ${selectedIds.has(a.id)?"checked":""} onchange="toggleOne('${a.id}',this.checked)"></td><td><strong>${esc(a.name||"Missing name")}</strong>${a.group?`<br><span class="small">${esc(a.group)}</span>`:""}<br><span class="small">${esc(a.email||"No email")}<br>${esc(a.phone||"No WhatsApp")}</span></td><td>${esc(a.task||"Missing event")}</td><td>${esc(a.date||"Missing date")}<br>${esc(timeDisplay(a.time)||"Missing time")}</td><td><strong>${esc(a.stage||"Missing stage")}</strong><br><span class="small">${esc(a.message||"Missing message")}</span></td><td><span class="status ${d.css}">${d.text}</span></td><td>${ok?'<span class="status ready">Ready</span>':`<span class="status bad">Needs attention</span><div class="small">${e.join(", ")}</div>`}</td><td><div class="actions"><select id="act-${a.id}" class="action" ${ok?"":"disabled"}><option value="">Choose channel</option><option value="calendar">Calendar</option><option value="email">Email</option><option value="whatsapp">WhatsApp</option></select><button class="primary" ${ok?"":"disabled"} onclick="previewAction('${a.id}')">Review</button></div><div class="actions" style="margin-top:7px"><button class="secondary" onclick="chatEditReminder('${a.id}')">Edit in Chat</button><button class="danger" onclick="deleteAssignment('${a.id}')">Delete</button></div></td></tr>`}).join("");$("assignmentEmpty").classList.toggle("hidden",list.length>0);$("selectAll").checked=list.length>0&&list.every(a=>selectedIds.has(a.id));populateGroups();bulkSummary()}
 function toggleOne(id,on){on?selectedIds.add(id):selectedIds.delete(id);bulkSummary()}
 function toggleAll(on){filteredAssignments().forEach(a=>on?selectedIds.add(a.id):selectedIds.delete(a.id));renderAssignments()}
 function clearSelected(){selectedIds.clear();renderAssignments()}
@@ -411,8 +270,35 @@ function clearChatLog(){
   $("ocrStatus").innerHTML="";
 }
 function mainMenuText(){
-  return "You can use FollowLoop in whatever way feels easiest today.\n\nI can help you:\n• add reminders/assignments\n• prepare a bulk action for several people\n• add a follow-up\n• add scheduled communication to Content Queue\n• create a reusable Content Pack\n• check what is due or overdue\n• understand a list copied from Excel/Google Sheets\n• read a pasted or uploaded image\n\nIf you already have information, just paste it here. If you are not sure where to start, tell me what is on your mind.";
+  return `You can use FollowLoop in whatever way feels easiest today.
+
+I can help you:
+• add reminders
+• prepare a bulk action for several people
+• add follow-ups
+• add scheduled communication to Content Queue
+• create reusable Content Packs
+• check what is due or overdue
+• understand a list copied from Excel/Google Sheets
+• read a pasted or uploaded image
+
+If you already have information, just paste it here — even if the columns are in a different order. If something is missing, I’ll point it out instead of guessing.
+
+Example reminder row:
+Name: Alex Morgan
+Email: alex.morgan@example.com
+WhatsApp: +447700900123
+Event: Client review meeting
+Event Date: 2026-10-22
+Event Time: 3:00 PM
+Reminder Date: 2026-10-20
+Reminder Stage: 2 days before
+Reminder Message: Hi Alex, just a reminder about your client review meeting.`;
 }
+function isGreeting(text){return /^(hi|hello|hey|good morning|good afternoon|good evening|howdy|hiya)\b/i.test(text.trim())}
+function isThanks(text){return /^(thanks|thank you|thankyou|great|looks good|perfect|amazing|awesome|nice|okay thanks|ok thanks|that works|all good)[!. ]*$/i.test(text.trim())}
+function isAffirmation(text){return /^(okay|ok|alright|all right|yes|yep|sure|fine|got it|understood|cool)[!. ]*$/i.test(text.trim())}
+function conversationalReply(raw){const text=raw.trim();if(isGreeting(text)){addChat("Hi 👋🏾 I’m here. Tell me what you need help remembering or following up on, or just paste what you already have.","bot");showMainMenu();return true}if(isThanks(text)){addChat("You’re welcome 😊 If everything looks good, you can carry on. If you want to do something else, just tell me what you need next.","bot");showMainMenu();return true}if(isAffirmation(text)){addChat("Great. Tell me what you’d like to do next, or paste the information you already have.","bot");showMainMenu();return true}if(/\b(who are you|what is followloop)\b/i.test(text)){addChat("I’m FollowLoop — your reminder and follow-up assistant. I help you turn loose information into organised reminders, follow-ups, bulk actions and scheduled communication, then show you what needs attention.","bot");showMainMenu();return true}return false}
 function showMainMenu(){
   assistantButtons([
     {label:"Add a reminder",action:()=>startAssistant("assignment",true)},
@@ -506,7 +392,7 @@ function assistantDue(clearFirst=false){
   addChat(`You currently have ${due.length} reminder(s) due today and ${overdue.length} overdue reminder(s).`,"bot");
   assistantButtons([
     {label:"Open Dashboard",action:()=>{assistantClearChoices();show("dashboard")}},
-    {label:"Open Assignments",action:()=>{assistantClearChoices();show("assignments")}},
+    {label:"Open Reminders",action:()=>{assistantClearChoices();show("assignments")}},
     {label:"Start something else",action:()=>newChat()}
   ]);
 }
@@ -528,6 +414,8 @@ function assignmentQuestion(step,isFollowUp=false){
 function assistantHandleInput(raw){
   if(!assistantState)return false;
   const s=assistantState;
+  if(s.type==="editReminderField"){const a=s.data,f=s.field,val=raw.trim();if(f==="email"&&!validEmail(val))return askAgain("That does not look like a valid email address. Please try again.");if(f==="phone"&&!validPhone(val))return askAgain("That WhatsApp number does not look complete.");if((f==="date"||f==="reminderDate")&&!validDateInput(val))return askAgain("I could not recognise that as a valid date.");if(f==="time"&&!validTimeInput(val))return askAgain("I could not recognise that as a valid time.");a[f]=f==="date"||f==="reminderDate"?toDate(val):f==="time"?toTime(val):val;refresh();finishAssistant("Done — I updated the reminder.");return true}
+  if(s.type==="editExistingReminder"){let m=raw.match(/change\s+(?:the\s+)?time\s+to\s+(.+)/i);if(m){if(!validTimeInput(m[1]))return askAgain("I could not recognise that time.");s.data.time=toTime(m[1]);refresh();finishAssistant("Done — I changed the time.");return true}addChat("I can update that. Tell me which field you want to change, or choose one below.","bot");assistantButtons([{label:"Change name",action:()=>chatEditField("name")},{label:"Change email",action:()=>chatEditField("email")},{label:"Change WhatsApp",action:()=>chatEditField("phone")},{label:"Change event",action:()=>chatEditField("task")},{label:"Change date",action:()=>chatEditField("date")},{label:"Change time",action:()=>chatEditField("time")},{label:"Change reminder date",action:()=>chatEditField("reminderDate")},{label:"Change message",action:()=>chatEditField("message")}]);return true}
 
   if(s.type==="assignment"){
     const isFollow=!!s.data.isFollowUp;
@@ -592,8 +480,8 @@ function assistantHandleInput(raw){
       assistantState={type:"confirmAssignment",data:a};
       addChat(`Please review before I add it:\n\nName: ${a.name}\nEmail: ${a.email}\nWhatsApp: ${a.phone}\nEvent: ${a.task}\nDate: ${a.date}\nTime: ${timeDisplay(a.time)}\nReminder date: ${a.reminderDate}\nStage: ${a.stage}\nMessage: ${a.message}${errors.length?`\n\nNeeds attention: ${errors.join(", ")}`:""}`,"bot");
       assistantButtons([
-        {label:"Add to Assignments",action:()=>confirmAssistantAssignment()},
-        {label:"Edit manually",action:()=>editAssistantAssignment()},
+        {label:"Add to Reminders",action:()=>confirmAssistantAssignment()},
+        {label:"Change something",action:()=>editAssistantAssignment()},
         {label:"Cancel",action:()=>cancelAssistant()}
       ]);
       return true;
@@ -686,11 +574,22 @@ function assistantHandleInput(raw){
 function confirmAssistantAssignment(){
   const a=assistantState?.data;if(!a)return;
   assignments.push(a);refresh();
-  finishAssistant("Done — I added it to Assignments.");
+  finishAssistant("Done — I added it to Reminders.");
 }
 function editAssistantAssignment(){
   const a=assistantState?.data;if(!a)return;
-  assignments.push(a);assistantState=null;assistantClearChoices();refresh();editAssignment(a.id);
+  assignments.push(a);refresh();assistantState={type:"editExistingReminder",data:a};assistantClearChoices();
+  addChat("No problem. Tell me what you want to change, or choose a field below.","bot");
+  assistantButtons([
+    {label:"Change name",action:()=>chatEditField("name")},
+    {label:"Change email",action:()=>chatEditField("email")},
+    {label:"Change WhatsApp",action:()=>chatEditField("phone")},
+    {label:"Change event",action:()=>chatEditField("task")},
+    {label:"Change date",action:()=>chatEditField("date")},
+    {label:"Change time",action:()=>chatEditField("time")},
+    {label:"Change reminder date",action:()=>chatEditField("reminderDate")},
+    {label:"Change message",action:()=>chatEditField("message")}
+  ]);
 }
 function confirmAssistantContent(){
   const p=assistantState?.data;if(!p)return;
@@ -713,150 +612,13 @@ function cancelAssistant(){
   showMainMenu();
 }
 function addChat(text,type){const d=document.createElement("div");d.className="msg "+type;d.innerHTML=esc(text).replace(/\n/g,"<br>");$("chatLog").appendChild(d);$("chatLog").scrollTop=$("chatLog").scrollHeight}
-function parsePastedTable(raw){
-  const lines=raw.trim().split(/\r?\n/).filter(Boolean);
-  if(lines.length<2)return false;
+function splitDelimitedLine(line,delimiter){if(delimiter==="|"){return line.split("|").map(x=>x.trim()).filter((x,i,a)=>!(x===""&&(i===0||i===a.length-1)))}return line.split(delimiter).map(x=>x.trim().replace(/^["']|["']$/g,""))}
+function detectDelimiter(raw){const first=(raw.trim().split(/\r?\n/)[0]||"");if(first.includes("\t"))return "\t";if((first.match(/\|/g)||[]).length>=2)return "|";if((first.match(/;/g)||[]).length>=2)return ";";if((first.match(/,/g)||[]).length>=2)return ",";return null}
+function parseKeyValueBlocks(raw){const lines=raw.trim().split(/\r?\n/).map(x=>x.trim()).filter(Boolean);const recognised=["name","email","whatsapp","phone","event","assignment","task","event date","date","event time","time","reminder date","due date","reminder stage","stage","reminder message","message"];const pairs=[];for(const line of lines){const m=line.match(/^([^:]{2,40}):\s*(.*)$/);if(m&&recognised.includes(m[1].trim().toLowerCase()))pairs.push([m[1].trim(),m[2].trim()])}if(pairs.length<3)return false;const obj={};pairs.forEach(([k,v])=>obj[norm(k)]=v);const row=[obj.name||"",obj.email||"",obj.whatsapp||obj.phone||"",obj.event||obj.assignment||obj.task||"",obj.eventdate||obj.date||"",obj.eventtime||obj.time||"",obj.reminderdate||obj.duedate||"",obj.reminderstage||obj.stage||"",obj.remindermessage||obj.message||""];return importAssignments([["Name","Email","WhatsApp","Event","Event Date","Event Time","Reminder Date","Reminder Stage","Reminder Message"],row],"Pasted data")}
+function parsePastedTable(raw){const trimmed=raw.trim();const lines=trimmed.split(/\r?\n/).filter(x=>x.trim());if(lines.length<2){if(parseKeyValueBlocks(trimmed)){addChat("I recognised those details and added the reminder. Please review anything marked Needs attention.","bot");show("assignments");return true}return false}let delimiter=detectDelimiter(trimmed);let usefulLines=lines.filter(line=>!/^\s*\|?\s*:?-{3,}/.test(line));if(!delimiter){const blocks=trimmed.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);let added=0;for(const block of blocks){const before=assignments.length;if(parseKeyValueBlocks(block))added+=assignments.length-before}if(added){addChat(`I recognised ${added} reminder${added===1?"":"s"} from the details you pasted. Please review anything marked Needs attention.`,"bot");show("assignments");return true}return false}const rows=usefulLines.map(r=>splitDelimitedLine(r,delimiter));if(rows.length<2)return false;const headers=rows[0].map(norm);const hasAssignment=headers.some(x=>["name","fullname","person"].includes(x))&&headers.some(x=>x.includes("event")||x.includes("assignment")||x.includes("task"));const hasContent=headers.some(x=>x.includes("title")||x.includes("posttitle"))&&headers.some(x=>x.includes("caption")||x==="message")&&headers.some(x=>x.includes("channel"));if(hasAssignment){const ok=importAssignments(rows,"Pasted data");if(ok){const incomplete=assignments.filter(a=>a.source==="Pasted data"&&!ready(a)).length;addChat(`I recognised this as reminder data and mapped the columns by their headings, even though the order may be different.${incomplete?` ${incomplete} row(s) need attention because something is missing or invalid.`:" Everything looks complete."}`,"bot");show("assignments")}return ok}if(hasContent){const h=rows[0],c={title:find(h,["title","post title"]),date:find(h,["date","post date"]),time:find(h,["time","post time"]),channel:find(h,["channel"]),caption:find(h,["caption","message"]),pack:find(h,["pack","group"]),link:find(h,["link","url"]),leader:find(h,["leader email","reminder email"])};if(["title","date","time","channel","caption"].some(k=>c[k]<0)){addChat("I can see Content Queue data, but some required columns are missing.\n\nPlease include: Title, Date, Time, Channel, Caption/Message.","bot");return true}const base=Date.now(),list=rows.slice(1).filter(r=>r.some(Boolean)).map((r,i)=>({id:`pasted-content-${base}-${i}`,pack:c.pack>=0?r[c.pack]||"":"",title:r[c.title]||"",date:toDate(r[c.date]),time:toTime(r[c.time]),channel:r[c.channel]||"",link:c.link>=0?r[c.link]||"":"",caption:r[c.caption]||"",leaderEmail:c.leader>=0?r[c.leader]||"":"",image:null,status:"Pending"}));posts.push(...list);refresh();addChat(`I recognised this as Content Queue data and added ${list.length} item(s). Please review them before use.`,"bot");show("content");return true}addChat("I can see that you pasted structured data, but I’m not confident about what each column means yet.\n\nFor reminders, use headings such as Name, Email, WhatsApp, Event, Event Date, Event Time, Reminder Date, Reminder Stage and Reminder Message.\n\nYou can put them in any order — I map by the column names.","bot");return true}
 
-  let delimiter=raw.includes("	")?"	":(lines[0].includes(",")?",":null);
-  if(!delimiter)return false;
-
-  const rows=lines.map(r=>r.split(delimiter).map(x=>x.trim()));
-  const headers=rows[0].map(norm);
-
-  const hasAssignment=
-    headers.some(x=>["name","fullname","person"].includes(x)) &&
-    headers.some(x=>x.includes("event")||x.includes("assignment")||x.includes("task"));
-
-  const hasContent=
-    headers.some(x=>x.includes("title")||x.includes("posttitle")) &&
-    headers.some(x=>x.includes("caption")||x==="message") &&
-    headers.some(x=>x.includes("channel"));
-
-  if(hasAssignment){
-    const ok=importAssignments(rows,"Pasted data");
-    if(ok){
-      addChat("I recognised this as assignment/reminder data and added the rows to Assignments. Please review anything marked Needs attention.","bot");
-      show("assignments");
-    }
-    return ok;
-  }
-
-  if(hasContent){
-    const h=rows[0];
-    const c={
-      title:find(h,["title","post title"]),
-      date:find(h,["date","post date"]),
-      time:find(h,["time","post time"]),
-      channel:find(h,["channel"]),
-      caption:find(h,["caption","message"]),
-      pack:find(h,["pack","group"]),
-      link:find(h,["link","url"]),
-      leader:find(h,["leader email","reminder email"])
-    };
-
-    if(["title","date","time","channel","caption"].some(k=>c[k]<0)){
-      addChat("I can see Content Queue data, but some required columns are missing.\n\nPlease include: Title, Date, Time, Channel, Caption/Message.","bot");
-      return true;
-    }
-
-    const base=Date.now();
-    const list=rows.slice(1).filter(r=>r.some(Boolean)).map((r,i)=>({
-      id:`pasted-content-${base}-${i}`,
-      pack:c.pack>=0?r[c.pack]||"":"",
-      title:r[c.title]||"",
-      date:toDate(r[c.date]),
-      time:toTime(r[c.time]),
-      channel:r[c.channel]||"",
-      link:c.link>=0?r[c.link]||"":"",
-      caption:r[c.caption]||"",
-      leaderEmail:c.leader>=0?r[c.leader]||"":"",
-      image:null,
-      status:"Pending"
-    }));
-
-    posts.push(...list);
-    refresh();
-    addChat(`I recognised this as Content Queue data and added ${list.length} item(s). Please review them before use.`,"bot");
-    show("content");
-    return true;
-  }
-
-  return false;
-}
 function nextDay(name){const map={sunday:0,monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6},t=new Date(),target=map[name];if(target===undefined)return"";let n=(target-t.getDay()+7)%7;if(!n)n=7;t.setDate(t.getDate()+n);return toDate(t)}
-function handleChat(){
-  const raw=v("chatInput");
-  if(!raw)return;
-
-  addChat(raw,"user");
-  $("chatInput").value="";
-
-  if(assistantHandleInput(raw))return;
-  if(parsePastedTable(raw))return;
-
-  const text=raw.toLowerCase()
-    .replace(/satday/g,"saturday")
-    .replace(/meting/g,"meeting")
-    .replace(/tmrw/g,"tomorrow");
-
-  if(/\b(new chat|new conversation|start again|start over|clear chat)\b/i.test(text)){
-    newChat();return;
-  }
-
-  if(/\b(help|what can you do|how do i use|i am new|i'm new|where do i start|first time)\b/i.test(text)){
-    addChat(mainMenuText()+"\n\nFor copied assignment/reminder lists, the most useful columns are:\nName | Email | WhatsApp | Event | Event Date | Event Time | Reminder Date | Reminder Stage | Reminder Message\n\nFor Content Queue lists, use:\nTitle | Date | Time | Channel | Caption/Message\nOptional: Pack/Group | Link | Leader Email","bot");
-    showMainMenu();
-    return;
-  }
-
-  if(/\b(add|create|set up|setup)\b.*\b(follow[- ]?up)\b/i.test(text)){
-    startAssistant("followup",true);return;
-  }
-
-  if(/\b(add|create|set up|setup)\b.*\b(content pack|pack)\b/i.test(text)){
-    startAssistant("pack",true);return;
-  }
-
-  if(/\b(add|schedule|prepare|create)\b.*\b(content|post|message)\b/i.test(text) && /\b(queue|schedule|post|content)\b/i.test(text)){
-    startAssistant("content",true);return;
-  }
-
-  if(/\b(bulk|everyone|all people|group|several people|multiple people)\b/i.test(text) && /\b(send|remind|invite|message|email|whatsapp|calendar)\b/i.test(text)){
-    startAssistant("bulk",true);return;
-  }
-
-  if(/\b(add|create|set up|setup|remind)\b.*\b(assignment|reminder|person|someone)\b/i.test(text)){
-    startAssistant("assignment",true);return;
-  }
-
-  if(/\b(due|overdue|what needs attention|what do i need to do)\b/i.test(text)){
-    assistantDue(true);return;
-  }
-
-  const day=(text.match(/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/)||[])[1];
-  const tm=(text.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/)||[])[0]||"";
-
-  if(/\bmeeting|worship|prayer|session|assignment\b/i.test(text) && /\bremind|reminder\b/i.test(text)){
-    clearChatLog();
-    assistantState={type:"assignment",step:0,data:{}};
-
-    const maybeName=raw.split(/\s+/)[0]||"";
-    if(maybeName.length>1 && !/^(remind|please|can|could|i)$/i.test(maybeName)){
-      assistantState.data.name=maybeName;
-      assistantState.step=1;
-      addChat(`I can help with that. I picked up the name “${maybeName}”.\n\nWhat is their email address?`,"bot");
-    }else{
-      addChat("I can help with that.\n\nWhat is the person’s name?","bot");
-    }
-
-    if(day) assistantState.data.date=nextDay(day);
-    if(tm) assistantState.data.time=toTime(tm);
-    return;
-  }
-
-  addChat("I can help — I just need a little more direction.\n\nYou can tell me what you want in your own words, or choose one of the options below. If you already have a list, paste it here and I’ll try to recognise the structure.","bot");
-  showMainMenu();
-}
+function handleChat(){const raw=v("chatInput");if(!raw)return;addChat(raw,"user");$("chatInput").value="";if(assistantHandleInput(raw))return;if(parsePastedTable(raw))return;if(conversationalReply(raw))return;const text=raw.toLowerCase().replace(/satday/g,"saturday").replace(/meting/g,"meeting").replace(/tmrw/g,"tomorrow");if(/\b(new chat|new conversation|start again|start over|clear chat)\b/i.test(text)){newChat();return}if(/\b(help|what can you do|how do i use|i am new|i'm new|where do i start|first time|need help)\b/i.test(text)){addChat(mainMenuText()+"\n\nFor copied reminder lists, useful columns are:\nName | Email | WhatsApp | Event | Event Date | Event Time | Reminder Date | Reminder Stage | Reminder Message\n\nFor Content Queue lists, use:\nTitle | Date | Time | Channel | Caption/Message\nOptional: Pack/Group | Link | Leader Email\n\nYou can put the columns in any order. I use the headings to work out what each value means.","bot");showMainMenu();return}if(/\b(add|create|set up|setup)\b.*\b(follow[- ]?up)\b/i.test(text)){startAssistant("followup",true);return}if(/\b(add|create|set up|setup)\b.*\b(content pack|pack)\b/i.test(text)){startAssistant("pack",true);return}if(/\b(add|schedule|prepare|create)\b.*\b(content|post|message)\b/i.test(text)&&/\b(queue|schedule|post|content)\b/i.test(text)){startAssistant("content",true);return}if(/\b(bulk|everyone|all people|group|several people|multiple people)\b/i.test(text)&&/\b(send|remind|invite|message|email|whatsapp|calendar)\b/i.test(text)){startAssistant("bulk",true);return}if(/\b(add|create|set up|setup|remind|reminder)\b/i.test(text)){startAssistant("assignment",true);return}if(/\b(due|overdue|what needs attention|what do i need to do)\b/i.test(text)){assistantDue(true);return}addChat("Got it. I’m here with you.\n\nIf this is something you want FollowLoop to organise, tell me what outcome you want — for example, ‘set up a reminder’, ‘follow up with these people’, ‘schedule this message’, or simply paste the information you already have.","bot");showMainMenu()}
 
 async function processChatImage(){
   if(!chatImage)return toast("Paste or upload an image first.");
@@ -902,8 +664,8 @@ function imageToContent(text){
 }
 function imageToAssignments(text){
   assistantClearChoices();
-  addChat("I can read text from the image, but converting an image into assignment rows is still beta. I will not guess names, contacts or dates. Open Assignments and use the extracted text as your reference, or paste the original Excel/Google Sheets rows for the most reliable import.","bot");
-  assistantButtons([{label:"Open Assignments",action:()=>{assistantClearChoices();show("assignments")}}]);
+  addChat("I can read text from the image, but converting an image into assignment rows is still beta. I will not guess names, contacts or dates. Open Reminders and use the extracted text as your reference, or paste the original Excel/Google Sheets rows for the most reliable import.","bot");
+  assistantButtons([{label:"Open Reminders",action:()=>{assistantClearChoices();show("assignments")}}]);
 }
 
 function setChatImage(file){if(!file||!file.type?.startsWith("image/"))return;const r=new FileReader();r.onload=()=>{chatImage=r.result;$("chatImagePreview").src=chatImage;$("chatPastedImageWrap").classList.remove("hidden");toast("Image added to Chat.")};r.readAsDataURL(file)}
@@ -934,9 +696,9 @@ function usePack(id){const p=packs.find(x=>x.id===id);if(!p)return;$("pPack").va
 function nextPackWeek(id){const p=packs.find(x=>x.id===id);if(!p)return;const src=posts.filter(x=>x.pack===p.name);if(!src.length)return toast("This pack has no queued posts yet.");posts.push(...src.map((x,i)=>{const d=parseDate(x.date);if(d)d.setDate(d.getDate()+7);return{...x,id:`pack-${Date.now()}-${i}`,date:d?toDate(d):x.date,status:"Pending"}}));refresh();toast(`Created ${src.length} post(s) for next week.`)}
 function renderPacks(){$("packList").innerHTML=packs.length?packs.map(p=>{const n=posts.filter(x=>x.pack===p.name).length;return `<div class="pack"><strong>${esc(p.name)}</strong><div class="small">${esc(p.description||"No description")}</div><div class="small">Linked to ${n} Content Queue item(s)</div><div class="actions" style="margin-top:10px"><button class="primary" onclick="usePack('${p.id}')">Use in Content Queue</button><button class="secondary" onclick="nextPackWeek('${p.id}')">Create next week</button><button class="secondary" onclick="editPack('${p.id}')">Edit</button><button class="danger" onclick="deletePack('${p.id}')">Delete</button></div></div>`}).join(""):'<div class="empty">No content packs yet.</div>'}
 
-function renderFollowups(){$("followupRows").innerHTML=assignments.map(a=>{const d=dueInfo(a),badge=x=>`<span class="status ${String(x).toLowerCase()==="pending"?"pending":"ready"}">${esc(x)}</span>`;return `<tr><td><strong>${esc(a.name||"Incomplete")}</strong></td><td>${esc(a.stage||"—")}</td><td><span class="status ${d.css}">${d.text}</span></td><td>${badge(a.calendar)}</td><td>${badge(a.emailStatus)}</td><td>${badge(a.whatsappStatus)}</td><td><button class="secondary" onclick="editAssignment('${a.id}')">Edit</button></td></tr>`}).join("");$("followupEmpty").classList.toggle("hidden",assignments.length>0)}
+function renderFollowups(){$("followupRows").innerHTML=assignments.map(a=>{const d=dueInfo(a),badge=x=>`<span class="status ${String(x).toLowerCase()==="pending"?"pending":"ready"}">${esc(x)}</span>`;return `<tr><td><strong>${esc(a.name||"Incomplete")}</strong></td><td>${esc(a.stage||"—")}</td><td><span class="status ${d.css}">${d.text}</span></td><td>${badge(a.calendar)}</td><td>${badge(a.emailStatus)}</td><td>${badge(a.whatsappStatus)}</td><td><button class="secondary" onclick="chatEditReminder('${a.id}')">Edit in Chat</button></td></tr>`}).join("");$("followupEmpty").classList.toggle("hidden",assignments.length>0)}
 function renderDueToday(){const list=assignments.filter(a=>dueInfo(a).kind==="due");$("dueToday").className=list.length?"":"empty";$("dueToday").innerHTML=list.length?list.map(a=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><strong>${esc(a.name)}</strong> — ${esc(a.stage)}<br><span class="small">${esc(a.task)}</span></div>`).join(""):"Nothing due yet."}
-function refresh(){renderAssignments();renderFollowups();renderDueToday();renderPosts();renderPacks();const r=assignments.filter(ready).length,b=assignments.length-r,d=assignments.filter(a=>dueInfo(a).kind==="due").length;$("sAll").textContent=assignments.length;$("sReady").textContent=r;$("sBad").textContent=b;$("sDue").textContent=d;$("globalValidation").className="validation "+(!assignments.length?"warn":b?"error":"ok");$("globalValidation").innerHTML=!assignments.length?"No assignments loaded yet.":b?`<strong>Ready: ${r}</strong><br><strong>Needs attention: ${b}</strong><br>Please complete missing details before acting.`:`All ${r} reminder rows are complete and ready.`}
+function refresh(){renderAssignments();renderFollowups();renderDueToday();renderPosts();renderPacks();const r=assignments.filter(ready).length,b=assignments.length-r,d=assignments.filter(a=>dueInfo(a).kind==="due").length;$("sAll").textContent=assignments.length;$("sReady").textContent=r;$("sBad").textContent=b;$("sDue").textContent=d;$("globalValidation").className="validation "+(!assignments.length?"warn":b?"error":"ok");$("globalValidation").innerHTML=!assignments.length?"No reminders loaded yet.":b?`<strong>Ready: ${r}</strong><br><strong>Needs attention: ${b}</strong><br>Please complete missing details before acting.`:`All ${r} reminder rows are complete and ready.`}
 function signOut(){if(accessToken&&window.google?.accounts?.oauth2)google.accounts.oauth2.revoke(accessToken,()=>{});accessToken=null;googleSheets=[];selectedSheet=null;assignments=[];posts=[];packs=[];selectedIds.clear();bulkQueue=[];editA=editP=editPackId=null;refresh();$("app").classList.add("hidden");$("login").classList.remove("hidden")}
 setupChatImagePaste();
 refresh();
